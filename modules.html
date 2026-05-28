@@ -81,11 +81,105 @@
 <section class="w-full px-margin-mobile md:px-margin-desktop py-6 border-b border-outline-variant flex flex-wrap items-center gap-3">
   <span class="font-label-sm text-label-sm uppercase text-outline mr-2">Filter:</span>
   <button class="filter-chip border border-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-active="true">All</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Foundation</button>
   <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Cognition</button>
   <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Simulation</button>
   <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Beginner</button>
   <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Advanced</button>
-  <div class="ml-auto font-label-sm text-label-sm text-outline uppercase">06 Modules Listed</div>
+  <div class="ml-auto font-label-sm text-label-sm text-outline uppercase">09 Modules Listed</div>
+</section>
+
+<!-- Section: Foundation Tier -->
+<section id="foundation" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12 bg-surface-container-low">
+  <div class="flex items-baseline justify-between mb-10 border-b border-on-surface pb-4">
+    <div>
+      <h2 class="font-display-lg text-[40px] uppercase">0 · Foundation</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-1">기초 논리/추론 — 모든 트랙의 토대</p>
+    </div>
+    <span class="font-label-sm text-label-sm text-outline uppercase">Prerequisite</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+
+    <!-- F-01 Syllogism -->
+    <article class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition">
+      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[80px] leading-none">
+        ∀x · P
+      </div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">F-01 / Deduction</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">Foundation</span>
+        </div>
+        <h3 class="font-headline-md text-[24px] uppercase leading-tight">Syllogistic<br/>Foundations</h3>
+        <p class="kr text-[13px] text-on-surface-variant leading-relaxed">
+          삼단논법, 명제 논리, 함의·역·이·대우. 타당성(validity)과 건전성(soundness)을 분리해서 사고하는 훈련.
+        </p>
+        <ul class="kr text-[12px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">25 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★☆☆☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · FLEX</span></li>
+        </ul>
+        <a href="simulation.html" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">Initiate</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- F-02 Bayesian -->
+    <article class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition">
+      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[56px] leading-none">
+        P(H|E)
+      </div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">F-02 / Probabilistic</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">Foundation</span>
+        </div>
+        <h3 class="font-headline-md text-[24px] uppercase leading-tight">Bayesian<br/>Updates</h3>
+        <p class="kr text-[13px] text-on-surface-variant leading-relaxed">
+          새 증거 앞에서 믿음의 강도를 얼마나 갱신할 것인가. 사전확률·우도·사후확률을 직관적으로 다루는 훈련.
+        </p>
+        <ul class="kr text-[12px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">40 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★☆☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · CONTEXT</span></li>
+        </ul>
+        <a href="simulation.html" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">Initiate</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- F-03 Fallacy -->
+    <article class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition">
+      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[80px] leading-none">
+        ¬ &nbsp; ⊥
+      </div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">F-03 / Critical</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">Foundation</span>
+        </div>
+        <h3 class="font-headline-md text-[24px] uppercase leading-tight">Fallacy<br/>Detection</h3>
+        <p class="kr text-[13px] text-on-surface-variant leading-relaxed">
+          허수아비, 미끄러운 비탈, 인신공격, 잘못된 인과 등 24가지 비공식 오류를 실시간 텍스트에서 식별하는 훈련.
+        </p>
+        <ul class="kr text-[12px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">30 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★☆☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · ETHICS</span></li>
+        </ul>
+        <a href="simulation.html" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">Initiate</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+  </div>
 </section>
 
 <!-- Section: Cognition Axes -->
