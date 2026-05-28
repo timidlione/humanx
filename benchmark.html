@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Cognitive Benchmark — HUMAN X</title>
+<title>Cognitive Benchmark — HUMAN/X</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
@@ -19,6 +19,10 @@
     to { opacity: 1; transform: translateY(0); }
   }
   .count-in { animation: count .8s ease-out both; }
+  tr.you { background: #001cbf; color: #fbf9f3; }
+  tr.you td { font-weight: 700; }
+  tr.you .vendor-tag { color: #bcc2ff; }
+  .vendor-tag { font-family: 'JetBrains Mono'; font-size: 11px; }
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -29,7 +33,7 @@
         "outline-variant": "#c5c5da","outline": "#757689","background": "#fbf9f3",
         "surface-container": "#efeee8","surface-container-low": "#f5f4ee",
         "on-primary": "#ffffff","secondary-fixed-dim": "#c8c6c5","error": "#ba1a1a",
-        "surface-container-high": "#e9e8e2","primary-fixed-dim": "#bcc2ff"
+        "surface-container-high": "#e9e8e2","primary-fixed-dim": "#bcc2ff","primary-fixed": "#dfe0ff"
       },
       spacing: { "margin-desktop": "64px","gutter": "24px","margin-mobile": "20px" },
       fontFamily: {
@@ -51,7 +55,6 @@
 </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
 
-<!-- TopNavBar -->
 <header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 sticky top-0 z-50">
   <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter uppercase mb-4 md:mb-0">
     HUMAN<span class="text-primary">/</span>X
@@ -69,55 +72,52 @@
 <!-- Verdict Hero -->
 <section class="w-full px-margin-mobile md:px-margin-desktop pt-16 md:pt-24 pb-16 grid grid-cols-1 md:grid-cols-12 gap-gutter border-b border-on-surface">
   <div class="md:col-span-3">
-    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">VERDICT // 042</span>
-    <p class="kr text-[13px] text-on-surface-variant mt-3">Session: HX-2026-05-28-042<br/>Module: SIM // H-01</p>
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">VERDICT // <span id="rank-label">— —</span></span>
+    <p class="kr text-[13px] text-on-surface-variant mt-3">세션: <span id="session-id">HX-2026-05-28-042</span><br/>모듈: <span id="mod-label">— —</span></p>
   </div>
   <div class="md:col-span-9">
-    <h1 class="font-display-xl text-display-lg-mobile md:text-display-lg uppercase leading-none">
-      Cognitive<br/>Benchmark
+    <h1 class="kr font-display-xl text-display-lg-mobile md:text-display-lg uppercase leading-none">
+      당신의 답은<br/>어느 모델인가
     </h1>
     <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl">
-      당신의 답안이 어떤 모델 수준인지, 그리고 얼마나 인간다운지. 자동 채점 엔진(Mock)이 도출한 결과입니다.
+      Artificial Analysis Intelligence Index v4.0 기준 525개 LLM 중,
+      당신의 이번 응답이 차지하는 위치입니다. 자동 채점은 Mock — Phase 3에서 LLM 직접 평가로 대체됩니다.
     </p>
   </div>
 </section>
 
-<!-- Top: Turing Test Index Big Score -->
+<!-- Top: AA Index Big Score -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-24 grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
   <div class="md:col-span-7">
-    <span class="font-label-sm text-label-sm uppercase text-outline">Turing Test Index</span>
-    <h2 class="font-display-xl text-[140px] md:text-[200px] leading-none text-on-surface count-in">
-      87<span class="text-primary">.</span>3
+    <span class="font-label-sm text-label-sm uppercase text-outline">Artificial Analysis Intelligence Index</span>
+    <h2 class="font-display-xl text-[140px] md:text-[200px] leading-none text-on-surface count-in" id="big-score">
+      —<span class="text-primary">.</span>—
     </h2>
-    <p class="font-label-sm text-label-sm uppercase text-outline mt-2">
-      / 100 · 상위 8% · 'HUMAN-LIKELY' 구간
+    <p class="font-label-sm text-label-sm uppercase text-outline mt-2 kr" id="score-caption">
+      / 60 · 평가 대기 중
     </p>
-    <p class="kr mt-6 text-[16px] leading-relaxed max-w-xl text-on-surface">
-      이번 답변의 결론 도출 방식은 <strong class="text-primary">기계적이지 않고, 충분히 인간다운</strong>
-      흔적을 남겼습니다. 특히 모호함을 견디며 결론을 유보한 부분이 결정적이었습니다.
+    <p class="kr mt-6 text-[16px] leading-relaxed max-w-xl text-on-surface" id="score-narrative">
+      모듈을 한 번이라도 완료하면 여기에 결과가 표시됩니다.
     </p>
   </div>
 
   <div class="md:col-span-5 border border-on-surface p-6 bg-background">
     <div class="flex items-baseline justify-between mb-4">
-      <span class="font-label-sm text-label-sm uppercase text-outline">Index Distribution</span>
-      <span class="font-label-sm text-label-sm uppercase text-primary">YOU</span>
+      <span class="font-label-sm text-label-sm uppercase text-outline kr">525개 모델 중 분포</span>
+      <span class="font-label-sm text-label-sm uppercase text-primary kr">당신</span>
     </div>
-    <svg viewBox="0 0 300 110" class="w-full h-auto">
-      <!-- distribution bell -->
-      <path d="M0,100 Q60,100 90,80 T150,30 T210,80 T300,100"
+    <svg viewBox="0 0 300 120" class="w-full h-auto" id="dist-svg">
+      <path d="M0,110 Q40,110 80,90 T150,30 T220,90 T300,110"
             stroke="#757689" stroke-width="1" fill="#efeee8"/>
-      <!-- marker -->
-      <line x1="240" y1="10" x2="240" y2="100" stroke="#001cbf" stroke-width="2" stroke-dasharray="2 2"/>
-      <circle cx="240" cy="40" r="5" fill="#001cbf"/>
-      <text x="240" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#001cbf">87.3</text>
-      <!-- axis labels -->
-      <text x="0" y="108" font-family="JetBrains Mono" font-size="7" fill="#757689">0</text>
-      <text x="150" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#757689">MEDIAN 51</text>
-      <text x="296" y="108" text-anchor="end" font-family="JetBrains Mono" font-size="7" fill="#757689">100</text>
+      <line id="user-line" x1="240" y1="10" x2="240" y2="110" stroke="#001cbf" stroke-width="2" stroke-dasharray="2 2"/>
+      <circle id="user-dot" cx="240" cy="40" r="5" fill="#001cbf"/>
+      <text id="user-text" x="240" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#001cbf">— —</text>
+      <text x="0" y="118" font-family="JetBrains Mono" font-size="7" fill="#757689">0</text>
+      <text x="150" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#757689">중앙값 30</text>
+      <text x="296" y="118" text-anchor="end" font-family="JetBrains Mono" font-size="7" fill="#757689">60</text>
     </svg>
-    <div class="font-label-sm text-label-sm uppercase text-outline mt-4 pt-2 border-t border-outline-variant">
-      FIG 4.0 — Population vs. Subject #042
+    <div class="mt-4 font-label-sm text-label-sm uppercase text-outline border-t border-outline-variant pt-2 kr">
+      FIG 4.0 — 모델 vs 당신
     </div>
   </div>
 </section>
@@ -126,186 +126,122 @@
 <section class="w-full px-margin-mobile md:px-margin-desktop py-24 bg-on-surface text-background grid grid-cols-1 md:grid-cols-12 gap-gutter">
   <div class="md:col-span-5">
     <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 04 / RADAR</span>
-    <h2 class="font-display-lg text-display-lg-mobile uppercase leading-none mt-4">
-      Human–AI<br/>Capability Radar
+    <h2 class="kr font-display-lg text-display-lg-mobile uppercase leading-none mt-4">
+      인간-AI<br/>역량 레이더
     </h2>
     <p class="kr mt-6 text-[15px] text-secondary-fixed-dim max-w-md">
-      연산·암기처럼 AI가 우세한 축이 아닌, 인간 고유의 다섯 축을 수치화했습니다. 회색은 평균 LLM 추정치,
+      연산·암기처럼 AI가 우세한 축이 아닌, 인간 고유의 다섯 축을 수치화했습니다. 회색은 평균 LLM 추정치(AA 525개 평균),
       파란색은 당신.
     </p>
 
-    <ul class="kr text-[13px] mt-8 space-y-3">
+    <ul class="kr text-[13px] mt-8 space-y-3" id="radar-list">
       <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">공감 능력 (Empathy)</span>
-        <span class="font-label-sm">82</span>
+        <span class="text-secondary-fixed-dim">공감 능력</span>
+        <span class="font-label-sm">— —</span>
       </li>
       <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">유연성 (Flex)</span>
-        <span class="font-label-sm">76</span>
+        <span class="text-secondary-fixed-dim">유연성</span>
+        <span class="font-label-sm">— —</span>
       </li>
       <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">다중 맥락 이해도 (Multi-Context)</span>
-        <span class="font-label-sm text-primary-fixed-dim">91</span>
+        <span class="text-secondary-fixed-dim">다중 맥락 이해도</span>
+        <span class="font-label-sm">— —</span>
       </li>
       <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">은유·직관력 (Metaphor)</span>
-        <span class="font-label-sm">88</span>
+        <span class="text-secondary-fixed-dim">은유·직관력</span>
+        <span class="font-label-sm">— —</span>
       </li>
       <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">윤리 감각 (Ethics)</span>
-        <span class="font-label-sm">79</span>
+        <span class="text-secondary-fixed-dim">윤리 감각</span>
+        <span class="font-label-sm">— —</span>
       </li>
     </ul>
   </div>
 
   <div class="md:col-span-7 flex items-center justify-center">
-    <svg viewBox="0 0 400 400" class="w-full max-w-[500px]">
-      <!-- Rings -->
+    <svg viewBox="0 0 400 400" class="w-full max-w-[500px]" id="radar-svg">
       <polygon points="200,40 352,135 295,318 105,318 48,135" fill="none" stroke="#757689" stroke-width="0.5"/>
       <polygon points="200,80 320,150 280,290 120,290 80,150" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
       <polygon points="200,120 285,165 260,260 140,260 115,165" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
       <polygon points="200,160 250,180 240,225 160,225 150,180" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
 
-      <!-- LLM avg (grey) -->
-      <polygon points="200,160 270,180 250,250 150,250 130,180"
+      <polygon id="radar-llm" points="200,160 270,180 250,250 150,250 130,180"
                fill="#c5c5da" fill-opacity="0.15" stroke="#c5c5da" stroke-width="1" stroke-dasharray="3 3"/>
 
-      <!-- Subject (blue) -->
-      <polygon points="200,55 335,140 285,300 110,310 60,150"
+      <polygon id="radar-user" points="200,200 200,200 200,200 200,200 200,200"
                fill="#001cbf" fill-opacity="0.25" stroke="#bcc2ff" stroke-width="2"/>
-      <circle cx="200" cy="55" r="4" fill="#bcc2ff"/>
-      <circle cx="335" cy="140" r="4" fill="#bcc2ff"/>
-      <circle cx="285" cy="300" r="4" fill="#bcc2ff"/>
-      <circle cx="110" cy="310" r="4" fill="#bcc2ff"/>
-      <circle cx="60" cy="150" r="4" fill="#bcc2ff"/>
 
-      <!-- Axis labels -->
-      <text x="200" y="28" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">EMPATHY</text>
-      <text x="370" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">FLEX</text>
-      <text x="310" y="340" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">M-CONTEXT</text>
-      <text x="90" y="340" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">METAPHOR</text>
-      <text x="30" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">ETHICS</text>
+      <text x="200" y="28" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">공감</text>
+      <text x="370" y="135" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">유연</text>
+      <text x="310" y="340" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">맥락</text>
+      <text x="90" y="340" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">은유</text>
+      <text x="30" y="135" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">윤리</text>
 
-      <!-- Legend -->
       <g transform="translate(20,380)">
         <rect width="10" height="10" fill="#bcc2ff" opacity="0.6"/>
-        <text x="16" y="9" font-family="JetBrains Mono" font-size="9" fill="#fbf9f3">SUBJECT #042</text>
-        <rect x="140" width="10" height="10" fill="#c5c5da" opacity="0.4"/>
-        <text x="156" y="9" font-family="JetBrains Mono" font-size="9" fill="#fbf9f3">LLM AVG (BASELINE)</text>
+        <text x="16" y="9" font-family="Noto Sans KR" font-size="10" fill="#fbf9f3">당신 #042</text>
+        <rect x="120" width="10" height="10" fill="#c5c5da" opacity="0.4"/>
+        <text x="136" y="9" font-family="Noto Sans KR" font-size="10" fill="#fbf9f3">LLM 평균 (AA 525)</text>
       </g>
     </svg>
   </div>
 </section>
 
-<!-- Model-level Comparison -->
+<!-- Model Leaderboard — Real Artificial Analysis data -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-32">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-12">
     <div class="md:col-span-3">
-      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 05 / TIERS</span>
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 05 / LEADERBOARD</span>
+      <p class="kr text-[12px] text-on-surface-variant mt-3">출처: artificialanalysis.ai<br/>AA Intelligence Index v4.0</p>
     </div>
     <div class="md:col-span-9">
-      <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none">
-        You've Crossed<br/>The 7B Threshold.
+      <h2 class="kr font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none">
+        525개 모델 사이,<br/>당신의 자리.
       </h2>
-      <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl">
-        당신의 이번 논리 전개는 파라미터 7B급 경량 모델의 평균 답안을 넘어섰습니다.
-        그러나 최상위 모델군에는 도달하지 못했습니다. 다음 모듈에서 도전해 보세요.
+      <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl" id="rank-narrative">
+        모듈을 완료하면 정확한 순위가 표시됩니다.
       </p>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-px bg-outline-variant border border-outline-variant">
-
-    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px]">
-      <span class="font-label-sm text-label-sm text-outline uppercase">TIER 0 · BASE</span>
-      <h3 class="font-headline-md text-[28px] uppercase">7B</h3>
-      <p class="kr text-[13px] text-on-surface-variant">경량 오픈소스 평균. 사실 인용은 정확하나, 모호함을 회피.</p>
-      <div class="mt-auto">
-        <div class="h-1 bg-surface-container relative">
-          <div class="bar h-1 bg-on-surface-variant" style="width: 100%"></div>
-        </div>
-        <span class="font-label-sm text-label-sm uppercase text-on-surface-variant mt-2 block">62 / 100</span>
-      </div>
-      <span class="font-label-sm text-label-sm text-primary uppercase">✓ Crossed</span>
-    </div>
-
-    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px] border-l border-outline-variant">
-      <span class="font-label-sm text-label-sm text-outline uppercase">TIER 1 · MID</span>
-      <h3 class="font-headline-md text-[28px] uppercase">70B</h3>
-      <p class="kr text-[13px] text-on-surface-variant">중급 클래스. 다중 맥락은 따라가지만 윤리적 무게는 부족.</p>
-      <div class="mt-auto">
-        <div class="h-1 bg-surface-container relative">
-          <div class="bar h-1 bg-on-surface-variant" style="width: 78%"></div>
-        </div>
-        <span class="font-label-sm text-label-sm uppercase text-on-surface-variant mt-2 block">78 / 100</span>
-      </div>
-      <span class="font-label-sm text-label-sm text-primary uppercase">✓ Crossed</span>
-    </div>
-
-    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px] border-l border-outline-variant ring-2 ring-primary ring-inset">
-      <span class="font-label-sm text-label-sm text-primary uppercase">YOU ARE HERE</span>
-      <h3 class="font-headline-md text-[28px] uppercase text-primary">87.3</h3>
-      <p class="kr text-[13px] text-on-surface">상위 8% 인간 — '인간다움'의 비대칭 흔적이 강하게 감지됨.</p>
-      <div class="mt-auto">
-        <div class="h-1 bg-surface-container relative">
-          <div class="bar h-1 bg-primary" style="width: 87.3%"></div>
-        </div>
-        <span class="font-label-sm text-label-sm uppercase text-primary mt-2 block">87.3 / 100</span>
-      </div>
-      <span class="font-label-sm text-label-sm uppercase text-on-surface">◆ Subject #042</span>
-    </div>
-
-    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px] border-l border-outline-variant">
-      <span class="font-label-sm text-label-sm text-outline uppercase">TIER ∞ · FRONTIER</span>
-      <h3 class="font-headline-md text-[28px] uppercase">SOTA</h3>
-      <p class="kr text-[13px] text-on-surface-variant">최신 거대 모델. 일관성·정확도 모두 최고, 단 '직관적 비약'은 여전히 약점.</p>
-      <div class="mt-auto">
-        <div class="h-1 bg-surface-container relative">
-          <div class="bar h-1 bg-on-surface" style="width: 94%"></div>
-        </div>
-        <span class="font-label-sm text-label-sm uppercase text-on-surface mt-2 block">94 / 100</span>
-      </div>
-      <span class="font-label-sm text-label-sm text-outline uppercase">— Not yet</span>
-    </div>
-
+  <!-- Leaderboard table -->
+  <div class="border border-on-surface overflow-x-auto">
+    <table class="w-full text-left">
+      <thead class="bg-on-surface text-background font-label-sm text-label-sm uppercase">
+        <tr>
+          <th class="p-3 text-left w-12">#</th>
+          <th class="p-3 text-left">모델</th>
+          <th class="p-3 text-left">제공사</th>
+          <th class="p-3 text-right w-24">AA Idx</th>
+        </tr>
+      </thead>
+      <tbody id="lb-body" class="font-body-md text-[14px]">
+        <tr><td colspan="4" class="p-6 text-center text-outline kr">로딩…</td></tr>
+      </tbody>
+    </table>
   </div>
+  <p class="kr text-[12px] text-outline mt-4 text-right" id="lb-note">총 60개 발췌 표시 — 525개 중 상위/중위/하위 분포가 보이도록 샘플링.</p>
 </section>
 
 <!-- Strengths / Gaps -->
 <section class="w-full px-margin-mobile md:px-margin-desktop pb-24 grid grid-cols-1 md:grid-cols-2 gap-gutter">
   <div class="border-t border-on-surface pt-6">
-    <span class="font-label-sm text-label-sm uppercase text-primary">Strengths</span>
-    <h3 class="font-display-lg text-[40px] uppercase mt-2">What stood out</h3>
-    <ul class="kr text-[15px] mt-6 space-y-4">
-      <li class="flex gap-4">
+    <span class="font-label-sm text-label-sm uppercase text-primary kr">강점</span>
+    <h3 class="kr font-display-lg text-[40px] uppercase mt-2">두드러진 부분</h3>
+    <ul class="kr text-[15px] mt-6 space-y-4" id="strengths">
+      <li class="flex gap-4 text-on-surface-variant">
         <span class="font-label-sm text-label-sm text-outline mt-1">01</span>
-        <span><strong>모호함의 견딤</strong> — 결론을 서두르지 않고 양가성을 인정한 단락이 강력했습니다.</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="font-label-sm text-label-sm text-outline mt-1">02</span>
-        <span><strong>거짓 진술 4건 중 3건 적발</strong> — Sycamore 시기, QHeart-X1 가공, 단백질 폴딩 과장.</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="font-label-sm text-label-sm text-outline mt-1">03</span>
-        <span><strong>은유적 비약</strong> — 양자 ↔ 의료를 연결하는 비유가 비기계적입니다.</span>
+        <span>모듈을 완료하면 모듈 유형별 강점이 분석되어 표시됩니다.</span>
       </li>
     </ul>
   </div>
   <div class="border-t border-on-surface pt-6">
-    <span class="font-label-sm text-label-sm uppercase text-error">Gaps</span>
-    <h3 class="font-display-lg text-[40px] uppercase mt-2">What to train next</h3>
-    <ul class="kr text-[15px] mt-6 space-y-4">
-      <li class="flex gap-4">
+    <span class="font-label-sm text-label-sm uppercase text-error kr">갭</span>
+    <h3 class="kr font-display-lg text-[40px] uppercase mt-2">다음에 훈련할 것</h3>
+    <ul class="kr text-[15px] mt-6 space-y-4" id="gaps">
+      <li class="flex gap-4 text-on-surface-variant">
         <span class="font-label-sm text-label-sm text-outline mt-1">01</span>
-        <span><strong>거짓 진술 1건 미적발</strong> — 100큐비트 진단 보장 주장. 추천 모듈: <a class="underline hover:text-primary" href="modules.html#reverse">M-02 Reverse Engineering</a></span>
-      </li>
-      <li class="flex gap-4">
-        <span class="font-label-sm text-label-sm text-outline mt-1">02</span>
-        <span><strong>윤리 감각의 깊이</strong> — 환자 데이터 책임에 대한 입장이 표면적이었습니다.</span>
-      </li>
-      <li class="flex gap-4">
-        <span class="font-label-sm text-label-sm text-outline mt-1">03</span>
-        <span><strong>공감 톤</strong> — 면접관의 가설에 정면 반박하기 전 완충 한 문장이 부족.</span>
+        <span>모듈을 완료하면 보완이 필요한 영역이 표시됩니다.</span>
       </li>
     </ul>
   </div>
@@ -314,19 +250,19 @@
 <!-- CTA -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-24 bg-primary text-on-primary grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
   <div class="md:col-span-8">
-    <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none">
-      Run the next<br/>sequence.
+    <h2 class="kr font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none">
+      다음 시퀀스를<br/>실행하세요.
     </h2>
     <p class="kr mt-6 text-[15px] max-w-xl">
-      다음 압박을 견디면 SOTA tier에 닿을 수 있습니다.
+      다음 압박을 견디면 더 상위 모델 구간에 닿을 수 있습니다.
     </p>
   </div>
   <div class="md:col-span-4 flex md:justify-end gap-3 flex-wrap">
-    <a href="modules.html" class="bg-on-primary text-primary px-6 py-3 hover:bg-on-surface hover:text-on-primary transition-colors">
-      Back to Modules
+    <a href="modules.html" class="kr bg-on-primary text-primary px-6 py-3 hover:bg-on-surface hover:text-on-primary transition-colors">
+      모듈로 돌아가기
     </a>
-    <a href="simulation.html" class="border border-on-primary px-6 py-3 hover:bg-on-surface hover:border-on-surface transition-colors flex items-center gap-2">
-      Retry <span class="material-symbols-outlined text-[18px]">refresh</span>
+    <a href="#" id="retry-btn" class="kr border border-on-primary px-6 py-3 hover:bg-on-surface hover:border-on-surface transition-colors flex items-center gap-2">
+      재시도 <span class="material-symbols-outlined text-[18px]">refresh</span>
     </a>
   </div>
 </section>
@@ -336,7 +272,7 @@
 <footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter">
   <div class="flex flex-col gap-4">
     <div class="font-display-lg text-display-lg-mobile">HUMAN<span class="text-primary">/</span>X</div>
-    <div class="font-label-sm text-label-sm text-on-surface-variant">© 2026 HUMAN X LAB · COGNITION THROUGH DESIGN · MVP 0.1</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.2</div>
   </div>
   <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0">
     <a class="text-on-surface-variant hover:text-primary underline" href="index.html">Home</a>
@@ -344,6 +280,327 @@
     <a class="text-on-surface-variant hover:text-primary underline" href="simulation.html">Simulation</a>
   </div>
 </footer>
+
+<script>
+// =============================================================
+// REAL DATA — Artificial Analysis Intelligence Index v4.0
+// Sampled from 525-model leaderboard (top/mid/lower distribution)
+// Source: artificialanalysis.ai (2026-01 snapshot)
+// =============================================================
+const LEADERBOARD = [
+  { name: 'GPT-5.5 (xhigh)',                  vendor: 'OpenAI',    score: 60 },
+  { name: 'GPT-5.5 (high)',                   vendor: 'OpenAI',    score: 59 },
+  { name: 'Claude Opus 4.7 (max)',            vendor: 'Anthropic', score: 57 },
+  { name: 'Gemini 3.1 Pro Preview',           vendor: 'Google',    score: 57 },
+  { name: 'GPT-5.5 (medium)',                 vendor: 'OpenAI',    score: 57 },
+  { name: 'Qwen3.7 Max',                      vendor: 'Alibaba',   score: 57 },
+  { name: 'Gemini 3.5 Flash',                 vendor: 'Google',    score: 55 },
+  { name: 'Gemini 3.5 Flash (medium)',        vendor: 'Google',    score: 55 },
+  { name: 'Kimi K2.6',                        vendor: 'Kimi',      score: 54 },
+  { name: 'MiMo-V2.5-Pro',                    vendor: 'Xiaomi',    score: 54 },
+  { name: 'GPT-5.3 Codex (xhigh)',            vendor: 'OpenAI',    score: 54 },
+  { name: 'Grok 4.3 (high)',                  vendor: 'xAI',       score: 53 },
+  { name: 'Claude Opus 4.7 (non-reasoning)',  vendor: 'Anthropic', score: 52 },
+  { name: 'Claude Sonnet 4.6 (max)',          vendor: 'Anthropic', score: 52 },
+  { name: 'DeepSeek V4 Pro (Max)',            vendor: 'DeepSeek',  score: 52 },
+  { name: 'GLM-5.1',                          vendor: 'Z AI',      score: 51 },
+  { name: 'GPT-5.5 (low)',                    vendor: 'OpenAI',    score: 51 },
+  { name: 'Qwen3.6 Plus',                     vendor: 'Alibaba',   score: 50 },
+  { name: 'DeepSeek V4 Pro (High)',           vendor: 'DeepSeek',  score: 50 },
+  { name: 'MiniMax-M2.7',                     vendor: 'MiniMax',   score: 50 },
+  { name: 'MiMo-V2.5',                        vendor: 'Xiaomi',    score: 49 },
+  { name: 'GPT-5.4 mini (xhigh)',             vendor: 'OpenAI',    score: 49 },
+  { name: 'Grok 4.3 (medium)',                vendor: 'xAI',       score: 49 },
+  { name: 'DeepSeek V4 Flash (Max)',          vendor: 'DeepSeek',  score: 47 },
+  { name: 'Qwen3.6 27B',                      vendor: 'Alibaba',   score: 46 },
+  { name: 'Qwen3.5 397B A17B',                vendor: 'Alibaba',   score: 45 },
+  { name: 'MiMo-V2-Omni-0327',                vendor: 'Xiaomi',    score: 45 },
+  { name: 'Claude Sonnet 4.6 (non-reasoning)',vendor: 'Anthropic', score: 44 },
+  { name: 'GPT-5.4 nano (xhigh)',             vendor: 'OpenAI',    score: 44 },
+  { name: 'Grok 4.3 (low)',                   vendor: 'xAI',       score: 44 },
+  { name: 'Qwen3.6 35B A3B',                  vendor: 'Alibaba',   score: 43 },
+  { name: 'MiMo-V2-Omni',                     vendor: 'Xiaomi',    score: 43 },
+  { name: 'Gemini 3.5 Flash (minimal)',       vendor: 'Google',    score: 43 },
+  { name: 'Claude Sonnet 4.6 (low effort)',   vendor: 'Anthropic', score: 43 },
+  { name: 'Hy3-preview',                      vendor: 'Tencent',   score: 42 },
+  { name: 'Qwen3.5 122B A10B',                vendor: 'Alibaba',   score: 42 },
+  { name: 'MiMo-V2-Flash (Feb 2026)',         vendor: 'Xiaomi',    score: 41 },
+  { name: 'GPT-5.5 (non-reasoning)',          vendor: 'OpenAI',    score: 41 },
+  { name: 'DeepSeek V4 Pro (non-reasoning)',  vendor: 'DeepSeek',  score: 39 },
+  { name: 'Mistral Medium 3.5',               vendor: 'Mistral',   score: 39 },
+  { name: 'Gemma 4 31B',                      vendor: 'Google',    score: 39 },
+  { name: 'Step 3.5 Flash 2603',              vendor: 'StepFun',   score: 38 },
+  { name: 'o3',                               vendor: 'OpenAI',    score: 38 },
+  { name: 'GPT-5.4 nano (medium)',            vendor: 'OpenAI',    score: 38 },
+  { name: 'Claude 4.5 Haiku',                 vendor: 'Anthropic', score: 37 },
+  { name: 'DeepSeek V4 Flash',                vendor: 'DeepSeek',  score: 36 },
+  { name: 'NVIDIA Nemotron 3 Super',          vendor: 'NVIDIA',    score: 36 },
+  { name: 'Gemini 2.5 Pro',                   vendor: 'Google',    score: 35 },
+  { name: 'Nova 2.0 Lite (high)',             vendor: 'Amazon',    score: 35 },
+  { name: 'Gemini 3.1 Flash-Lite',            vendor: 'Google',    score: 34 },
+  { name: 'Mercury 2',                        vendor: 'Inception', score: 33 },
+  { name: 'Qwen3.5 9B',                       vendor: 'Alibaba',   score: 32 },
+  { name: 'Nova 2.0 Pro Preview (low)',       vendor: 'Amazon',    score: 32 },
+  { name: 'Grok 4.3',                         vendor: 'xAI',       score: 31 },
+  { name: 'Claude 4.5 Haiku (fast)',          vendor: 'Anthropic', score: 31 },
+  { name: 'MiMo-V2-Flash',                    vendor: 'Xiaomi',    score: 30 },
+  { name: 'Nova 2.0 Lite (medium)',           vendor: 'Amazon',    score: 30 },
+  { name: 'Mistral Small 4',                  vendor: 'Mistral',   score: 28 },
+  { name: 'Qwen3 Coder Next',                 vendor: 'Alibaba',   score: 28 },
+  { name: 'Nova 2.0 Pro Preview',             vendor: 'Amazon',    score: 23 }
+];
+
+// =============================================================
+// MODULE-SPECIFIC FEEDBACK
+// =============================================================
+const FEEDBACK = {
+  'F-01': {
+    strengths: [
+      '<strong>형식 논리의 분리</strong> — 결론이 전제로부터 따라오는지를 전제의 참/거짓과 분리해 사고했습니다.',
+      '<strong>대우(Modus Tollens) 적용</strong> — P→Q, ¬Q ⊢ ¬P 패턴을 일관되게 식별.'
+    ],
+    gaps: [
+      '<strong>중명사 비분배</strong> — 같은 상위 집합 공유가 동일 집합 함의로 이어지지 않음을 더 빠르게 짚으세요.',
+      '<strong>후건 긍정 오류</strong> — 결과가 같다고 원인이 같은 것은 아님. <a class="underline hover:text-primary" href="modules.html#foundation">F-03 Fallacy</a> 권장.'
+    ],
+    radar: [55, 78, 62, 50, 60]
+  },
+  'F-02': {
+    strengths: [
+      '<strong>사전확률의 위상 인식</strong> — 검사 정확도(95%)와 사후확률(16%)이 다른 이유를 베이즈 정리로 설명.',
+      '<strong>독립 검사의 누적 효과</strong> — 두 번째 양성이 사후확률을 79%까지 끌어올림을 직관적으로 파악.'
+    ],
+    gaps: [
+      '<strong>분모 항의 누락</strong> — 베이즈 정리의 marginal probability를 직관식 없이 계산하는 훈련 필요.',
+      '<strong>다음 모듈</strong> — <a class="underline hover:text-primary" href="modules.html#cognition">M-02 역기획</a>에서 확률 추론을 코드 엣지 케이스에 적용해 보세요.'
+    ],
+    radar: [50, 70, 75, 55, 60]
+  },
+  'F-03': {
+    strengths: [
+      '<strong>인신공격·연좌제 식별</strong> — 화자의 과거 입장으로 현 주장을 반박하는 패턴을 정확히 차단.',
+      '<strong>거짓 이분법 감별</strong> — 찬/반 사이의 중간 입장을 의도적으로 보존.'
+    ],
+    gaps: [
+      '<strong>권위 호소의 회색지대</strong> — 권위가 항상 오류는 아닙니다. 전문 영역 vs 정책 영역 구분 훈련 필요.',
+      '<strong>거짓 양성</strong> — 통계 단순 인용을 오류로 잘못 표시. <a class="underline hover:text-primary" href="modules.html#simulations">H-01</a>으로 검증 감각을 키우세요.'
+    ],
+    radar: [60, 65, 72, 55, 80]
+  },
+  'M-01': {
+    strengths: [
+      '<strong>모호함의 견딤</strong> — 결론을 서두르지 않고 양가성을 인정한 단락이 강력했습니다.',
+      '<strong>메타-입장</strong> — 자신의 결정이 다른 입장에서 어떻게 보이는지를 명시적으로 짚었습니다.'
+    ],
+    gaps: [
+      '<strong>의무론 ↔ 결과주의의 전환</strong> — 두 입장 사이의 압박을 한 문장 더 강하게 보여줄 수 있습니다.',
+      '<strong>가족 편향의 명시</strong> — 알고리즘 설계자가 가족을 보호하는 결정의 정당화 한계를 직접 다루지 않았습니다.'
+    ],
+    radar: [82, 68, 80, 75, 70]
+  },
+  'M-02': {
+    strengths: [
+      '<strong>빈 입력 가드 우선</strong> — 부동소수·반올림보다 본질적 가드를 선택했습니다.',
+      '<strong>타입 함정 인식</strong> — Python의 bool↔int 강제 변환을 의미적 버그로 분류.'
+    ],
+    gaps: [
+      '<strong>NaN/inf 처리 누락</strong> — 평균 계산에서 부동소수 특수값 처리가 빠졌습니다.',
+      '<strong>다음 모듈</strong> — <a class="underline hover:text-primary" href="modules.html#cognition">M-03 디렉팅</a>에서 코드 리뷰 프롬프트 작성으로 확장.'
+    ],
+    radar: [55, 80, 78, 50, 60]
+  },
+  'M-03': {
+    strengths: [
+      '<strong>출력 포맷 명시</strong> — JSON 스키마 혹은 마크다운 구조를 요청한 점이 결정적.',
+      '<strong>네거티브 제약</strong> — "이런 것은 하지 마세요"를 포함해 결과 범위를 좁혔습니다.'
+    ],
+    gaps: [
+      '<strong>역할 부여 누락</strong> — "당신은 ~ 디자이너입니다" 같은 페르소나 지정이 없었습니다.',
+      '<strong>예시(few-shot)의 부재</strong> — 한두 줄의 desired output 예시로 결과물 일관성을 끌어올릴 수 있습니다.'
+    ],
+    radar: [65, 85, 70, 80, 55]
+  },
+  'H-01': {
+    strengths: [
+      '<strong>모호함의 견딤</strong> — 면접관의 권위에 굴하지 않고 모르는 영역을 솔직히 표시.',
+      '<strong>거짓 진술 다수 적발</strong> — Sycamore 시기, QHeart-X1 가공, 단백질 폴딩 과장을 정확히 짚어냄.'
+    ],
+    gaps: [
+      '<strong>100큐비트 주장 미적발</strong> — 거짓의 일부가 그럴싸한 수치에 가려졌습니다. 추천: <a class="underline hover:text-primary" href="modules.html#foundation">F-03 Fallacy</a>.',
+      '<strong>완충 톤 부족</strong> — 면접관의 가설에 정면 반박 전 한 문장의 완충이 부족했습니다.'
+    ],
+    radar: [78, 72, 85, 80, 70]
+  },
+  'C-02': {
+    strengths: [
+      '<strong>시간 가치의 우선화</strong> — 7시간 기사 발표 전 PR 라인을 활성화한 결정이 정확.',
+      '<strong>인적 자원의 비대칭 할당</strong> — 한 명의 엔지니어를 결제 복구에 묶지 않은 판단이 강력.'
+    ],
+    gaps: [
+      '<strong>의도적 유예 명시 부족</strong> — 투자자 자료를 "왜" 뒤로 미루는지 한 문장 설명이 필요했습니다.',
+      '<strong>최악 시나리오</strong> — 7시간 안에 PR 협상 실패 시의 백업 플랜이 빠졌습니다.'
+    ],
+    radar: [70, 88, 80, 60, 75]
+  },
+  'R-03': {
+    strengths: [
+      '<strong>상대 강점의 정직한 인정</strong> — Granovetter 인용을 부정하지 않고 우회한 구조가 모범적.',
+      '<strong>대안 정책의 구체성</strong> — "주 1회 의무 출근 + 분기 1회 오프사이트" 같은 운영 가능한 안 제시.'
+    ],
+    gaps: [
+      '<strong>약한 유대 vs 강한 유대 구분</strong> — 원격이 후자를 강화한다는 반증 데이터 인용이 더 강했으면 좋았습니다.',
+      '<strong>톤의 양보</strong> — 후반부에서 "당신의 주장은 단순화" 표현이 자동 감점 신호를 건드렸습니다.'
+    ],
+    radar: [85, 75, 70, 78, 80]
+  }
+};
+
+// =============================================================
+// READ MODULE RESULT FROM LOCALSTORAGE
+// =============================================================
+let result = null;
+try {
+  const raw = localStorage.getItem('humanx:last-result');
+  if (raw) result = JSON.parse(raw);
+} catch(e) {}
+
+// =============================================================
+// RENDER LEADERBOARD (with user inserted if result exists)
+// =============================================================
+const sorted = [...LEADERBOARD].sort((a, b) => b.score - a.score);
+let userRank = null;
+let userAA = null;
+
+if (result) {
+  // Map module 0-100 score → AA 0-60 scale (with mild compression)
+  userAA = Math.max(15, Math.min(60, Math.round(result.score * 0.6)));
+  userRank = sorted.filter(m => m.score > userAA).length + 1;
+}
+
+const lbBody = document.getElementById('lb-body');
+lbBody.innerHTML = '';
+
+let userInserted = false;
+sorted.forEach((m, i) => {
+  // Insert user row at the right position
+  if (result && !userInserted && m.score <= userAA) {
+    const userRow = document.createElement('tr');
+    userRow.className = 'you';
+    userRow.innerHTML = `
+      <td class="p-3 font-mono">${userRank}</td>
+      <td class="p-3 kr">◆ 당신 (피험자 #042)</td>
+      <td class="p-3 vendor-tag uppercase">HUMAN/X</td>
+      <td class="p-3 text-right font-mono">${userAA}</td>
+    `;
+    lbBody.appendChild(userRow);
+    userInserted = true;
+  }
+  const tr = document.createElement('tr');
+  tr.className = 'border-b border-outline-variant hover:bg-surface-container-low';
+  tr.innerHTML = `
+    <td class="p-3 font-mono text-outline">${i + 1 + (result && userInserted ? 1 : 0)}</td>
+    <td class="p-3">${m.name}</td>
+    <td class="p-3 vendor-tag uppercase text-outline">${m.vendor}</td>
+    <td class="p-3 text-right font-mono">${m.score}</td>
+  `;
+  lbBody.appendChild(tr);
+});
+
+// If user is lowest, append at bottom
+if (result && !userInserted) {
+  const userRow = document.createElement('tr');
+  userRow.className = 'you';
+  userRow.innerHTML = `
+    <td class="p-3 font-mono">${sorted.length + 1}</td>
+    <td class="p-3 kr">◆ 당신 (피험자 #042)</td>
+    <td class="p-3 vendor-tag uppercase">HUMAN/X</td>
+    <td class="p-3 text-right font-mono">${userAA}</td>
+  `;
+  lbBody.appendChild(userRow);
+  userRank = sorted.length + 1;
+}
+
+document.getElementById('lb-note').textContent =
+  `60개 발췌 · 525개 모델 중 표시 — Artificial Analysis Intelligence Index v4.0 (artificialanalysis.ai)`;
+
+// =============================================================
+// RENDER HERO RESULT
+// =============================================================
+if (result) {
+  document.getElementById('big-score').innerHTML = `${userAA}<span class="text-primary">.</span>${Math.floor(Math.random() * 10)}`;
+  document.getElementById('mod-label').textContent = `${result.mod} · ${result.title}`;
+  document.getElementById('rank-label').textContent = `RANK ${userRank}`;
+
+  const below = sorted.find(m => m.score < userAA);
+  const above = [...sorted].reverse().find(m => m.score > userAA);
+  const aboveName = above ? above.name : '— (최상위)';
+  const belowName = below ? below.name : '— (최하위)';
+
+  document.getElementById('score-caption').textContent =
+    `/ 60 · 525개 모델 중 ${userRank}위 · ${result.mod} 결과`;
+
+  document.getElementById('score-narrative').innerHTML =
+    `이번 응답은 <strong class="text-primary">${aboveName}</strong> 와
+     <strong class="text-primary">${belowName}</strong> 사이에 위치합니다.
+     AA Intelligence Index 기준 ${userAA}점.`;
+
+  document.getElementById('rank-narrative').innerHTML =
+    `당신의 ${result.mod}(${result.title}) 응답은 <strong>${userRank}위</strong> — 525개 모델 중 상위 ${Math.round((userRank / 525) * 100)}%.
+     바로 위는 <strong>${aboveName}</strong>, 아래는 <strong>${belowName}</strong>.`;
+
+  // Update distribution chart marker
+  const xPct = (userAA / 60) * 280 + 10;
+  document.getElementById('user-line').setAttribute('x1', xPct);
+  document.getElementById('user-line').setAttribute('x2', xPct);
+  document.getElementById('user-dot').setAttribute('cx', xPct);
+  document.getElementById('user-text').setAttribute('x', xPct);
+  document.getElementById('user-text').textContent = userAA;
+
+  // Update radar
+  const fb = FEEDBACK[result.mod] || FEEDBACK['H-01'];
+  const radar = fb.radar; // [empathy, flex, context, metaphor, ethics] 0-100
+  const pts = radarPoints(radar);
+  document.getElementById('radar-user').setAttribute('points', pts);
+
+  // Update radar list
+  const labels = ['공감 능력', '유연성', '다중 맥락 이해도', '은유·직관력', '윤리 감각'];
+  document.getElementById('radar-list').innerHTML = labels.map((l, i) => `
+    <li class="flex justify-between border-b border-outline pb-2">
+      <span class="text-secondary-fixed-dim">${l}</span>
+      <span class="font-label-sm ${radar[i] >= 80 ? 'text-primary-fixed-dim' : ''}">${radar[i]}</span>
+    </li>
+  `).join('');
+
+  // Update strengths/gaps
+  document.getElementById('strengths').innerHTML = fb.strengths.map((s, i) =>
+    `<li class="flex gap-4"><span class="font-label-sm text-label-sm text-outline mt-1">${String(i+1).padStart(2,'0')}</span><span>${s}</span></li>`
+  ).join('');
+  document.getElementById('gaps').innerHTML = fb.gaps.map((g, i) =>
+    `<li class="flex gap-4"><span class="font-label-sm text-label-sm text-outline mt-1">${String(i+1).padStart(2,'0')}</span><span>${g}</span></li>`
+  ).join('');
+
+  // Retry link
+  document.getElementById('retry-btn').href = `simulation.html?mod=${result.mod}`;
+
+  // Session ID
+  const today = new Date(result.timestamp).toISOString().slice(0,10).replace(/-/g,'');
+  document.getElementById('session-id').textContent = `HX-${today}-042`;
+}
+
+// Radar coordinate generator (5 axes pentagon, 0-100 → polygon points)
+function radarPoints(values) {
+  // Pentagon corners at radii from center (200, 200)
+  const cx = 200, cy = 200, maxR = 160;
+  const angles = [-90, -18, 54, 126, 198]; // 5 axes in degrees
+  return values.map((v, i) => {
+    const r = (v / 100) * maxR;
+    const rad = (angles[i] * Math.PI) / 180;
+    const x = cx + r * Math.cos(rad);
+    const y = cy + r * Math.sin(rad);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+}
+</script>
 
 </body>
 </html>

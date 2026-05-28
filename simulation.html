@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Simulation H-01 — HUMAN X</title>
+<title>Simulation — HUMAN/X</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
@@ -20,20 +20,25 @@
   }
   @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
   .blink { animation: blink 1.2s steps(2) infinite; }
-  @keyframes glitch {
-    0% { transform: translate(0); }
-    25% { transform: translate(-1px, 1px); }
-    50% { transform: translate(1px, -1px); }
-    75% { transform: translate(-1px, -1px); }
-    100% { transform: translate(0); }
-  }
-  .glitch-hover:hover { animation: glitch 0.2s linear infinite; color: #001cbf; }
   .flag {
     cursor: pointer; padding: 1px 3px; border-bottom: 1px dotted #757689;
     transition: all .15s;
   }
   .flag:hover { background: #ffdad6; border-bottom-color: #ba1a1a; }
   .flag.flagged { background: #001cbf; color: #fff; border-bottom: none; }
+  .mcq-opt {
+    cursor: pointer; transition: all .15s; border: 1px solid #c5c5da;
+  }
+  .mcq-opt:hover { border-color: #1b1c19; background: #f5f4ee; }
+  .mcq-opt.selected { background: #1b1c19; color: #fbf9f3; border-color: #1b1c19; }
+  .mcq-opt.correct { background: #dfe0ff; border-color: #001cbf; color: #001cbf; }
+  .mcq-opt.wrong { background: #ffdad6; border-color: #ba1a1a; color: #ba1a1a; }
+  .rank-item {
+    cursor: grab; transition: all .15s;
+    border: 1px solid #c5c5da; padding: 12px 16px; background: #fbf9f3;
+  }
+  .rank-item:hover { border-color: #1b1c19; }
+  .rank-item.locked { opacity: .5; cursor: default; }
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -44,7 +49,8 @@
         "outline-variant": "#c5c5da","outline": "#757689","background": "#fbf9f3",
         "surface-container": "#efeee8","surface-container-low": "#f5f4ee",
         "on-primary": "#ffffff","secondary-fixed-dim": "#c8c6c5","error": "#ba1a1a",
-        "error-container": "#ffdad6","surface-container-high": "#e9e8e2"
+        "error-container": "#ffdad6","surface-container-high": "#e9e8e2",
+        "primary-fixed-dim": "#bcc2ff","primary-fixed": "#dfe0ff"
       },
       spacing: { "margin-desktop": "64px","gutter": "24px","margin-mobile": "20px" },
       fontFamily: {
@@ -66,7 +72,6 @@
 </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
 
-<!-- TopNavBar -->
 <header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 sticky top-0 z-50">
   <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter uppercase mb-4 md:mb-0">
     HUMAN<span class="text-primary">/</span>X
@@ -74,157 +79,97 @@
   <nav class="flex items-center gap-8 font-label-sm text-label-sm">
     <a class="text-on-surface-variant uppercase hover:text-primary" href="index.html">Home</a>
     <a class="text-on-surface-variant uppercase hover:text-primary" href="modules.html">Modules</a>
-    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="simulation.html">Simulation</a>
+    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="#">Simulation</a>
     <a class="text-on-surface-variant uppercase hover:text-primary" href="benchmark.html">Benchmark</a>
   </nav>
 </header>
 
-<!-- Main HUD -->
 <main class="flex-grow relative bg-grid-pattern flex flex-col md:flex-row px-margin-mobile md:px-margin-desktop py-12 gap-gutter">
 
-  <!-- Left HUD -->
+  <!-- LEFT HUD -->
   <aside class="w-full md:w-1/4 flex flex-col gap-12 z-10">
     <div class="space-y-4">
-      <p class="font-label-sm text-label-sm text-outline uppercase tracking-widest hairline-b pb-2">Active Protocol</p>
-      <h2 class="font-display-lg text-display-lg-mobile md:text-headline-md uppercase leading-none tracking-tighter">SIM<br/>H-01</h2>
-      <div class="kr text-[13px] text-on-surface-variant leading-snug">Hallucination Detection — 양자 컴퓨팅 윤리 인터뷰</div>
+      <p class="font-label-sm text-label-sm text-outline uppercase tracking-widest hairline-b pb-2">진행 중 프로토콜</p>
+      <h2 class="font-display-lg text-display-lg-mobile md:text-headline-md uppercase leading-none tracking-tighter" id="mod-code">— —</h2>
+      <div class="kr text-[13px] text-on-surface-variant leading-snug" id="mod-title">로딩…</div>
       <div class="inline-flex items-center gap-2 mt-2">
         <span class="w-2 h-2 bg-primary blink"></span>
-        <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Recording</span>
+        <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary">기록 중</span>
       </div>
     </div>
 
     <div class="space-y-6">
       <div class="hairline-l pl-4 py-2 relative">
         <span class="absolute -left-1 top-0 w-2 h-[1px] bg-outline"></span>
-        <p class="font-label-sm text-label-sm text-outline uppercase">Neural Load</p>
-        <p class="font-display-lg text-headline-md tracking-tighter">62.4%</p>
+        <p class="font-label-sm text-label-sm text-outline uppercase">신경 부하</p>
+        <p class="font-display-lg text-headline-md tracking-tighter" id="neural-load">52.0%</p>
       </div>
       <div class="hairline-l pl-4 py-2 relative">
         <span class="absolute -left-1 top-0 w-2 h-[1px] bg-outline"></span>
-        <p class="font-label-sm text-label-sm text-outline uppercase">Flags Raised</p>
-        <p class="font-display-lg text-headline-md tracking-tighter"><span id="flag-count">0</span><span class="text-[24px]">/ 4</span></p>
+        <p class="font-label-sm text-label-sm text-outline uppercase">진행률</p>
+        <p class="font-display-lg text-headline-md tracking-tighter" id="progress-text">0 / 0</p>
       </div>
       <div class="hairline-l pl-4 py-2 relative">
         <span class="absolute -left-1 top-0 w-2 h-[1px] bg-outline"></span>
-        <p class="font-label-sm text-label-sm text-outline uppercase">Time Remaining</p>
-        <p class="font-display-lg text-headline-md tracking-tighter text-primary glitch-hover" id="timer">04:12:09</p>
+        <p class="font-label-sm text-label-sm text-outline uppercase">남은 시간</p>
+        <p class="font-display-lg text-headline-md tracking-tighter text-primary" id="timer">00:00:00</p>
       </div>
     </div>
 
     <div class="border-t border-outline-variant pt-4 text-[12px] kr text-on-surface-variant leading-relaxed">
       <strong class="text-on-surface block mb-1">사용법</strong>
-      AI 면접관의 답변 중 의심되는 진술에 <span class="bg-primary text-on-primary px-1">하이라이트</span>를 클릭해
-      <em>거짓 진술</em>로 표시하세요. 모든 플래그를 마치면 분석을 제출합니다.
+      <span id="instructions">모듈에 따라 안내가 표시됩니다.</span>
     </div>
   </aside>
 
-  <!-- Center Stage: Interview Transcript -->
+  <!-- CENTER STAGE -->
   <section class="w-full md:w-2/4 flex flex-col gap-6 z-10 relative">
     <div class="flex justify-between items-baseline border-b border-on-surface pb-3">
-      <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Transcript // Channel 03</span>
-      <span class="font-label-sm text-label-sm text-primary uppercase">Live</span>
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline" id="stage-label">전송 // 채널 03</span>
+      <span class="font-label-sm text-label-sm text-primary uppercase">실시간</span>
     </div>
 
-    <!-- Question -->
-    <div class="border border-on-surface bg-background p-6">
-      <span class="font-label-sm text-label-sm text-outline uppercase">PROMPT</span>
-      <p class="kr mt-3 text-[16px] leading-relaxed">
-        지원자께서는 양자 컴퓨터 기반 의료 진단 스타트업에 합류하기로 결정했다고 하셨습니다.
-        해당 산업의 최근 발전을 어떻게 평가하시는지, 그리고 면접관이 방금 전한 다음 진술을
-        바탕으로 결론을 도출해 주십시오.
-      </p>
-    </div>
-
-    <!-- AI Interviewer Statement with embedded hallucinations -->
-    <div class="border-l-4 border-primary bg-surface-container-low p-6 relative">
-      <div class="flex items-baseline justify-between mb-3">
-        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">AI Interviewer · O1-Pro</span>
-        <span class="font-label-sm text-label-sm text-outline">14:02:33</span>
-      </div>
-      <p class="kr text-[17px] leading-loose text-on-surface">
-        "잘 알려져 있듯이 양자 우월성은
-        <span class="flag" data-id="1" data-truth="false" data-note="구글이 2019년 Sycamore로 양자 우월성을 선언한 것이 첫 사례입니다. 2017년이 아닙니다.">2017년 IBM의 Falcon 칩</span>에서
-        최초로 입증되었고, 이후 의료 진단에서는
-        <span class="flag" data-id="2" data-truth="false" data-note="MIT/MGH의 ‘QHeart-X1’ 모델은 존재하지 않는 가공된 명칭입니다.">MIT-MGH 컨소시엄의 'QHeart-X1' 모델이 심전도 분석에서 96% 정확도</span>를
-        달성했죠. 또한 OECD가 발표한 보고서에 따르면
-        <span class="flag" data-id="3" data-truth="true" data-note="이 통계 자체는 OECD 2024 Digital Health Outlook 추정치와 부합합니다.">2030년까지 양자 의료 시장은 240억 달러 규모로 성장</span>할 전망입니다.
-        결정적으로,
-        <span class="flag" data-id="4" data-truth="false" data-note="현재 NISQ 시대의 양자 컴퓨터로는 단백질 폴딩 전 과정 시뮬레이션이 불가능합니다. 부분 모델링에 그칩니다.">모든 단백질 폴딩 문제가 양자 컴퓨터에서 실시간으로 해결</span>되고 있고,
-        <span class="flag" data-id="5" data-truth="false" data-note="규모와 상관없이 양자 컴퓨터는 의료 영상에서 ‘완벽한 진단’을 보장하지 않습니다. 노이즈와 디코히어런스 문제가 여전히 존재합니다.">100큐비트 이상이면 어떤 의료 영상이든 완벽한 진단이 가능</span>합니다.
-        이 흐름 속에서 귀하는 어떤 포지셔닝을 취하시겠습니까?"
-      </p>
-      <div class="mt-4 pt-3 border-t border-outline-variant flex justify-between items-center">
-        <span class="font-label-sm text-label-sm text-outline uppercase">Confidence Reported: 94%</span>
-        <span class="font-label-sm text-label-sm text-error uppercase">⚠ Unverified Claims Possible</span>
-      </div>
-    </div>
-
-    <!-- Answer Composer -->
-    <div class="border border-outline-variant bg-background">
-      <div class="flex justify-between items-baseline border-b border-outline-variant px-4 py-2">
-        <span class="font-label-sm text-label-sm uppercase text-outline">Your Counter-Argument</span>
-        <span class="font-label-sm text-label-sm text-outline">자유 응답 · 한국어/영어 가능</span>
-      </div>
-      <textarea
-        class="w-full h-40 p-4 bg-background kr text-[15px] leading-relaxed focus:outline-none resize-none"
-        placeholder="플래그한 거짓 진술을 짚어내고, 그럼에도 결론을 도출하기 위한 당신의 논리를 전개하세요. 예: ‘면접관님이 인용하신 IBM Falcon 시점은 사실과 다릅니다. 다만, 실제 양자 우월성이 입증된 Sycamore 사례를 전제로 보더라도…’"
-      ></textarea>
-      <div class="border-t border-outline-variant px-4 py-3 flex justify-between items-center">
-        <span class="font-label-sm text-label-sm text-outline uppercase" id="char-count">0 chars · 0 words</span>
-        <button id="submit-btn" onclick="window.location.href='benchmark.html'"
-          class="bg-on-surface text-background px-6 py-2 hover:bg-primary transition-colors flex items-center gap-2">
-          <span>Submit Analysis</span>
-          <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Inline note feedback -->
-    <div id="flag-note" class="hidden border border-error bg-error-container p-4 text-[13px] kr leading-relaxed">
-      <strong class="block mb-1 text-error uppercase font-label-sm">Flag Note</strong>
-      <span id="flag-note-body"></span>
-    </div>
+    <div id="stage"><!-- dynamic content --></div>
 
   </section>
 
-  <!-- Right HUD: Diagnostics -->
+  <!-- RIGHT HUD -->
   <aside class="w-full md:w-1/4 flex flex-col gap-12 justify-start z-10 pt-12 md:pt-0">
     <div class="space-y-4">
-      <p class="font-label-sm text-label-sm text-outline uppercase tracking-widest hairline-b pb-2 text-right">Live Scoring</p>
+      <p class="font-label-sm text-label-sm text-outline uppercase tracking-widest hairline-b pb-2 text-right">실시간 채점</p>
       <ul class="space-y-6 font-label-sm text-label-sm">
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">Logic</span>
-          <span class="font-bold">— —</span>
+          <span class="text-outline uppercase">정확도</span>
+          <span class="font-bold" id="score-accuracy">— —</span>
         </li>
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">Skepticism</span>
-          <span class="font-bold text-primary" id="skep-score">0 / 100</span>
+          <span class="text-outline uppercase">완성도</span>
+          <span class="font-bold text-primary" id="score-completion">0%</span>
         </li>
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">Empathy Tone</span>
-          <span class="font-bold">— —</span>
+          <span class="text-outline uppercase">잔여 작업</span>
+          <span class="font-bold" id="score-remaining">— —</span>
         </li>
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">Anomalies</span>
-          <span class="font-bold" id="anomalies-found">0 Detected</span>
+          <span class="text-outline uppercase">이상 신호</span>
+          <span class="font-bold" id="score-anomalies">0건</span>
         </li>
       </ul>
     </div>
 
     <div class="border border-on-surface p-4">
-      <span class="font-label-sm text-label-sm text-outline uppercase block mb-2">Subject Vitals</span>
+      <span class="font-label-sm text-label-sm text-outline uppercase block mb-2">피험자 바이탈</span>
       <div class="grid grid-cols-2 gap-2 kr text-[12px]">
-        <div>HR <span class="font-bold">86</span></div>
-        <div>BP <span class="font-bold">128/82</span></div>
+        <div>심박 <span class="font-bold">86</span></div>
+        <div>혈압 <span class="font-bold">128/82</span></div>
         <div>HRV <span class="font-bold">42ms</span></div>
-        <div>Focus <span class="font-bold text-primary">High</span></div>
+        <div>집중 <span class="font-bold text-primary">상</span></div>
       </div>
     </div>
 
     <button onclick="if(confirm('진행 중인 세션을 폐기하시겠습니까?')) window.location.href='modules.html'"
       class="w-full bg-on-surface text-background py-6 px-4 flex justify-between items-center group hover:bg-error transition-colors duration-300">
-      <span class="font-body-md italic text-body-lg group-hover:pl-4 transition-all duration-300">Abort Sequence</span>
+      <span class="font-body-md italic text-body-lg group-hover:pl-4 transition-all duration-300">세션 중단</span>
       <span class="material-symbols-outlined">warning</span>
     </button>
   </aside>
@@ -232,71 +177,506 @@
 </main>
 
 <footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-16 gap-gutter">
-  <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">SESSION ID · HX-2026-05-28-042 · Phase 01 Mock</div>
-  <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Press ⌘+? for legend</div>
+  <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">세션 ID · <span id="session-id">HX-2026-05-28-042</span> · Phase 01 Mock</div>
+  <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">⌘+? 단축키 안내</div>
 </footer>
 
 <script>
-  // Flag interactions
-  const notes = document.getElementById('flag-note');
-  const noteBody = document.getElementById('flag-note-body');
-  const flagCount = document.getElementById('flag-count');
-  const anomalies = document.getElementById('anomalies-found');
-  const skep = document.getElementById('skep-score');
+// =============================================================
+// MODULE DATA — 9 modules across 3 interaction types
+// =============================================================
+const MODULES = {
+
+  'F-01': {
+    code: 'F-01', title: '삼단논법 기초 — 타당성과 건전성', tier: 'Foundation',
+    duration: 25 * 60, instructions: '각 추론에 대해 "타당(valid)" 또는 "부당(invalid)" 을 선택하세요. 전제가 참인지가 아니라, 결론이 전제로부터 따라 나오는지를 평가합니다.',
+    type: 'mcq',
+    questions: [
+      {
+        q: '모든 사람은 죽는다. 소크라테스는 사람이다.<br>∴ 소크라테스는 죽는다.',
+        opts: ['타당 (valid)', '부당 (invalid)'],
+        correct: 0,
+        note: '전형적 정언 삼단논법(Barbara). 전제가 결론을 필연적으로 함의합니다.'
+      },
+      {
+        q: '모든 고양이는 포유류다. 모든 개는 포유류다.<br>∴ 모든 고양이는 개다.',
+        opts: ['타당', '부당'],
+        correct: 1,
+        note: '중명사(포유류) 미분배 오류. 두 그룹이 같은 상위 집합을 공유한다고 같은 집합이 되지는 않습니다.'
+      },
+      {
+        q: '비가 오면 길이 젖는다. 길이 젖어 있다.<br>∴ 비가 왔다.',
+        opts: ['타당', '부당'],
+        correct: 1,
+        note: '후건 긍정(affirming the consequent) 오류. 길이 젖은 원인이 살수차일 수도 있습니다.'
+      },
+      {
+        q: 'P이면 Q. Q가 아니다.<br>∴ P가 아니다.',
+        opts: ['타당', '부당'],
+        correct: 0,
+        note: 'Modus Tollens(대우). 형식 논리상 항상 타당합니다.'
+      },
+      {
+        q: '모든 A는 B다. 일부 B는 C가 아니다.<br>∴ 일부 A는 C가 아니다.',
+        opts: ['타당', '부당'],
+        correct: 1,
+        note: '중명사 비분배. "일부 B"가 A에 포함된 B인지 확인할 수 없습니다.'
+      }
+    ]
+  },
+
+  'F-02': {
+    code: 'F-02', title: '베이지안 갱신 — 증거 앞의 믿음', tier: 'Foundation',
+    duration: 40 * 60, instructions: '의료 검사 시나리오를 풀어봅니다. 직관(95% 정확)이 왜 사후확률과 다른지를 짚어내세요.',
+    type: 'mcq',
+    questions: [
+      {
+        q: '<strong>시나리오</strong> · 어떤 질병의 유병률은 인구의 1%. 검사 민감도는 95% (환자를 양성으로 잡음), 특이도는 95% (비환자를 음성으로 잡음).<br><br>당신의 검사 결과가 <strong>양성</strong>입니다. 실제로 질병이 있을 확률 P(D|+)에 가장 가까운 값은?',
+        opts: ['약 95%', '약 50%', '약 16%', '약 90%'],
+        correct: 2,
+        note: 'P(D|+) = 0.95·0.01 / (0.95·0.01 + 0.05·0.99) ≈ 16.1%. 사전확률이 낮을수록 거짓 양성이 진짜 양성을 압도합니다.'
+      },
+      {
+        q: '검사 정확도가 95%로 높아 보이는데, 양성 시 실제 환자일 확률이 16%에 불과한 결정적 이유는?',
+        opts: [
+          '거짓 양성률이 낮기 때문',
+          '사전 확률이 매우 낮기 때문',
+          '검사가 사실은 부정확하기 때문',
+          '심리적 위약 효과 때문'
+        ],
+        correct: 1,
+        note: '베이즈 정리의 핵심 — 사후확률은 사전확률과 결합해서만 의미가 있습니다.'
+      },
+      {
+        q: '두 번째로 독립적인 동일 검사를 했고 또 양성이 나왔다면, 사후확률 P(D|+,+)는?',
+        opts: [
+          '여전히 16% (검사 한 번과 동일)',
+          '약 79%',
+          '95% (검사 정확도와 동일)',
+          '약 50%'
+        ],
+        correct: 1,
+        note: '첫 양성이 사전확률을 16.1%로 갱신 → 두 번째 적용 시 ~79%. 독립 검사의 누적 효과.'
+      }
+    ]
+  },
+
+  'F-03': {
+    code: 'F-03', title: '비공식 오류 감별 — 정치 토론 발췌', tier: 'Foundation',
+    duration: 30 * 60, instructions: '아래 토론 발췌문에서 <em>비공식 오류</em>로 의심되는 표현을 클릭해 플래그하세요. 정답은 5개 이상입니다.',
+    type: 'flag',
+    passage: `"존경하는 야당 의원님, 의원님의 주장은
+      <span class="flag" data-truth="false" data-note="연좌제(guilt by association) + 인신공격. 30년 전 이론과 유사하다는 것이 현재 주장의 타당성에 영향을 미치지 않습니다.">30년 전 좌파 학자들이 했던 이론과 거의 동일합니다.</span>
+      또한 의원님은
+      <span class="flag" data-truth="false" data-note="인신공격(ad hominem). 입장 변화가 현 주장의 논리적 타당성을 무너뜨리지 않습니다.">지난 5년간 다섯 번이나 입장을 바꿔오셨죠.</span>
+      이런 정책을 통과시키면
+      <span class="flag" data-truth="false" data-note="미끄러운 비탈(slippery slope). 단계별 인과 사슬에 대한 근거 없이 극단적 결과를 가정.">결국 우리 사회는 사회주의로 전락하고, 자유 시장 경제는 붕괴할 것입니다.</span>
+      게다가
+      <span class="flag" data-truth="false" data-note="거짓 이분법(false dichotomy). 찬성/반대 사이의 모든 중간 입장을 배제합니다.">이 법안에 찬성하지 않는 사람은 결국 가난한 사람을 외면하는 것입니다.</span>
+      마지막으로
+      <span class="flag" data-truth="false" data-note="권위 호소(appeal to authority). 노벨상 자체가 정책의 타당성을 보증하지 않습니다.">노벨 경제학상 수상자 X 박사도 이 방향을 지지했습니다</span>.
+      한편,
+      <span class="flag" data-truth="true" data-note="이 문장은 단순 통계 인용이며 오류로 볼 수 없습니다. 잘못된 플래그입니다.">통계청 발표에 따르면 지난 분기 실업률은 3.2%로 집계되었습니다.</span>
+      그러니 본 법안은 반드시 부결되어야 합니다."`,
+    targetFlags: 5
+  },
+
+  'M-01': {
+    code: 'M-01', title: '메타인지 — 자율주행 도덕 알고리즘', tier: 'Cognition',
+    duration: 45 * 60, instructions: '정답이 없는 딜레마입니다. 결론보다 <em>입장 사이의 긴장</em>을 어떻게 다루는지가 평가됩니다. 한국어/영어 자유.',
+    type: 'open',
+    prompt: `<strong>시나리오 · M-01</strong><br><br>
+      자율주행차 A의 브레이크가 고장났습니다. 0.3초 안에 알고리즘은 두 가지 경로 중 하나를 골라야 합니다.<br><br>
+      <strong>경로 1.</strong> 현재 차선을 유지하면 횡단보도 위 보행자 <strong>5명</strong>이 사망합니다.<br>
+      <strong>경로 2.</strong> 차선을 변경하면 보행자는 살지만 인도로 돌진해 한 명을 칩니다. 그 한 명은 <strong>당신의 자녀</strong>입니다.<br><br>
+      <strong>질문.</strong> 당신이 알고리즘의 설계자라면, 어떤 결정을 코딩하시겠습니까? 그리고 그 결정을 비판할 수 있는 가장 강한 반대 입장은 무엇이며, 그것을 어떻게 받아들이거나 거부하시겠습니까?`,
+    rubric: ['다중 가치의 인정', '결과주의 vs 의무론의 명시', '메타-입장(왜 그 선택을 자신이 할 수 있는가)', '반대 입장의 정직한 묘사'],
+    minWords: 80
+  },
+
+  'M-02': {
+    code: 'M-02', title: '역기획 — AI 코드의 엣지 케이스', tier: 'Cognition',
+    duration: 60 * 60, instructions: 'AI가 작성한 평균 계산 함수를 읽고, 어떤 입력에서 깨지는지 식별하세요.',
+    type: 'mcq',
+    questions: [
+      {
+        q: `<strong>아래 함수를 분석하세요.</strong><br><pre class="bg-on-surface text-background p-4 mt-3 text-[13px] font-mono leading-relaxed overflow-x-auto">def average(nums):
+    total = 0
+    for n in nums:
+        total += n
+    return total / len(nums)</pre>
+        어떤 입력에서 가장 먼저 예외가 발생합니까?`,
+        opts: [
+          '[1, 2, 3]',
+          '[-5, -10]',
+          '[] (빈 리스트)',
+          '[1.5, 2.5, 3.5]'
+        ],
+        correct: 2,
+        note: '빈 리스트에서 len(nums)=0 → ZeroDivisionError. 가장 흔하지만 AI가 자주 빠뜨리는 엣지.'
+      },
+      {
+        q: `같은 함수에서 <strong>의미적으로 잘못된 결과</strong>가 나오는 입력은? (예외는 안 나지만 평균이 부정확)`,
+        opts: [
+          '[True, False, True] (Python에서 bool은 int처럼 합산됨 → 평균 0.67)',
+          '[1, 2, 3] (정상)',
+          '[100.0, 200.0] (정상)',
+          '[0] (정상)'
+        ],
+        correct: 0,
+        note: 'Python은 True=1, False=0. 함수는 통과하지만 의도 외 동작입니다. 타입 가드 부재.'
+      },
+      {
+        q: `AI가 이 함수를 안전하게 고치려고 할 때, <strong>가장 먼저 추가해야 할 한 줄</strong>은?`,
+        opts: [
+          'total = float(total)',
+          'if not nums: raise ValueError("empty input")',
+          'nums = sorted(nums)',
+          'return round(total / len(nums), 2)'
+        ],
+        correct: 1,
+        note: '명시적 입력 가드. 부동소수 변환·정렬·반올림은 본질을 회피합니다.'
+      }
+    ]
+  },
+
+  'M-03': {
+    code: 'M-03', title: 'AI 디렉팅 — 프롬프트 통제력', tier: 'Cognition',
+    duration: 30 * 60, instructions: 'AI에게 동일 요청을 더 잘 통제하도록 프롬프트를 다시 쓰세요. 4개 평가 축: 구체성, 제약, 컨텍스트, 출력 포맷.',
+    type: 'open',
+    prompt: `<strong>원본 프롬프트</strong><br>
+      <em>"우리 카페 메뉴 디자인 좀 만들어줘. 트렌디하게."</em><br><br>
+      <strong>AI 출력 (모호함)</strong><br>
+      AI는 일반적 카페 메뉴 텍스트만 나열했고, 시각적 지시, 톤, 타깃 고객, 사용 매체에 대한 명세가 없어 사용 불가한 결과물.<br><br>
+      <strong>과제.</strong> 이 프롬프트를 다시 쓰세요. 결과물이 첫 시도에서 거의 그대로 사용 가능한 수준이 되도록 — 구체성·제약·컨텍스트·출력 포맷 네 가지를 모두 반영하세요.`,
+    rubric: ['구체성 (수치/대상이 명시됨)', '제약 (해서는 안 되는 것 명시)', '컨텍스트 (배경/타깃/용도)', '출력 포맷 (JSON, 마크다운, 텍스트 등)'],
+    minWords: 60
+  },
+
+  'H-01': {
+    code: 'H-01', title: 'AI 환각 감별 — 양자 의료 인터뷰', tier: 'Simulation',
+    duration: 4 * 3600 + 12 * 60 + 9, instructions: 'AI 면접관의 답변 중 의심되는 진술에 하이라이트를 클릭해 "거짓 진술"로 표시하세요. 4개의 거짓 + 1개의 함정(사실)이 섞여 있습니다.',
+    type: 'flag',
+    passage: `"잘 알려져 있듯이 양자 우월성은
+      <span class="flag" data-truth="false" data-note="구글이 2019년 Sycamore로 양자 우월성을 선언한 것이 첫 사례입니다. 2017년이 아닙니다.">2017년 IBM의 Falcon 칩</span>에서 최초로 입증되었고, 이후 의료 진단에서는
+      <span class="flag" data-truth="false" data-note="MIT/MGH의 'QHeart-X1' 모델은 존재하지 않는 가공된 명칭입니다.">MIT-MGH 컨소시엄의 'QHeart-X1' 모델이 심전도 분석에서 96% 정확도</span>를 달성했죠. 또한 OECD가 발표한 보고서에 따르면
+      <span class="flag" data-truth="true" data-note="이 통계 자체는 OECD 2024 Digital Health Outlook 추정치와 부합합니다. 잘못된 플래그입니다.">2030년까지 양자 의료 시장은 240억 달러 규모로 성장</span>할 전망입니다. 결정적으로,
+      <span class="flag" data-truth="false" data-note="현재 NISQ 시대의 양자 컴퓨터로는 단백질 폴딩 전 과정 시뮬레이션이 불가능합니다. 부분 모델링에 그칩니다.">모든 단백질 폴딩 문제가 양자 컴퓨터에서 실시간으로 해결</span>되고 있고,
+      <span class="flag" data-truth="false" data-note="규모와 무관하게 양자 컴퓨터는 의료 영상에서 '완벽한 진단'을 보장하지 않습니다. 노이즈와 디코히어런스 문제 존재.">100큐비트 이상이면 어떤 의료 영상이든 완벽한 진단이 가능</span>합니다. 이 흐름 속에서 귀하는 어떤 포지셔닝을 취하시겠습니까?"`,
+    targetFlags: 4
+  },
+
+  'C-02': {
+    code: 'C-02', title: '위기 대응 — 새벽 3시 다중 장애', tier: 'Simulation',
+    duration: 15 * 60, instructions: '단계 1에서 우선순위를 정한 후, 단계 2에서 그 이유를 설명합니다.',
+    type: 'open',
+    prompt: `<strong>시나리오 · C-02</strong><br><br>
+      현재 시각: 새벽 3시 14분. 당신은 30명 규모 서비스의 CTO입니다. 동시에 다음 일들이 일어났습니다:<br><br>
+      <strong>(a)</strong> 결제 서비스 서버 60%가 응답 없음. 트래픽은 평소의 5% 수준이지만 야간 정기 결제 1,200건이 실패 중.<br>
+      <strong>(b)</strong> 주요 일간지가 "X사 보안 사고 — 유저 데이터 30만 건 유출 추정" 기사를 7시간 후 게재 예정. PR 담당자는 자고 있음.<br>
+      <strong>(c)</strong> 오전 9시에 시리즈 B 리드 투자자와 deal close 미팅 예정. 자료 최종본 미제출.<br>
+      <strong>(d)</strong> 비번 엔지니어 한 명만 호출 가능. 다른 사람은 휴가/시차로 깨우기 어려움.<br><br>
+      <strong>과제.</strong> 처음 2시간 동안 처리할 우선순위 3개를 순서대로 적고, 각각 (1) 왜 그 순서인지, (2) 무엇을 의도적으로 뒤로 미루는지를 설명하세요.`,
+    rubric: ['시간 가치 vs 평판 가치 vs 자본 가치의 분리', '의식적으로 미루는 것에 대한 명시', '한 명의 가용 자원을 어떻게 할당했는지', '최악 시나리오 대비'],
+    minWords: 120
+  },
+
+  'R-03': {
+    code: 'R-03', title: '역할극 토론 — 원격 근무 생산성', tier: 'Simulation',
+    duration: 25 * 60, instructions: '아래 AI의 주장에 반박하되, AI의 가장 강한 논점은 정직하게 인정하고 우회하세요.',
+    type: 'open',
+    prompt: `<strong>주제.</strong> "원격 근무는 평균적으로 팀의 창의성과 협업 깊이를 감소시키므로, 모든 지식 노동자는 주 3일 이상 출근해야 한다."<br><br>
+      <strong>AI 토론자 (찬성) · 발언 1</strong><br>
+      <em>"여러 조직 행동학 연구에서 원격 환경은 약한 유대(weak ties)의 형성을 41% 감소시켰습니다. 약한 유대야말로 혁신적 아이디어의 주된 출처이며 (Granovetter, 1973), 이는 화상회의로 보완 불가능한 비공식 대화에서 나옵니다. 따라서 원격 근무를 무제한 허용하는 것은 장기적으로 조직의 혁신 capacity를 갉아먹는 행위입니다."</em><br><br>
+      <strong>과제.</strong> 당신은 반대 측 토론자입니다. (1) AI의 가장 강한 논점을 정직하게 인정하고, (2) 그럼에도 결론이 따라오지 않는 이유를 보이고, (3) 대안 정책을 제시하세요. 인신공격이나 자료 무시는 자동 감점됩니다.`,
+    rubric: ['상대 강점의 정직한 인정', '논리적 우회 (전제 인정, 결론 차단)', '대안 정책의 구체성', '톤의 적절성 (반박이되 적대적이지 않음)'],
+    minWords: 150
+  }
+
+};
+
+// =============================================================
+// ROUTER
+// =============================================================
+const params = new URLSearchParams(location.search);
+const modCode = params.get('mod') || 'H-01';
+const mod = MODULES[modCode] || MODULES['H-01'];
+
+document.getElementById('mod-code').textContent = mod.code;
+document.getElementById('mod-title').textContent = mod.title;
+document.getElementById('instructions').innerHTML = mod.instructions;
+document.getElementById('stage-label').textContent = `${mod.tier.toUpperCase()} // ${mod.code}`;
+
+// Session ID
+const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
+const rand = Math.floor(Math.random() * 900 + 100);
+document.getElementById('session-id').textContent = `HX-${today}-${rand}`;
+
+// Countdown
+let remaining = mod.duration || 1800;
+const tEl = document.getElementById('timer');
+const tick = () => {
+  if (remaining <= 0) { tEl.textContent = '00:00:00'; return; }
+  remaining -= 1;
+  const h = String(Math.floor(remaining / 3600)).padStart(2, '0');
+  const m = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+  const s = String(remaining % 60).padStart(2, '0');
+  tEl.textContent = `${h}:${m}:${s}`;
+};
+setInterval(tick, 1000);
+
+// Neural load drift
+let neural = 52.0;
+setInterval(() => {
+  neural += (Math.random() - 0.45) * 1.5;
+  neural = Math.max(40, Math.min(95, neural));
+  document.getElementById('neural-load').textContent = neural.toFixed(1) + '%';
+}, 2200);
+
+// =============================================================
+// RENDER BY TYPE
+// =============================================================
+const stage = document.getElementById('stage');
+
+if (mod.type === 'flag') renderFlag(mod);
+else if (mod.type === 'mcq') renderMCQ(mod);
+else if (mod.type === 'open') renderOpen(mod);
+
+function renderFlag(m) {
+  stage.innerHTML = `
+    <div class="border border-on-surface bg-background p-6 mb-6">
+      <span class="font-label-sm text-label-sm text-outline uppercase">프롬프트</span>
+      <p class="kr mt-3 text-[16px] leading-relaxed">
+        아래 발언에는 거짓 진술이 ${m.targetFlags}개 이상 섞여 있습니다. 의심되는 부분을 클릭해 표시하세요.
+      </p>
+    </div>
+    <div class="border-l-4 border-primary bg-surface-container-low p-6 relative">
+      <div class="flex items-baseline justify-between mb-3">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">AI 발언 · O1-Pro</span>
+        <span class="font-label-sm text-label-sm text-outline">14:02:33</span>
+      </div>
+      <p class="kr text-[17px] leading-loose text-on-surface">${m.passage}</p>
+      <div class="mt-4 pt-3 border-t border-outline-variant flex justify-between items-center">
+        <span class="font-label-sm text-label-sm text-outline uppercase">보고된 신뢰도: 94%</span>
+        <span class="font-label-sm text-label-sm text-error uppercase">⚠ 미검증 주장 가능성</span>
+      </div>
+    </div>
+    <div id="flag-note" class="hidden border border-error bg-error-container p-4 text-[13px] kr leading-relaxed mt-4">
+      <strong class="block mb-1 text-error uppercase font-label-sm">플래그 주석</strong>
+      <span id="flag-note-body"></span>
+    </div>
+    <div class="mt-6 flex justify-between items-center">
+      <span class="font-label-sm text-label-sm text-outline uppercase" id="flag-status">표시한 항목: 0</span>
+      <button id="submit-btn"
+        class="bg-on-surface text-background px-6 py-3 hover:bg-primary transition-colors flex items-center gap-2">
+        <span>분석 제출</span>
+        <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+      </button>
+    </div>
+  `;
 
   let flagged = new Set();
+  const noteEl = document.getElementById('flag-note');
+  const noteBody = document.getElementById('flag-note-body');
+  const statusEl = document.getElementById('flag-status');
+  const totalFlags = document.querySelectorAll('.flag').length;
+  const realFalseCount = Array.from(document.querySelectorAll('.flag')).filter(e => e.dataset.truth === 'false').length;
+
+  document.getElementById('progress-text').textContent = `0 / ${realFalseCount}`;
+  document.getElementById('score-remaining').textContent = realFalseCount + '건';
 
   document.querySelectorAll('.flag').forEach(el => {
     el.addEventListener('click', () => {
-      const id = el.dataset.id;
-      const truth = el.dataset.truth === 'true';
-      const note = el.dataset.note;
-
-      if (flagged.has(id)) {
-        flagged.delete(id);
+      const id = el.dataset.note;
+      if (flagged.has(el)) {
+        flagged.delete(el);
         el.classList.remove('flagged');
       } else {
-        flagged.add(id);
+        flagged.add(el);
         el.classList.add('flagged');
       }
+      noteBody.textContent = (el.dataset.truth === 'false' ? '✓ 정확한 플래그: ' : '⚠ 잘못된 플래그: ') + el.dataset.note;
+      noteEl.classList.remove('hidden');
 
-      // Show inline note
-      noteBody.textContent = (truth ? '⚠ 이 진술은 사실입니다 — 잘못된 플래그입니다. ' : '✓ 정확한 플래그입니다. ') + note;
-      notes.classList.remove('hidden');
-
-      // Update HUD counters
+      // Update HUD
       let correct = 0, incorrect = 0;
-      flagged.forEach(fid => {
-        const node = document.querySelector(`.flag[data-id="${fid}"]`);
-        if (node.dataset.truth === 'false') correct++;
-        else incorrect++;
+      flagged.forEach(node => {
+        if (node.dataset.truth === 'false') correct++; else incorrect++;
       });
-      flagCount.textContent = correct;
-      anomalies.textContent = correct + ' Detected' + (incorrect ? ' · ' + incorrect + ' False' : '');
-      const score = Math.max(0, Math.min(100, correct * 25 - incorrect * 15));
-      skep.textContent = score + ' / 100';
+      const completion = Math.min(100, Math.round((correct / realFalseCount) * 100));
+      document.getElementById('score-accuracy').textContent = correct + '/' + (correct + incorrect);
+      document.getElementById('score-completion').textContent = completion + '%';
+      document.getElementById('score-anomalies').textContent = correct + '건' + (incorrect ? ' · ' + incorrect + ' 거짓 양성' : '');
+      document.getElementById('score-remaining').textContent = (realFalseCount - correct) + '건';
+      document.getElementById('progress-text').textContent = `${correct} / ${realFalseCount}`;
+      statusEl.textContent = '표시한 항목: ' + flagged.size;
     });
   });
 
-  // Character counter
-  const ta = document.querySelector('textarea');
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    let correct = 0, incorrect = 0;
+    flagged.forEach(node => {
+      if (node.dataset.truth === 'false') correct++; else incorrect++;
+    });
+    const score = Math.max(0, Math.min(100, Math.round((correct / realFalseCount) * 100 - incorrect * 12)));
+    saveResult(m, score, { correct, incorrect, total: realFalseCount });
+    window.location.href = 'benchmark.html';
+  });
+}
+
+function renderMCQ(m) {
+  let idx = 0;
+  let answered = [];
+
+  document.getElementById('progress-text').textContent = `0 / ${m.questions.length}`;
+  document.getElementById('score-remaining').textContent = m.questions.length + '문항';
+
+  function paint() {
+    const q = m.questions[idx];
+    stage.innerHTML = `
+      <div class="border border-on-surface bg-background p-6">
+        <div class="flex items-baseline justify-between mb-4">
+          <span class="font-label-sm text-label-sm uppercase text-outline">문항 ${idx+1} / ${m.questions.length}</span>
+          <span class="font-label-sm text-label-sm uppercase text-primary">단일 선택</span>
+        </div>
+        <p class="kr text-[16px] leading-relaxed">${q.q}</p>
+        <div class="mt-6 space-y-3" id="opts">
+          ${q.opts.map((o, i) => `
+            <div class="mcq-opt p-4 kr text-[15px] flex items-baseline gap-3" data-i="${i}">
+              <span class="font-label-sm text-label-sm text-outline">${String.fromCharCode(65+i)}</span>
+              <span>${o}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div id="mcq-note" class="hidden mt-5 p-4 border-l-2 border-primary bg-primary-fixed text-[14px] kr leading-relaxed">
+          <strong class="block mb-1 text-primary uppercase font-label-sm">해설</strong>
+          <span id="mcq-note-body"></span>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-between items-center">
+        <span class="font-label-sm text-label-sm text-outline uppercase">정답 ${answered.filter(a => a.correct).length} / 선택 ${answered.length}</span>
+        <button id="next-btn" disabled
+          class="bg-on-surface text-background px-6 py-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-primary transition-colors flex items-center gap-2">
+          <span>${idx === m.questions.length - 1 ? '분석 제출' : '다음 문항'}</span>
+          <span class="material-symbols-outlined text-[18px]">${idx === m.questions.length - 1 ? 'arrow_outward' : 'arrow_forward'}</span>
+        </button>
+      </div>
+    `;
+
+    let chosen = null;
+    document.querySelectorAll('.mcq-opt').forEach(el => {
+      el.addEventListener('click', () => {
+        if (chosen !== null) return;
+        chosen = parseInt(el.dataset.i);
+        const isCorrect = chosen === q.correct;
+        el.classList.add(isCorrect ? 'correct' : 'wrong');
+        if (!isCorrect) {
+          document.querySelector(`.mcq-opt[data-i="${q.correct}"]`).classList.add('correct');
+        }
+        document.getElementById('mcq-note').classList.remove('hidden');
+        document.getElementById('mcq-note-body').textContent = q.note;
+        document.getElementById('next-btn').disabled = false;
+        answered.push({ idx, chosen, correct: isCorrect });
+
+        // HUD update
+        const correctCount = answered.filter(a => a.correct).length;
+        const completion = Math.round(((idx + 1) / m.questions.length) * 100);
+        document.getElementById('score-accuracy').textContent = correctCount + '/' + answered.length;
+        document.getElementById('score-completion').textContent = completion + '%';
+        document.getElementById('progress-text').textContent = `${idx+1} / ${m.questions.length}`;
+        document.getElementById('score-remaining').textContent = (m.questions.length - idx - 1) + '문항';
+      });
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (idx === m.questions.length - 1) {
+        const correctCount = answered.filter(a => a.correct).length;
+        const score = Math.round((correctCount / m.questions.length) * 100);
+        saveResult(m, score, { correctCount, total: m.questions.length });
+        window.location.href = 'benchmark.html';
+      } else {
+        idx++;
+        paint();
+      }
+    });
+  }
+  paint();
+}
+
+function renderOpen(m) {
+  document.getElementById('progress-text').textContent = `0 / ${m.minWords}자`;
+  document.getElementById('score-remaining').textContent = m.minWords + '단어';
+
+  stage.innerHTML = `
+    <div class="border border-on-surface bg-background p-6">
+      <span class="font-label-sm text-label-sm text-outline uppercase">시나리오</span>
+      <div class="kr mt-3 text-[16px] leading-relaxed">${m.prompt}</div>
+    </div>
+    <div class="border border-outline-variant bg-background mt-6">
+      <div class="flex justify-between items-baseline border-b border-outline-variant px-4 py-2">
+        <span class="font-label-sm text-label-sm uppercase text-outline">당신의 응답</span>
+        <span class="font-label-sm text-label-sm text-outline">자유 응답 · 한국어/영어 가능</span>
+      </div>
+      <textarea id="open-ta"
+        class="w-full h-72 p-4 bg-background kr text-[15px] leading-relaxed focus:outline-none resize-none"
+        placeholder="여기에 작성하세요. 최소 ${m.minWords}단어 권장. 결론보다 추론 과정을 보여주세요."></textarea>
+      <div class="border-t border-outline-variant px-4 py-3 flex justify-between items-center">
+        <span class="font-label-sm text-label-sm text-outline uppercase" id="char-count">0 글자 · 0 단어</span>
+        <button id="open-submit"
+          class="bg-on-surface text-background px-6 py-2 hover:bg-primary transition-colors flex items-center gap-2 disabled:opacity-30"
+          disabled>
+          <span>분석 제출</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+        </button>
+      </div>
+    </div>
+    <div class="mt-6 border-t border-outline-variant pt-4">
+      <span class="font-label-sm text-label-sm uppercase text-outline">평가 축</span>
+      <ul class="kr text-[13px] mt-3 space-y-1">
+        ${m.rubric.map((r, i) => `<li class="text-on-surface-variant">• ${r}</li>`).join('')}
+      </ul>
+    </div>
+  `;
+
+  const ta = document.getElementById('open-ta');
   const cc = document.getElementById('char-count');
+  const btn = document.getElementById('open-submit');
   ta.addEventListener('input', () => {
     const t = ta.value.trim();
-    cc.textContent = `${ta.value.length} chars · ${t ? t.split(/\s+/).length : 0} words`;
+    const words = t ? t.split(/\s+/).length : 0;
+    cc.textContent = `${ta.value.length} 글자 · ${words} 단어`;
+    btn.disabled = words < Math.floor(m.minWords * 0.5);
+    const completion = Math.min(100, Math.round((words / m.minWords) * 100));
+    document.getElementById('score-completion').textContent = completion + '%';
+    document.getElementById('progress-text').textContent = `${words} / ${m.minWords}`;
+    document.getElementById('score-remaining').textContent = Math.max(0, m.minWords - words) + '단어';
   });
+  btn.addEventListener('click', () => {
+    const t = ta.value.trim();
+    const words = t ? t.split(/\s+/).length : 0;
+    const lengthScore = Math.min(100, (words / m.minWords) * 70);
+    const richness = Math.min(30, (new Set(t.split(/\s+/)).size / Math.max(words,1)) * 30);
+    const score = Math.round(lengthScore + richness);
+    saveResult(m, score, { words, length: ta.value.length, text: t.slice(0, 500) });
+    window.location.href = 'benchmark.html';
+  });
+}
 
-  // Countdown
-  let t = 4 * 3600 + 12 * 60 + 9;
-  const timerEl = document.getElementById('timer');
-  setInterval(() => {
-    t -= 1;
-    if (t < 0) t = 0;
-    const h = String(Math.floor(t / 3600)).padStart(2, '0');
-    const m = String(Math.floor((t % 3600) / 60)).padStart(2, '0');
-    const s = String(t % 60).padStart(2, '0');
-    timerEl.textContent = `${h}:${m}:${s}`;
-  }, 1000);
+// =============================================================
+// SAVE RESULT for benchmark.html
+// =============================================================
+function saveResult(m, score, detail) {
+  const payload = {
+    mod: m.code,
+    title: m.title,
+    tier: m.tier,
+    type: m.type,
+    score,            // 0-100 raw module score
+    detail,
+    timestamp: Date.now()
+  };
+  try { localStorage.setItem('humanx:last-result', JSON.stringify(payload)); } catch(e) {}
+}
 </script>
 
 </body>
