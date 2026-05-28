@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HUMAN X — Training Humanity in the AI Era</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #fbf9f3; }
+  ::-webkit-scrollbar-thumb { background: #c8c6c5; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #757689; }
+  .kr { font-family: 'Noto Sans KR', 'EB Garamond', serif; }
+  .ticker { animation: ticker 30s linear infinite; }
+  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .blink { animation: blink 1.2s steps(2) infinite; }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "surface-container-high": "#e9e8e2","on-surface": "#1b1c19","secondary-fixed-dim": "#c8c6c5",
+        "error-container": "#ffdad6","primary-container": "#0029ff","secondary-container": "#e2dfde",
+        "error": "#ba1a1a","surface-container-low": "#f5f4ee","on-error": "#ffffff",
+        "primary-fixed": "#dfe0ff","tertiary": "#7f0400","on-primary-fixed": "#000a64",
+        "tertiary-container": "#aa0c02","on-surface-variant": "#444557","inverse-surface": "#30312d",
+        "tertiary-fixed-dim": "#ffb4a7","outline-variant": "#c5c5da","outline": "#757689",
+        "on-tertiary-fixed": "#400100","surface-dim": "#dbdad4","surface-variant": "#e3e3dd",
+        "background": "#fbf9f3","on-secondary-fixed": "#1c1b1b","inverse-primary": "#bcc2ff",
+        "inverse-on-surface": "#f2f1eb","on-secondary-container": "#636262","on-background": "#1b1c19",
+        "surface-bright": "#fbf9f3","on-tertiary-container": "#ffb7aa","secondary-fixed": "#e5e2e1",
+        "secondary": "#5f5e5e","surface-container": "#efeee8","surface": "#fbf9f3",
+        "on-error-container": "#93000a","surface-container-highest": "#e3e3dd","on-secondary": "#ffffff",
+        "on-tertiary-fixed-variant": "#920500","on-primary-container": "#bfc4ff","on-primary": "#ffffff",
+        "surface-tint": "#273fff","on-secondary-fixed-variant": "#474746","tertiary-fixed": "#ffdad4",
+        "primary": "#001cbf","primary-fixed-dim": "#bcc2ff","on-primary-fixed-variant": "#0022db",
+        "surface-container-lowest": "#ffffff","on-tertiary": "#ffffff"
+      },
+      borderRadius: { "DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px" },
+      spacing: { "overlap-offset": "-40px","margin-desktop": "64px","gutter": "24px","margin-mobile": "20px","unit": "8px" },
+      fontFamily: {
+        "display-lg": ["Anton"],"label-sm": ["JetBrains Mono"],"body-md": ["EB Garamond"],
+        "body-lg": ["EB Garamond"],"headline-md": ["Anton"],"display-lg-mobile": ["Anton"],"display-xl": ["Anton"]
+      },
+      fontSize: {
+        "display-lg": ["80px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+        "body-md": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+        "body-lg": ["24px", { "lineHeight": "32px", "fontWeight": "400" }],
+        "headline-md": ["48px", { "lineHeight": "48px", "fontWeight": "400" }],
+        "display-lg-mobile": ["56px", { "lineHeight": "52px", "fontWeight": "400" }],
+        "display-xl": ["120px", { "lineHeight": "100px", "letterSpacing": "-0.04em", "fontWeight": "400" }]
+      }
+    }}
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary selection:text-on-primary overflow-x-hidden">
+
+<!-- Top status ticker -->
+<div class="w-full bg-on-surface text-background border-b border-on-surface overflow-hidden py-2">
+  <div class="flex whitespace-nowrap font-label-sm text-label-sm uppercase tracking-widest ticker">
+    <span class="px-8">▍ Phase 01 — MVP Sequence Active</span>
+    <span class="px-8">▍ Subjects Online: 42,091</span>
+    <span class="px-8">▍ Turing Test Index Avg: 87.3</span>
+    <span class="px-8">▍ Cognitive Lift: 3.4σ</span>
+    <span class="px-8">▍ Last Sync 00:00:14 UTC</span>
+    <span class="px-8">▍ Phase 01 — MVP Sequence Active</span>
+    <span class="px-8">▍ Subjects Online: 42,091</span>
+    <span class="px-8">▍ Turing Test Index Avg: 87.3</span>
+    <span class="px-8">▍ Cognitive Lift: 3.4σ</span>
+    <span class="px-8">▍ Last Sync 00:00:14 UTC</span>
+  </div>
+</div>
+
+<!-- TopNavBar -->
+<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 max-w-full sticky top-0 z-50">
+  <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter text-on-surface uppercase mb-4 md:mb-0">
+    HUMAN<span class="text-primary">/</span>X
+  </a>
+  <nav class="flex items-center gap-8 font-label-sm text-label-sm">
+    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="index.html">Home</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="modules.html">Modules</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="benchmark.html">Benchmark</a>
+    <button class="ml-4 hover:text-primary transition-colors duration-300">
+      <span class="material-symbols-outlined text-[24px]">account_circle</span>
+    </button>
+  </nav>
+</header>
+
+<main class="flex-grow flex flex-col pb-[120px]">
+
+<!-- Hero -->
+<section class="relative w-full px-margin-mobile md:px-margin-desktop pt-16 md:pt-32 pb-24 grid grid-cols-1 md:grid-cols-12 gap-gutter min-h-[819px]">
+  <div class="col-span-1 md:col-span-8 z-10 relative">
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 00 / GENESIS</span>
+    <h1 class="font-display-xl text-display-lg-mobile md:text-display-xl text-on-surface uppercase leading-none mix-blend-multiply mt-6">
+      TRAINING<br/>HUMANITY<br/>IN THE<br/>AI ERA<span class="text-primary blink">.</span>
+    </h1>
+    <div class="mt-12 max-w-xl">
+      <p class="font-body-lg text-body-lg text-on-surface-variant border-l border-on-surface pl-6">
+        We do not teach what machines already know. We train the residue —
+        context, intuition, and ethics — that synthetic intellect cannot yet inhabit.
+      </p>
+      <p class="kr mt-4 text-[15px] leading-relaxed text-on-surface-variant pl-6 border-l border-outline-variant">
+        AI가 아직 닿지 못한 <strong class="text-on-surface">맥락 이해</strong>와
+        <strong class="text-on-surface">비선형적 사고</strong>를 훈련합니다.
+        지식이 아니라 판단을, 정답이 아니라 구조를 학습합니다.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="modules.html" class="bg-on-surface text-on-primary font-body-md px-8 py-3 hover:bg-primary transition-colors flex items-center gap-3 group">
+          INITIATE SEQUENCE
+          <span class="w-1.5 h-1.5 bg-primary group-hover:bg-on-primary rounded-full transition-colors"></span>
+        </a>
+        <a href="benchmark.html" class="border border-on-surface text-on-surface font-body-md px-8 py-3 hover:bg-on-surface hover:text-background transition-colors flex items-center gap-3">
+          VIEW BENCHMARK
+          <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlapping Graphic -->
+  <div class="col-span-1 md:col-span-6 md:absolute md:right-0 md:top-24 md:w-[50vw] z-0 mt-overlap-offset md:mt-0 opacity-90 mix-blend-darken">
+    <div class="w-full h-[600px] bg-surface-container-high bg-cover bg-center grayscale contrast-125"
+         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAdewBuyJuMMKbhsb-M-pPmkdalUhmWxbh4nsQWt2fukq3PE9rUP4gNW5a24I06kCKCkpA-AzVh3ToVsFwGdLAxDq-mUIQSNtX9782ScclxYmbw5UU5RaD1G4dOyPJOWJfZSEecz0hYzv_OlGy_03p5u3Hs-oMYefr2DPe_wwlNrC7lR71-frRAMfzayu-eaz-Hy60ubMlypTepVbna8rkF60CZmNVAjUiNQQdUPfM7sI8iEV0QiFR6KoGevWAhbKPl61caLkGJYJM')"></div>
+    <div class="absolute bottom-4 left-4 bg-background border border-on-surface px-2 py-1 font-label-sm text-label-sm text-on-surface">
+      FIG 1.0 — NEURAL MAP / SUBJECT #042
+    </div>
+  </div>
+</section>
+
+<!-- Metric Strip -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-24 border-t border-b border-outline-variant grid grid-cols-2 md:grid-cols-4 gap-0">
+  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[180px]">
+    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Active Subjects</span>
+    <div class="font-headline-md text-headline-md text-on-surface flex items-baseline gap-2">
+      42,091 <span class="font-label-sm text-primary text-[14px]">+12%</span>
+    </div>
+  </div>
+  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[180px]">
+    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Cognitive Lift</span>
+    <div class="font-headline-md text-headline-md text-on-surface">3.4<span class="text-[24px]">σ</span></div>
+  </div>
+  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[180px] border-t md:border-t-0 border-outline-variant">
+    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Turing Idx Avg</span>
+    <div class="font-headline-md text-headline-md text-on-surface">87.3<span class="text-[24px]">/100</span></div>
+  </div>
+  <div class="p-8 flex flex-col justify-between min-h-[180px] border-t md:border-t-0 border-outline-variant">
+    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Synapse Load</span>
+    <div class="font-headline-md text-headline-md text-on-surface">99.8<span class="text-[24px]">%</span></div>
+  </div>
+</section>
+
+<!-- 3 Pillars -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-32">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-20">
+    <div class="md:col-span-3">
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 01 / DOCTRINE</span>
+    </div>
+    <div class="md:col-span-9">
+      <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase leading-none">
+        Three Axes<br/>of Residual Cognition
+      </h2>
+      <p class="kr mt-6 text-on-surface-variant text-[15px] max-w-2xl">
+        암기와 연산은 기계가 더 잘 합니다. 우리는 그 너머의 세 가지 — 메타인지, 역기획, 디렉팅을 훈련합니다.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 border-t border-on-surface">
+    <!-- Pillar 01 -->
+    <article class="md:border-r border-outline-variant p-8 flex flex-col gap-6 min-h-[420px] hover:bg-surface-container-low transition-colors">
+      <div class="flex items-baseline justify-between">
+        <span class="font-label-sm text-label-sm text-outline">AXIS 01</span>
+        <span class="font-display-lg text-[64px] text-on-surface leading-none">α</span>
+      </div>
+      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Meta-<br/>Cognition</h3>
+      <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
+        정답이 없는 철학적 딜레마, 윤리 문제, 그리고 무관해 보이는 두 개념을 결합해
+        새 비즈니스 모델을 도출하는 사고 훈련.
+      </p>
+      <div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+        <span class="font-label-sm text-label-sm text-outline uppercase">12 Modules</span>
+        <a href="modules.html#meta" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
+          Enter <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Pillar 02 -->
+    <article class="md:border-r border-outline-variant border-t md:border-t-0 border-outline-variant p-8 flex flex-col gap-6 min-h-[420px] hover:bg-surface-container-low transition-colors">
+      <div class="flex items-baseline justify-between">
+        <span class="font-label-sm text-label-sm text-outline">AXIS 02</span>
+        <span class="font-display-lg text-[64px] text-on-surface leading-none">β</span>
+      </div>
+      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Reverse<br/>Engineering</h3>
+      <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
+        완성된 프로덕트나 복잡 시스템의 아키텍처를 역추적하고, AI가 작성한 코드의
+        논리적 허점(Edge Case)을 발굴.
+      </p>
+      <div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+        <span class="font-label-sm text-label-sm text-outline uppercase">09 Modules</span>
+        <a href="modules.html#reverse" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
+          Enter <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Pillar 03 -->
+    <article class="border-t md:border-t-0 border-outline-variant p-8 flex flex-col gap-6 min-h-[420px] hover:bg-surface-container-low transition-colors">
+      <div class="flex items-baseline justify-between">
+        <span class="font-label-sm text-label-sm text-outline">AXIS 03</span>
+        <span class="font-display-lg text-[64px] text-primary leading-none">γ</span>
+      </div>
+      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">AI<br/>Directing</h3>
+      <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
+        이미지·텍스트 모델을 도구로 삼아, 원하는 결과물을 정확히 도출하는 기획력과
+        통제력 — 프롬프트 엔지니어링 그 너머.
+      </p>
+      <div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
+        <span class="font-label-sm text-label-sm text-outline uppercase">07 Modules</span>
+        <a href="modules.html#directing" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
+          Enter <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Live Simulation Strip -->
+<section class="w-full bg-on-surface text-background px-margin-mobile md:px-margin-desktop py-24">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <div class="md:col-span-3">
+      <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 02 / FIELD</span>
+    </div>
+    <div class="md:col-span-9">
+      <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none mb-12">
+        Pressure Tests<br/>For Live Humans
+      </h2>
+      <p class="kr text-[15px] text-secondary-fixed-dim max-w-2xl mb-16">
+        매뉴얼이 없는 상황에서 우선순위를 어떻게 설정하는가 — 면접·실무·위기의 압박을 시뮬레이션합니다.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-outline">
+        <div class="bg-on-surface p-6 flex flex-col gap-3 min-h-[200px]">
+          <span class="font-label-sm text-label-sm text-outline uppercase">SIM // H-01</span>
+          <h4 class="font-headline-md text-[24px] uppercase leading-tight">Hallucination<br/>Detection</h4>
+          <p class="text-[13px] text-secondary-fixed-dim kr">AI 면접관이 흘리는 거짓 정보를 짚어내며 논리를 전개.</p>
+          <a href="simulation.html" class="mt-auto font-label-sm text-label-sm uppercase text-primary-fixed-dim hover:text-on-primary flex items-center gap-1">
+            Enter <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+        <div class="bg-on-surface p-6 flex flex-col gap-3 min-h-[200px]">
+          <span class="font-label-sm text-label-sm text-outline uppercase">SIM // C-02</span>
+          <h4 class="font-headline-md text-[24px] uppercase leading-tight">Crisis<br/>Response</h4>
+          <p class="text-[13px] text-secondary-fixed-dim kr">서버 다운 + 언론 악의 보도의 동시 발생 시 우선순위 훈련.</p>
+          <a href="simulation.html" class="mt-auto font-label-sm text-label-sm uppercase text-primary-fixed-dim hover:text-on-primary flex items-center gap-1">
+            Enter <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+        <div class="bg-on-surface p-6 flex flex-col gap-3 min-h-[200px]">
+          <span class="font-label-sm text-label-sm text-outline uppercase">SIM // R-03</span>
+          <h4 class="font-headline-md text-[24px] uppercase leading-tight">Adversarial<br/>Debate</h4>
+          <p class="text-[13px] text-secondary-fixed-dim kr">논리로 무장한 AI와 토론하며 설득력과 공감 능력을 평가.</p>
+          <a href="simulation.html" class="mt-auto font-label-sm text-label-sm uppercase text-primary-fixed-dim hover:text-on-primary flex items-center gap-1">
+            Enter <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benchmark teaser -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-32 grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+  <div class="md:col-span-7">
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 03 / VERDICT</span>
+    <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase leading-none mt-6">
+      Are You Above<br/>The 7B Threshold?
+    </h2>
+    <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-xl">
+      당신의 답안이 어떤 모델 수준인지, 그리고 얼마나 인간다운지를 수치로 보여줍니다.
+      Turing Test Index · 인간-AI 역량 레이더 · 모델별 비교.
+    </p>
+    <a href="benchmark.html" class="mt-10 inline-flex items-center gap-3 bg-primary text-on-primary font-body-md px-8 py-3 hover:bg-on-surface transition-colors">
+      OPEN BENCHMARK <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+    </a>
+  </div>
+  <div class="md:col-span-5">
+    <!-- Mini Radar Mockup -->
+    <div class="border border-on-surface p-6 bg-background">
+      <div class="flex justify-between items-baseline mb-4">
+        <span class="font-label-sm text-label-sm uppercase text-outline">Subject Sample / #042</span>
+        <span class="font-label-sm text-label-sm uppercase text-primary">TI 87</span>
+      </div>
+      <svg viewBox="0 0 200 200" class="w-full h-auto">
+        <polygon points="100,20 175,70 150,170 50,170 25,70" fill="none" stroke="#757689" stroke-width="0.5"/>
+        <polygon points="100,50 145,80 130,150 70,150 55,80" fill="none" stroke="#c5c5da" stroke-width="0.5"/>
+        <polygon points="100,80 120,90 115,130 85,130 80,90" fill="none" stroke="#c5c5da" stroke-width="0.5"/>
+        <polygon points="100,30 160,80 140,160 60,165 35,75"
+                 fill="#001cbf" fill-opacity="0.15" stroke="#001cbf" stroke-width="1.5"/>
+        <circle cx="100" cy="30" r="3" fill="#001cbf"/>
+        <circle cx="160" cy="80" r="3" fill="#001cbf"/>
+        <circle cx="140" cy="160" r="3" fill="#001cbf"/>
+        <circle cx="60" cy="165" r="3" fill="#001cbf"/>
+        <circle cx="35" cy="75" r="3" fill="#001cbf"/>
+        <text x="100" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">EMPATHY</text>
+        <text x="183" y="73" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">FLEX</text>
+        <text x="155" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">CONTEXT</text>
+        <text x="45" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">METAPHOR</text>
+        <text x="17" y="73" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">INTUIT</text>
+      </svg>
+      <div class="mt-2 font-label-sm text-label-sm text-outline uppercase border-t border-outline-variant pt-2">
+        FIG 3.0 — Human-AI Capability Radar
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter mt-overlap-offset">
+  <div class="flex flex-col gap-4">
+    <div class="font-display-lg text-display-lg-mobile text-on-surface">HUMAN<span class="text-primary">/</span>X</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant">© 2026 HUMAN X LAB · COGNITION THROUGH DESIGN · MVP 0.1</div>
+  </div>
+  <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0 font-body-md text-body-md">
+    <a class="text-on-secondary-container hover:text-primary underline transition-all" href="modules.html">Modules</a>
+    <a class="text-on-secondary-container hover:text-primary underline transition-all" href="simulation.html">Simulation</a>
+    <a class="text-on-secondary-container hover:text-primary underline transition-all" href="benchmark.html">Benchmark</a>
+    <a class="text-on-secondary-container hover:text-primary underline transition-all" href="https://github.com/timidlione/humanx" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>

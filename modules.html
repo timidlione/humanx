@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Training Modules — HUMAN X</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #fbf9f3; }
+  ::-webkit-scrollbar-thumb { background: #c8c6c5; border-radius: 4px; }
+  .kr { font-family: 'Noto Sans KR', 'EB Garamond', serif; }
+  .hairline { border-color: #757689; }
+  .filter-chip[data-active="true"] { background: #1b1c19; color: #fbf9f3; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "on-surface": "#1b1c19","primary": "#001cbf","on-surface-variant": "#444557",
+        "outline-variant": "#c5c5da","outline": "#757689","surface-dim": "#dbdad4",
+        "background": "#fbf9f3","surface-container": "#efeee8","surface-container-low": "#f5f4ee",
+        "surface-container-high": "#e9e8e2","on-primary": "#ffffff","secondary-fixed-dim": "#c8c6c5"
+      },
+      spacing: { "margin-desktop": "64px","gutter": "24px","margin-mobile": "20px" },
+      fontFamily: {
+        "display-lg": ["Anton"],"label-sm": ["JetBrains Mono"],"body-md": ["EB Garamond"],
+        "body-lg": ["EB Garamond"],"headline-md": ["Anton"],"display-lg-mobile": ["Anton"],"display-xl": ["Anton"]
+      },
+      fontSize: {
+        "display-lg": ["80px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+        "body-md": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+        "body-lg": ["24px", { "lineHeight": "32px", "fontWeight": "400" }],
+        "headline-md": ["48px", { "lineHeight": "48px", "fontWeight": "400" }],
+        "display-lg-mobile": ["56px", { "lineHeight": "52px", "fontWeight": "400" }],
+        "display-xl": ["120px", { "lineHeight": "100px", "letterSpacing": "-0.04em", "fontWeight": "400" }]
+      }
+    }}
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary selection:text-on-primary overflow-x-hidden">
+
+<!-- TopNavBar -->
+<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 sticky top-0 z-50">
+  <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter uppercase mb-4 md:mb-0">
+    HUMAN<span class="text-primary">/</span>X
+  </a>
+  <nav class="flex items-center gap-8 font-label-sm text-label-sm">
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="index.html">Home</a>
+    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="modules.html">Modules</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="benchmark.html">Benchmark</a>
+    <button class="ml-4 hover:text-primary"><span class="material-symbols-outlined text-[24px]">account_circle</span></button>
+  </nav>
+</header>
+
+<main class="flex-grow flex flex-col pb-[120px]">
+
+<!-- Page header -->
+<section class="w-full px-margin-mobile md:px-margin-desktop pt-16 md:pt-24 pb-16 grid grid-cols-1 md:grid-cols-12 gap-gutter border-b border-on-surface">
+  <div class="md:col-span-3">
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">CATALOG // 01</span>
+  </div>
+  <div class="md:col-span-9">
+    <h1 class="font-display-xl text-display-lg-mobile md:text-display-lg uppercase leading-none">
+      Training<br/>Modules
+    </h1>
+    <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl">
+      여섯 개의 트랙. 세 개는 사고력의 축(α/β/γ), 세 개는 압박 상황 시뮬레이션. 정답을 외우는 곳이 아닙니다.
+    </p>
+  </div>
+</section>
+
+<!-- Filter strip -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-6 border-b border-outline-variant flex flex-wrap items-center gap-3">
+  <span class="font-label-sm text-label-sm uppercase text-outline mr-2">Filter:</span>
+  <button class="filter-chip border border-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-active="true">All</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Cognition</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Simulation</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Beginner</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Advanced</button>
+  <div class="ml-auto font-label-sm text-label-sm text-outline uppercase">06 Modules Listed</div>
+</section>
+
+<!-- Section: Cognition Axes -->
+<section id="cognition" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12">
+  <div class="flex items-baseline justify-between mb-10 border-b border-on-surface pb-4">
+    <h2 class="font-display-lg text-[40px] uppercase">A · Cognition Axes</h2>
+    <span class="font-label-sm text-label-sm text-outline uppercase">학습/성장 영역</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+
+    <!-- Module M-01 META -->
+    <article id="meta" class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition">
+      <div class="h-[280px] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"
+           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDiQniNB2i_UbfbjuQUjlxwCqgN1kVjP5u85MmLZYdtMhZkDJqbPUwUnPM72ykp82u2PkVQcc6AFA8QgCg_iP4YE76pNm0RrHuXtiCBBX2-xsiUxBD9dMXylG8378a3ZU7my1Ma8AdNLySeXUL-7jPIpcfOUjV2tS2BLgfAJwMsHx-8kBQBFHPBAXTm_LSmeyoxiuvUn98pkAs90cnIX5reXKvR-J3oDvVqRBbMjRglmYdFcZ7b-6jjwJuFj7djEzmVAz9WzG5XPqA')"></div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">M-01 / α</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">Cognition</span>
+        </div>
+        <h3 class="font-headline-md text-[28px] uppercase leading-tight">Meta-Cognition<br/>& Dilemma Synthesis</h3>
+        <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
+          정답 없는 윤리·철학 딜레마, 그리고 생물학과 금융처럼 무관한 두 개념을 결합해
+          새로운 비즈니스 모델을 도출.
+        </p>
+        <ul class="kr text-[13px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">45 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">CONTEXT · METAPHOR</span></li>
+        </ul>
+        <a href="simulation.html" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">Initiate</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Module M-02 REVERSE -->
+    <article id="reverse" class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition md:mt-12">
+      <div class="h-[280px] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"
+           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHjRT2Za51J511FGjOXPb7tkt1ykEoU_e_g2-sgHqGo0sX_W-xblafZpC8k63oWkQGPp8eHujav0_jx0BYekgtfD5jw5zpsV-h9Xx7RhIRon8aIL4FM3dr7R3XolAEeQJk2rKfrb6ydwuqv-Sbru-4T8RCpyrww2wgkN4zmqsq-jHQyzoQfrQtq7PO3fl03g7J7rYDGQOY-2r2UG0VUUErozHbiuVUE4U8rJpWlUx_JYLwooql3k2_5V3-xXNm01KwrsOG8HSCAgU')"></div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">M-02 / β</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">Cognition</span>
+        </div>
+        <h3 class="font-headline-md text-[28px] uppercase leading-tight">Reverse-<br/>Engineering</h3>
+        <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
+          완성된 프로덕트의 아키텍처를 역추적하고, AI가 작성한 코드/논리의 엣지 케이스를
+          찾아내는 훈련.
+        </p>
+        <ul class="kr text-[13px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">60 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★★☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">FLEX · CONTEXT</span></li>
+        </ul>
+        <a href="simulation.html" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">Initiate</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Module M-03 DIRECTING -->
+    <article id="directing" class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition">
+      <div class="h-[280px] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"
+           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdZ0q-rweY--2hdGX_8hoVMyhgyrrTsHTrogFuM8Z0swlDYnarmat_c-Sz2SR5_IMeLTWSmw0qeTOMKjEimQcyC6jdtYQaljR-MgibbLbD7emGVvQM76r2C_WQD-nFkzNDlh1Xp14fgqTTrxH0drvtO0gSEdr2NvvYwQpYJ5MiU_3VbuT6wndONLX-H29td0Fi3_xm4X9dz-H6_YmeIu0uIk-7VK6tYquRIXM3H_Gg6vFMa15HUp7PeRyU0jtK6aG5aVAcO1jpb2I')"></div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">M-03 / γ</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">Cognition</span>
+        </div>
+        <h3 class="font-headline-md text-[28px] uppercase leading-tight">AI Directing &<br/>Prompt Control</h3>
+        <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
+          이미지·텍스트 모델을 도구로 삼아 원하는 결과물을 정확히 도출 — 프롬프트 엔지니어링
+          그 너머의 기획력과 통제력.
+        </p>
+        <ul class="kr text-[13px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">30 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★☆☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">FLEX · INTUIT</span></li>
+        </ul>
+        <a href="simulation.html" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">Initiate</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Section: Field Simulations -->
+<section id="simulations" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12 bg-on-surface text-background">
+  <div class="flex items-baseline justify-between mb-10 border-b border-outline pb-4">
+    <h2 class="font-display-lg text-[40px] uppercase">B · Field Simulations</h2>
+    <span class="font-label-sm text-label-sm uppercase text-secondary-fixed-dim">실전 모의 훈련</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-outline">
+
+    <article class="bg-on-surface p-8 flex flex-col gap-4 min-h-[440px]">
+      <div class="flex justify-between items-baseline">
+        <span class="font-label-sm text-label-sm text-outline uppercase">SIM // H-01</span>
+        <span class="w-2 h-2 bg-primary"></span>
+      </div>
+      <h3 class="font-headline-md text-[30px] uppercase leading-tight mt-4">Hallucination<br/>Interview</h3>
+      <p class="kr text-[14px] text-secondary-fixed-dim leading-relaxed">
+        AI 면접관이 고의로 그럴싸한 거짓 정보가 섞인 질문/데이터를 제시.
+        오류를 짚어내며 논리를 전개하는지를 평가.
+      </p>
+      <ul class="kr text-[13px] space-y-2 mt-auto border-t border-outline pt-4">
+        <li class="flex justify-between"><span class="text-outline">FORMAT</span><span class="font-label-sm">CONVERSATIONAL</span></li>
+        <li class="flex justify-between"><span class="text-outline">PRESSURE</span><span class="font-label-sm">HIGH</span></li>
+        <li class="flex justify-between"><span class="text-outline">DURATION</span><span class="font-label-sm">~ 20 MIN</span></li>
+      </ul>
+      <a href="simulation.html" class="bg-background text-on-surface py-3 px-4 flex justify-between items-center hover:bg-primary hover:text-background transition-colors mt-4">
+        <span>Enter Field</span>
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </a>
+    </article>
+
+    <article class="bg-on-surface p-8 flex flex-col gap-4 min-h-[440px]">
+      <div class="flex justify-between items-baseline">
+        <span class="font-label-sm text-label-sm text-outline uppercase">SIM // C-02</span>
+        <span class="w-2 h-2 bg-secondary-fixed-dim"></span>
+      </div>
+      <h3 class="font-headline-md text-[30px] uppercase leading-tight mt-4">Crisis<br/>Response</h3>
+      <p class="kr text-[14px] text-secondary-fixed-dim leading-relaxed">
+        매뉴얼이 없는 돌발 상황 — 서버 다운과 동시에 언론 악의 보도가 터졌을 때,
+        우선순위 설정을 훈련.
+      </p>
+      <ul class="kr text-[13px] space-y-2 mt-auto border-t border-outline pt-4">
+        <li class="flex justify-between"><span class="text-outline">FORMAT</span><span class="font-label-sm">TIMED DECISION</span></li>
+        <li class="flex justify-between"><span class="text-outline">PRESSURE</span><span class="font-label-sm">SEVERE</span></li>
+        <li class="flex justify-between"><span class="text-outline">DURATION</span><span class="font-label-sm">~ 15 MIN</span></li>
+      </ul>
+      <a href="simulation.html" class="bg-background text-on-surface py-3 px-4 flex justify-between items-center hover:bg-primary hover:text-background transition-colors mt-4">
+        <span>Enter Field</span>
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </a>
+    </article>
+
+    <article class="bg-on-surface p-8 flex flex-col gap-4 min-h-[440px]">
+      <div class="flex justify-between items-baseline">
+        <span class="font-label-sm text-label-sm text-outline uppercase">SIM // R-03</span>
+        <span class="w-2 h-2 bg-secondary-fixed-dim"></span>
+      </div>
+      <h3 class="font-headline-md text-[30px] uppercase leading-tight mt-4">Adversarial<br/>Debate</h3>
+      <p class="kr text-[14px] text-secondary-fixed-dim leading-relaxed">
+        인간 대표로서, 논리로 무장한 AI와 토론을 진행. 설득력과 공감 능력을 함께 평가.
+      </p>
+      <ul class="kr text-[13px] space-y-2 mt-auto border-t border-outline pt-4">
+        <li class="flex justify-between"><span class="text-outline">FORMAT</span><span class="font-label-sm">ROLE-PLAY</span></li>
+        <li class="flex justify-between"><span class="text-outline">PRESSURE</span><span class="font-label-sm">MEDIUM</span></li>
+        <li class="flex justify-between"><span class="text-outline">DURATION</span><span class="font-label-sm">~ 25 MIN</span></li>
+      </ul>
+      <a href="simulation.html" class="bg-background text-on-surface py-3 px-4 flex justify-between items-center hover:bg-primary hover:text-background transition-colors mt-4">
+        <span>Enter Field</span>
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+      </a>
+    </article>
+
+  </div>
+</section>
+
+<!-- CTA Strip -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-32 grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+  <div class="md:col-span-8">
+    <h2 class="font-display-lg text-display-lg-mobile uppercase leading-none">
+      Don't pick by title.<br/>Pick by what you're avoiding.
+    </h2>
+    <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-xl">
+      편한 모듈은 가장 적은 정보를 줍니다. 가장 거슬리는 트랙으로 시작하세요.
+    </p>
+  </div>
+  <div class="md:col-span-4 flex md:justify-end">
+    <a href="benchmark.html" class="inline-flex items-center gap-3 bg-primary text-on-primary px-8 py-4 hover:bg-on-surface transition-colors">
+      Skip to Benchmark
+      <span class="material-symbols-outlined text-[18px]">arrow_outward</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter">
+  <div class="flex flex-col gap-4">
+    <div class="font-display-lg text-display-lg-mobile">HUMAN<span class="text-primary">/</span>X</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant">© 2026 HUMAN X LAB · COGNITION THROUGH DESIGN · MVP 0.1</div>
+  </div>
+  <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0">
+    <a class="text-on-surface-variant hover:text-primary underline" href="index.html">Home</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="benchmark.html">Benchmark</a>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.filter-chip').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(x => x.dataset.active = "false");
+      b.dataset.active = "true";
+    });
+  });
+</script>
+
+</body>
+</html>

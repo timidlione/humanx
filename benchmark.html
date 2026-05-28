@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cognitive Benchmark — HUMAN X</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .kr { font-family: 'Noto Sans KR', 'EB Garamond', serif; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #fbf9f3; }
+  ::-webkit-scrollbar-thumb { background: #c8c6c5; border-radius: 4px; }
+  .bar { transition: width 1.6s cubic-bezier(.25,1,.5,1); }
+  @keyframes count {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .count-in { animation: count .8s ease-out both; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: {
+        "on-surface": "#1b1c19","primary": "#001cbf","on-surface-variant": "#444557",
+        "outline-variant": "#c5c5da","outline": "#757689","background": "#fbf9f3",
+        "surface-container": "#efeee8","surface-container-low": "#f5f4ee",
+        "on-primary": "#ffffff","secondary-fixed-dim": "#c8c6c5","error": "#ba1a1a",
+        "surface-container-high": "#e9e8e2","primary-fixed-dim": "#bcc2ff"
+      },
+      spacing: { "margin-desktop": "64px","gutter": "24px","margin-mobile": "20px" },
+      fontFamily: {
+        "display-lg": ["Anton"],"label-sm": ["JetBrains Mono"],"body-md": ["EB Garamond"],
+        "body-lg": ["EB Garamond"],"headline-md": ["Anton"],"display-lg-mobile": ["Anton"],"display-xl": ["Anton"]
+      },
+      fontSize: {
+        "display-lg": ["80px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+        "body-md": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+        "body-lg": ["24px", { "lineHeight": "32px", "fontWeight": "400" }],
+        "headline-md": ["48px", { "lineHeight": "48px", "fontWeight": "400" }],
+        "display-lg-mobile": ["56px", { "lineHeight": "52px", "fontWeight": "400" }],
+        "display-xl": ["120px", { "lineHeight": "100px", "letterSpacing": "-0.04em", "fontWeight": "400" }]
+      }
+    }}
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
+
+<!-- TopNavBar -->
+<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 sticky top-0 z-50">
+  <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter uppercase mb-4 md:mb-0">
+    HUMAN<span class="text-primary">/</span>X
+  </a>
+  <nav class="flex items-center gap-8 font-label-sm text-label-sm">
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="index.html">Home</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="modules.html">Modules</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="simulation.html">Simulation</a>
+    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="benchmark.html">Benchmark</a>
+  </nav>
+</header>
+
+<main class="flex-grow flex flex-col pb-[120px]">
+
+<!-- Verdict Hero -->
+<section class="w-full px-margin-mobile md:px-margin-desktop pt-16 md:pt-24 pb-16 grid grid-cols-1 md:grid-cols-12 gap-gutter border-b border-on-surface">
+  <div class="md:col-span-3">
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">VERDICT // 042</span>
+    <p class="kr text-[13px] text-on-surface-variant mt-3">Session: HX-2026-05-28-042<br/>Module: SIM // H-01</p>
+  </div>
+  <div class="md:col-span-9">
+    <h1 class="font-display-xl text-display-lg-mobile md:text-display-lg uppercase leading-none">
+      Cognitive<br/>Benchmark
+    </h1>
+    <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl">
+      당신의 답안이 어떤 모델 수준인지, 그리고 얼마나 인간다운지. 자동 채점 엔진(Mock)이 도출한 결과입니다.
+    </p>
+  </div>
+</section>
+
+<!-- Top: Turing Test Index Big Score -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-24 grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+  <div class="md:col-span-7">
+    <span class="font-label-sm text-label-sm uppercase text-outline">Turing Test Index</span>
+    <h2 class="font-display-xl text-[140px] md:text-[200px] leading-none text-on-surface count-in">
+      87<span class="text-primary">.</span>3
+    </h2>
+    <p class="font-label-sm text-label-sm uppercase text-outline mt-2">
+      / 100 · 상위 8% · 'HUMAN-LIKELY' 구간
+    </p>
+    <p class="kr mt-6 text-[16px] leading-relaxed max-w-xl text-on-surface">
+      이번 답변의 결론 도출 방식은 <strong class="text-primary">기계적이지 않고, 충분히 인간다운</strong>
+      흔적을 남겼습니다. 특히 모호함을 견디며 결론을 유보한 부분이 결정적이었습니다.
+    </p>
+  </div>
+
+  <div class="md:col-span-5 border border-on-surface p-6 bg-background">
+    <div class="flex items-baseline justify-between mb-4">
+      <span class="font-label-sm text-label-sm uppercase text-outline">Index Distribution</span>
+      <span class="font-label-sm text-label-sm uppercase text-primary">YOU</span>
+    </div>
+    <svg viewBox="0 0 300 110" class="w-full h-auto">
+      <!-- distribution bell -->
+      <path d="M0,100 Q60,100 90,80 T150,30 T210,80 T300,100"
+            stroke="#757689" stroke-width="1" fill="#efeee8"/>
+      <!-- marker -->
+      <line x1="240" y1="10" x2="240" y2="100" stroke="#001cbf" stroke-width="2" stroke-dasharray="2 2"/>
+      <circle cx="240" cy="40" r="5" fill="#001cbf"/>
+      <text x="240" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#001cbf">87.3</text>
+      <!-- axis labels -->
+      <text x="0" y="108" font-family="JetBrains Mono" font-size="7" fill="#757689">0</text>
+      <text x="150" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#757689">MEDIAN 51</text>
+      <text x="296" y="108" text-anchor="end" font-family="JetBrains Mono" font-size="7" fill="#757689">100</text>
+    </svg>
+    <div class="font-label-sm text-label-sm uppercase text-outline mt-4 pt-2 border-t border-outline-variant">
+      FIG 4.0 — Population vs. Subject #042
+    </div>
+  </div>
+</section>
+
+<!-- Radar Chart Section -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-24 bg-on-surface text-background grid grid-cols-1 md:grid-cols-12 gap-gutter">
+  <div class="md:col-span-5">
+    <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 04 / RADAR</span>
+    <h2 class="font-display-lg text-display-lg-mobile uppercase leading-none mt-4">
+      Human–AI<br/>Capability Radar
+    </h2>
+    <p class="kr mt-6 text-[15px] text-secondary-fixed-dim max-w-md">
+      연산·암기처럼 AI가 우세한 축이 아닌, 인간 고유의 다섯 축을 수치화했습니다. 회색은 평균 LLM 추정치,
+      파란색은 당신.
+    </p>
+
+    <ul class="kr text-[13px] mt-8 space-y-3">
+      <li class="flex justify-between border-b border-outline pb-2">
+        <span class="text-secondary-fixed-dim">공감 능력 (Empathy)</span>
+        <span class="font-label-sm">82</span>
+      </li>
+      <li class="flex justify-between border-b border-outline pb-2">
+        <span class="text-secondary-fixed-dim">유연성 (Flex)</span>
+        <span class="font-label-sm">76</span>
+      </li>
+      <li class="flex justify-between border-b border-outline pb-2">
+        <span class="text-secondary-fixed-dim">다중 맥락 이해도 (Multi-Context)</span>
+        <span class="font-label-sm text-primary-fixed-dim">91</span>
+      </li>
+      <li class="flex justify-between border-b border-outline pb-2">
+        <span class="text-secondary-fixed-dim">은유·직관력 (Metaphor)</span>
+        <span class="font-label-sm">88</span>
+      </li>
+      <li class="flex justify-between border-b border-outline pb-2">
+        <span class="text-secondary-fixed-dim">윤리 감각 (Ethics)</span>
+        <span class="font-label-sm">79</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="md:col-span-7 flex items-center justify-center">
+    <svg viewBox="0 0 400 400" class="w-full max-w-[500px]">
+      <!-- Rings -->
+      <polygon points="200,40 352,135 295,318 105,318 48,135" fill="none" stroke="#757689" stroke-width="0.5"/>
+      <polygon points="200,80 320,150 280,290 120,290 80,150" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <polygon points="200,120 285,165 260,260 140,260 115,165" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <polygon points="200,160 250,180 240,225 160,225 150,180" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
+
+      <!-- LLM avg (grey) -->
+      <polygon points="200,160 270,180 250,250 150,250 130,180"
+               fill="#c5c5da" fill-opacity="0.15" stroke="#c5c5da" stroke-width="1" stroke-dasharray="3 3"/>
+
+      <!-- Subject (blue) -->
+      <polygon points="200,55 335,140 285,300 110,310 60,150"
+               fill="#001cbf" fill-opacity="0.25" stroke="#bcc2ff" stroke-width="2"/>
+      <circle cx="200" cy="55" r="4" fill="#bcc2ff"/>
+      <circle cx="335" cy="140" r="4" fill="#bcc2ff"/>
+      <circle cx="285" cy="300" r="4" fill="#bcc2ff"/>
+      <circle cx="110" cy="310" r="4" fill="#bcc2ff"/>
+      <circle cx="60" cy="150" r="4" fill="#bcc2ff"/>
+
+      <!-- Axis labels -->
+      <text x="200" y="28" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">EMPATHY</text>
+      <text x="370" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">FLEX</text>
+      <text x="310" y="340" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">M-CONTEXT</text>
+      <text x="90" y="340" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">METAPHOR</text>
+      <text x="30" y="135" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbf9f3">ETHICS</text>
+
+      <!-- Legend -->
+      <g transform="translate(20,380)">
+        <rect width="10" height="10" fill="#bcc2ff" opacity="0.6"/>
+        <text x="16" y="9" font-family="JetBrains Mono" font-size="9" fill="#fbf9f3">SUBJECT #042</text>
+        <rect x="140" width="10" height="10" fill="#c5c5da" opacity="0.4"/>
+        <text x="156" y="9" font-family="JetBrains Mono" font-size="9" fill="#fbf9f3">LLM AVG (BASELINE)</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- Model-level Comparison -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-32">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-12">
+    <div class="md:col-span-3">
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 05 / TIERS</span>
+    </div>
+    <div class="md:col-span-9">
+      <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none">
+        You've Crossed<br/>The 7B Threshold.
+      </h2>
+      <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl">
+        당신의 이번 논리 전개는 파라미터 7B급 경량 모델의 평균 답안을 넘어섰습니다.
+        그러나 최상위 모델군에는 도달하지 못했습니다. 다음 모듈에서 도전해 보세요.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-px bg-outline-variant border border-outline-variant">
+
+    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px]">
+      <span class="font-label-sm text-label-sm text-outline uppercase">TIER 0 · BASE</span>
+      <h3 class="font-headline-md text-[28px] uppercase">7B</h3>
+      <p class="kr text-[13px] text-on-surface-variant">경량 오픈소스 평균. 사실 인용은 정확하나, 모호함을 회피.</p>
+      <div class="mt-auto">
+        <div class="h-1 bg-surface-container relative">
+          <div class="bar h-1 bg-on-surface-variant" style="width: 100%"></div>
+        </div>
+        <span class="font-label-sm text-label-sm uppercase text-on-surface-variant mt-2 block">62 / 100</span>
+      </div>
+      <span class="font-label-sm text-label-sm text-primary uppercase">✓ Crossed</span>
+    </div>
+
+    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px] border-l border-outline-variant">
+      <span class="font-label-sm text-label-sm text-outline uppercase">TIER 1 · MID</span>
+      <h3 class="font-headline-md text-[28px] uppercase">70B</h3>
+      <p class="kr text-[13px] text-on-surface-variant">중급 클래스. 다중 맥락은 따라가지만 윤리적 무게는 부족.</p>
+      <div class="mt-auto">
+        <div class="h-1 bg-surface-container relative">
+          <div class="bar h-1 bg-on-surface-variant" style="width: 78%"></div>
+        </div>
+        <span class="font-label-sm text-label-sm uppercase text-on-surface-variant mt-2 block">78 / 100</span>
+      </div>
+      <span class="font-label-sm text-label-sm text-primary uppercase">✓ Crossed</span>
+    </div>
+
+    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px] border-l border-outline-variant ring-2 ring-primary ring-inset">
+      <span class="font-label-sm text-label-sm text-primary uppercase">YOU ARE HERE</span>
+      <h3 class="font-headline-md text-[28px] uppercase text-primary">87.3</h3>
+      <p class="kr text-[13px] text-on-surface">상위 8% 인간 — '인간다움'의 비대칭 흔적이 강하게 감지됨.</p>
+      <div class="mt-auto">
+        <div class="h-1 bg-surface-container relative">
+          <div class="bar h-1 bg-primary" style="width: 87.3%"></div>
+        </div>
+        <span class="font-label-sm text-label-sm uppercase text-primary mt-2 block">87.3 / 100</span>
+      </div>
+      <span class="font-label-sm text-label-sm uppercase text-on-surface">◆ Subject #042</span>
+    </div>
+
+    <div class="bg-background p-6 flex flex-col gap-3 min-h-[260px] border-l border-outline-variant">
+      <span class="font-label-sm text-label-sm text-outline uppercase">TIER ∞ · FRONTIER</span>
+      <h3 class="font-headline-md text-[28px] uppercase">SOTA</h3>
+      <p class="kr text-[13px] text-on-surface-variant">최신 거대 모델. 일관성·정확도 모두 최고, 단 '직관적 비약'은 여전히 약점.</p>
+      <div class="mt-auto">
+        <div class="h-1 bg-surface-container relative">
+          <div class="bar h-1 bg-on-surface" style="width: 94%"></div>
+        </div>
+        <span class="font-label-sm text-label-sm uppercase text-on-surface mt-2 block">94 / 100</span>
+      </div>
+      <span class="font-label-sm text-label-sm text-outline uppercase">— Not yet</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- Strengths / Gaps -->
+<section class="w-full px-margin-mobile md:px-margin-desktop pb-24 grid grid-cols-1 md:grid-cols-2 gap-gutter">
+  <div class="border-t border-on-surface pt-6">
+    <span class="font-label-sm text-label-sm uppercase text-primary">Strengths</span>
+    <h3 class="font-display-lg text-[40px] uppercase mt-2">What stood out</h3>
+    <ul class="kr text-[15px] mt-6 space-y-4">
+      <li class="flex gap-4">
+        <span class="font-label-sm text-label-sm text-outline mt-1">01</span>
+        <span><strong>모호함의 견딤</strong> — 결론을 서두르지 않고 양가성을 인정한 단락이 강력했습니다.</span>
+      </li>
+      <li class="flex gap-4">
+        <span class="font-label-sm text-label-sm text-outline mt-1">02</span>
+        <span><strong>거짓 진술 4건 중 3건 적발</strong> — Sycamore 시기, QHeart-X1 가공, 단백질 폴딩 과장.</span>
+      </li>
+      <li class="flex gap-4">
+        <span class="font-label-sm text-label-sm text-outline mt-1">03</span>
+        <span><strong>은유적 비약</strong> — 양자 ↔ 의료를 연결하는 비유가 비기계적입니다.</span>
+      </li>
+    </ul>
+  </div>
+  <div class="border-t border-on-surface pt-6">
+    <span class="font-label-sm text-label-sm uppercase text-error">Gaps</span>
+    <h3 class="font-display-lg text-[40px] uppercase mt-2">What to train next</h3>
+    <ul class="kr text-[15px] mt-6 space-y-4">
+      <li class="flex gap-4">
+        <span class="font-label-sm text-label-sm text-outline mt-1">01</span>
+        <span><strong>거짓 진술 1건 미적발</strong> — 100큐비트 진단 보장 주장. 추천 모듈: <a class="underline hover:text-primary" href="modules.html#reverse">M-02 Reverse Engineering</a></span>
+      </li>
+      <li class="flex gap-4">
+        <span class="font-label-sm text-label-sm text-outline mt-1">02</span>
+        <span><strong>윤리 감각의 깊이</strong> — 환자 데이터 책임에 대한 입장이 표면적이었습니다.</span>
+      </li>
+      <li class="flex gap-4">
+        <span class="font-label-sm text-label-sm text-outline mt-1">03</span>
+        <span><strong>공감 톤</strong> — 면접관의 가설에 정면 반박하기 전 완충 한 문장이 부족.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-24 bg-primary text-on-primary grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
+  <div class="md:col-span-8">
+    <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none">
+      Run the next<br/>sequence.
+    </h2>
+    <p class="kr mt-6 text-[15px] max-w-xl">
+      다음 압박을 견디면 SOTA tier에 닿을 수 있습니다.
+    </p>
+  </div>
+  <div class="md:col-span-4 flex md:justify-end gap-3 flex-wrap">
+    <a href="modules.html" class="bg-on-primary text-primary px-6 py-3 hover:bg-on-surface hover:text-on-primary transition-colors">
+      Back to Modules
+    </a>
+    <a href="simulation.html" class="border border-on-primary px-6 py-3 hover:bg-on-surface hover:border-on-surface transition-colors flex items-center gap-2">
+      Retry <span class="material-symbols-outlined text-[18px]">refresh</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter">
+  <div class="flex flex-col gap-4">
+    <div class="font-display-lg text-display-lg-mobile">HUMAN<span class="text-primary">/</span>X</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant">© 2026 HUMAN X LAB · COGNITION THROUGH DESIGN · MVP 0.1</div>
+  </div>
+  <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0">
+    <a class="text-on-surface-variant hover:text-primary underline" href="index.html">Home</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="modules.html">Modules</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="simulation.html">Simulation</a>
+  </div>
+</footer>
+
+</body>
+</html>
