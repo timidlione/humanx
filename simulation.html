@@ -30,15 +30,24 @@
     cursor: pointer; transition: all .15s; border: 1px solid #c5c5da;
   }
   .mcq-opt:hover { border-color: #1b1c19; background: #f5f4ee; }
-  .mcq-opt.selected { background: #1b1c19; color: #fbf9f3; border-color: #1b1c19; }
+  .mcq-opt.picked { background: #1b1c19; color: #fbf9f3; border-color: #1b1c19; }
+  .mcq-opt.locked { cursor: default; }
   .mcq-opt.correct { background: #dfe0ff; border-color: #001cbf; color: #001cbf; }
   .mcq-opt.wrong { background: #ffdad6; border-color: #ba1a1a; color: #ba1a1a; }
-  .rank-item {
-    cursor: grab; transition: all .15s;
-    border: 1px solid #c5c5da; padding: 12px 16px; background: #fbf9f3;
+  .verdict-correct { background: #dfe0ff; border-color: #001cbf; color: #001cbf; }
+  .verdict-wrong { background: #ffdad6; border-color: #ba1a1a; color: #ba1a1a; }
+  .log-line {
+    border-left: 2px solid #c5c5da; padding-left: 8px; padding-top: 2px; padding-bottom: 2px;
+    margin-bottom: 4px; font-size: 11px; line-height: 1.4;
   }
-  .rank-item:hover { border-color: #1b1c19; }
-  .rank-item.locked { opacity: .5; cursor: default; }
+  .log-line.ok { border-color: #001cbf; }
+  .log-line.miss { border-color: #ba1a1a; }
+  .help-pop {
+    position: absolute; right: 0; top: 100%; margin-top: 6px;
+    background: #1b1c19; color: #fbf9f3; padding: 8px 10px;
+    font-size: 11px; line-height: 1.4; width: 220px; z-index: 30;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -79,15 +88,15 @@
   <nav class="flex items-center gap-8 font-label-sm text-label-sm">
     <a class="text-on-surface-variant uppercase hover:text-primary" href="index.html">Home</a>
     <a class="text-on-surface-variant uppercase hover:text-primary" href="modules.html">Modules</a>
-    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="#">Simulation</a>
+    <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="modules.html">Simulation</a>
     <a class="text-on-surface-variant uppercase hover:text-primary" href="benchmark.html">Benchmark</a>
   </nav>
 </header>
 
-<main class="flex-grow relative bg-grid-pattern flex flex-col md:flex-row px-margin-mobile md:px-margin-desktop py-12 gap-gutter">
+<main class="flex-grow relative bg-grid-pattern flex flex-col md:flex-row px-margin-mobile md:px-margin-desktop py-6 md:py-12 gap-gutter">
 
-  <!-- LEFT HUD -->
-  <aside class="w-full md:w-1/4 flex flex-col gap-12 z-10">
+  <!-- LEFT HUD — 모바일에서는 컴팩트 상단 바, md+에서 사이드 -->
+  <aside class="w-full md:w-1/4 flex flex-col gap-6 md:gap-10 z-10 order-2 md:order-1">
     <div class="space-y-4">
       <p class="font-label-sm text-label-sm text-outline uppercase tracking-widest hairline-b pb-2">진행 중 프로토콜</p>
       <h2 class="font-display-lg text-display-lg-mobile md:text-headline-md uppercase leading-none tracking-tighter" id="mod-code">— —</h2>
@@ -98,21 +107,25 @@
       </div>
     </div>
 
-    <div class="space-y-6">
-      <div class="hairline-l pl-4 py-2 relative">
+    <!-- 메트릭: 모바일 3컬럼 / 데스크탑 세로 스택 -->
+    <div class="grid grid-cols-3 md:grid-cols-1 gap-3 md:gap-6">
+      <div class="hairline-l pl-3 md:pl-4 py-2 relative">
         <span class="absolute -left-1 top-0 w-2 h-[1px] bg-outline"></span>
-        <p class="font-label-sm text-label-sm text-outline uppercase">신경 부하</p>
-        <p class="font-display-lg text-headline-md tracking-tighter" id="neural-load">52.0%</p>
+        <p class="font-label-sm text-label-sm text-outline uppercase">체류</p>
+        <p class="font-display-lg text-[28px] md:text-headline-md tracking-tighter" id="elapsed">00:00</p>
+        <p class="hidden md:block text-[10px] text-on-surface-variant kr mt-1">이 모듈에 머문 시간</p>
       </div>
-      <div class="hairline-l pl-4 py-2 relative">
+      <div class="hairline-l pl-3 md:pl-4 py-2 relative">
         <span class="absolute -left-1 top-0 w-2 h-[1px] bg-outline"></span>
         <p class="font-label-sm text-label-sm text-outline uppercase">진행률</p>
-        <p class="font-display-lg text-headline-md tracking-tighter" id="progress-text">0 / 0</p>
+        <p class="font-display-lg text-[28px] md:text-headline-md tracking-tighter" id="progress-text">0 / 0</p>
+        <p class="hidden md:block text-[10px] text-on-surface-variant kr mt-1">푼 항목 / 전체</p>
       </div>
-      <div class="hairline-l pl-4 py-2 relative">
+      <div class="hairline-l pl-3 md:pl-4 py-2 relative">
         <span class="absolute -left-1 top-0 w-2 h-[1px] bg-outline"></span>
-        <p class="font-label-sm text-label-sm text-outline uppercase">남은 시간</p>
-        <p class="font-display-lg text-headline-md tracking-tighter text-primary" id="timer">00:00:00</p>
+        <p class="font-label-sm text-label-sm text-outline uppercase">권장</p>
+        <p class="font-display-lg text-[20px] md:text-headline-md tracking-tighter text-primary" id="timer">00:00:00</p>
+        <p class="hidden md:block text-[10px] text-on-surface-variant kr mt-1">남은 권장</p>
       </div>
     </div>
 
@@ -122,8 +135,8 @@
     </div>
   </aside>
 
-  <!-- CENTER STAGE -->
-  <section class="w-full md:w-2/4 flex flex-col gap-6 z-10 relative">
+  <!-- CENTER STAGE — 모바일에서 최우선 -->
+  <section class="w-full md:w-2/4 flex flex-col gap-6 z-10 relative order-1 md:order-2">
     <div class="flex justify-between items-baseline border-b border-on-surface pb-3">
       <span class="font-label-sm text-label-sm uppercase tracking-widest text-outline" id="stage-label">전송 // 채널 03</span>
       <span class="font-label-sm text-label-sm text-primary uppercase">실시간</span>
@@ -133,13 +146,14 @@
 
   </section>
 
-  <!-- RIGHT HUD -->
-  <aside class="w-full md:w-1/4 flex flex-col gap-12 justify-start z-10 pt-12 md:pt-0">
+  <!-- RIGHT HUD — 모바일에서는 맨 아래 -->
+  <aside class="w-full md:w-1/4 flex flex-col gap-6 md:gap-10 justify-start z-10 order-3">
     <div class="space-y-4">
       <p class="font-label-sm text-label-sm text-outline uppercase tracking-widest hairline-b pb-2 text-right">실시간 채점</p>
-      <ul class="space-y-6 font-label-sm text-label-sm">
+      <!-- 모바일: 2×2 그리드, 데스크탑: 세로 -->
+      <ul class="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-3 md:space-y-5 md:gap-y-0 font-label-sm text-label-sm">
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">정확도</span>
+          <span class="text-outline uppercase">정답</span>
           <span class="font-bold" id="score-accuracy">— —</span>
         </li>
         <li class="flex justify-between items-end hairline-b pb-1">
@@ -147,28 +161,44 @@
           <span class="font-bold text-primary" id="score-completion">0%</span>
         </li>
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">잔여 작업</span>
+          <span class="text-outline uppercase">잔여</span>
           <span class="font-bold" id="score-remaining">— —</span>
         </li>
         <li class="flex justify-between items-end hairline-b pb-1">
-          <span class="text-outline uppercase">이상 신호</span>
-          <span class="font-bold" id="score-anomalies">0건</span>
+          <span class="text-outline uppercase">오답</span>
+          <span class="font-bold text-error" id="score-anomalies">0</span>
         </li>
       </ul>
     </div>
 
-    <div class="border border-on-surface p-4">
-      <span class="font-label-sm text-label-sm text-outline uppercase block mb-2">피험자 바이탈</span>
-      <div class="grid grid-cols-2 gap-2 kr text-[12px]">
-        <div>심박 <span class="font-bold">86</span></div>
-        <div>혈압 <span class="font-bold">128/82</span></div>
-        <div>HRV <span class="font-bold">42ms</span></div>
-        <div>집중 <span class="font-bold text-primary">상</span></div>
+    <!-- AI 대결 패널 (CLAUDE.md 4.2절) -->
+    <div class="border border-on-surface p-4 bg-on-surface text-background">
+      <div class="flex justify-between items-baseline mb-3">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary-fixed-dim">⚔ AI 대결</span>
+        <span class="font-label-sm text-label-sm text-outline">사전 측정</span>
+      </div>
+      <ul class="space-y-2 font-label-sm text-label-sm" id="ai-bench-list">
+        <li class="text-outline">로딩…</li>
+      </ul>
+      <div class="border-t border-outline mt-3 pt-3 flex justify-between items-baseline">
+        <span class="font-label-sm text-label-sm uppercase text-primary-fixed-dim">당신</span>
+        <span class="font-label-sm text-label-sm font-bold" id="ai-bench-user">진행 중</span>
+      </div>
+    </div>
+
+    <!-- SUBJECT THOUGHT LOG -->
+    <div class="border border-on-surface p-4 bg-surface-container-low">
+      <div class="flex justify-between items-baseline mb-2">
+        <span class="font-label-sm text-label-sm text-outline uppercase">사고 흔적</span>
+        <span class="font-label-sm text-label-sm text-primary uppercase blink">REC</span>
+      </div>
+      <div id="thought-log" class="kr text-[11px] text-on-surface-variant max-h-48 overflow-y-auto">
+        <div class="log-line">세션 시작 · 입력 대기 중</div>
       </div>
     </div>
 
     <button onclick="if(confirm('진행 중인 세션을 폐기하시겠습니까?')) window.location.href='modules.html'"
-      class="w-full bg-on-surface text-background py-6 px-4 flex justify-between items-center group hover:bg-error transition-colors duration-300">
+      class="w-full bg-on-surface text-background py-5 px-4 flex justify-between items-center group hover:bg-error transition-colors duration-300">
       <span class="font-body-md italic text-body-lg group-hover:pl-4 transition-all duration-300">세션 중단</span>
       <span class="material-symbols-outlined">warning</span>
     </button>
@@ -178,48 +208,152 @@
 
 <footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-16 gap-gutter">
   <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">세션 ID · <span id="session-id">HX-2026-05-28-042</span> · Phase 01 Mock</div>
-  <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">⌘+? 단축키 안내</div>
+  <button id="open-shortcuts" class="hidden md:flex font-label-sm text-label-sm text-on-surface-variant uppercase hover:text-primary transition items-center gap-2">
+    <kbd class="border border-outline-variant px-1.5 py-0.5 text-[10px]">?</kbd> 단축키 안내
+  </button>
 </footer>
+
+<!-- Shortcuts Overlay -->
+<div id="shortcuts-overlay" class="hidden fixed inset-0 z-[60] bg-on-surface/80 flex items-center justify-center p-4">
+  <div class="bg-background border border-on-surface max-w-md w-full p-6">
+    <div class="flex justify-between items-baseline border-b border-outline-variant pb-3 mb-4">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">키보드 단축키</span>
+      <button id="close-shortcuts" class="font-label-sm text-label-sm uppercase hover:text-primary">닫기 <kbd class="border border-outline-variant px-1.5 py-0.5 text-[10px] ml-1">ESC</kbd></button>
+    </div>
+    <ul class="space-y-3 font-label-sm text-label-sm">
+      <li class="flex justify-between items-center pb-2 border-b border-outline-variant">
+        <span class="kr">MCQ 옵션 선택</span>
+        <span><kbd class="border border-on-surface px-2 py-0.5">1</kbd> <kbd class="border border-on-surface px-2 py-0.5">2</kbd> <kbd class="border border-on-surface px-2 py-0.5">3</kbd> <kbd class="border border-on-surface px-2 py-0.5">4</kbd></span>
+      </li>
+      <li class="flex justify-between items-center pb-2 border-b border-outline-variant">
+        <span class="kr">선택 확정 / 다음 문항</span>
+        <kbd class="border border-on-surface px-2 py-0.5">Enter</kbd>
+      </li>
+      <li class="flex justify-between items-center pb-2 border-b border-outline-variant">
+        <span class="kr">Open 응답 제출</span>
+        <span><kbd class="border border-on-surface px-2 py-0.5">⌘/Ctrl</kbd> + <kbd class="border border-on-surface px-2 py-0.5">Enter</kbd></span>
+      </li>
+      <li class="flex justify-between items-center pb-2 border-b border-outline-variant">
+        <span class="kr">세션 중단</span>
+        <kbd class="border border-on-surface px-2 py-0.5">ESC</kbd>
+      </li>
+      <li class="flex justify-between items-center">
+        <span class="kr">이 오버레이</span>
+        <kbd class="border border-on-surface px-2 py-0.5">?</kbd>
+      </li>
+    </ul>
+    <p class="kr text-[12px] text-on-surface-variant mt-4 pt-3 border-t border-outline-variant">
+      Flag 모드(F-03, H-01)는 텍스트 클릭으로 표시합니다. 키보드 매핑은 Phase 2에서 추가 예정.
+    </p>
+  </div>
+</div>
 
 <script>
 // =============================================================
-// MODULE DATA — 9 modules across 3 interaction types
+// AI BENCHMARK DATA — 각 모듈의 모델별 풀이 시간/정확도 (사전 측정 mock)
+// CLAUDE.md 4.2절: "이 문제를 GPT-5.5는 N초 만에 풀었습니다"
+// =============================================================
+const AI_BENCH = {
+  'F-01': [
+    { model: 'GPT-5.5',      seconds: 2.1,  result: '5/5',  correct: true },
+    { model: 'Opus 4.7',     seconds: 2.8,  result: '5/5',  correct: true },
+    { model: '7B 경량',      seconds: 1.0,  result: '3/5',  correct: false }
+  ],
+  'F-02': [
+    { model: 'GPT-5.5',      seconds: 5.4,  result: '3/3',  correct: true },
+    { model: 'Opus 4.7',     seconds: 6.1,  result: '3/3',  correct: true },
+    { model: '7B 경량',      seconds: 1.3,  result: '1/3',  correct: false }
+  ],
+  'F-03': [
+    { model: 'GPT-5.5',      seconds: 3.2,  result: '5/5 적발', correct: true },
+    { model: 'Opus 4.7',     seconds: 3.8,  result: '5/5 적발', correct: true },
+    { model: '7B 경량',      seconds: 1.4,  result: '3/5 적발', correct: false }
+  ],
+  'M-01': [
+    { model: 'GPT-5.5',      seconds: 8.4,  result: '2회 정답', correct: true },
+    { model: 'Opus 4.7',     seconds: 6.2,  result: '2회 정답', correct: true },
+    { model: '7B 경량',      seconds: 1.5,  result: '3회 오답', correct: false }
+  ],
+  'M-02': [
+    { model: 'GPT-5.5',      seconds: 9.7,  result: '정답 절차', correct: true },
+    { model: 'Opus 4.7',     seconds: 7.4,  result: '정답 절차', correct: true },
+    { model: '7B 경량',      seconds: 2.1,  result: '균일 가정', correct: false }
+  ],
+  'M-03': [
+    { model: 'GPT-5.5',      seconds: 6.8,  result: '약 80만',  correct: true },
+    { model: 'Opus 4.7',     seconds: 5.5,  result: '약 70만',  correct: true },
+    { model: '7B 경량',      seconds: 2.2,  result: '약 5천',   correct: false }
+  ],
+  'E-01': [
+    { model: 'GPT-5.5',      seconds: 3.4,  result: '4/4', correct: true },
+    { model: 'Opus 4.7',     seconds: 4.1,  result: '4/4', correct: true },
+    { model: '7B 경량',      seconds: 1.2,  result: '2/4', correct: false }
+  ],
+  'E-02': [
+    { model: 'GPT-5.5',      seconds: 5.8,  result: '3/3', correct: true },
+    { model: 'Opus 4.7',     seconds: 4.9,  result: '3/3', correct: true },
+    { model: '7B 경량',      seconds: 1.5,  result: '1/3', correct: false }
+  ],
+  'E-03': [
+    { model: 'GPT-5.5',      seconds: 11.4, result: '5요소 설계', correct: true },
+    { model: 'Opus 4.7',     seconds: 9.6,  result: '5요소 설계', correct: true },
+    { model: '7B 경량',      seconds: 2.8,  result: '단편 답변',   correct: false }
+  ],
+  'H-01': [
+    { model: 'GPT-5.5',      seconds: 4.6,  result: '4/4 적발', correct: true },
+    { model: 'Opus 4.7',     seconds: 5.2,  result: '4/4 적발', correct: true },
+    { model: '7B 경량',      seconds: 1.8,  result: '2/4 적발', correct: false }
+  ],
+  'C-02': [
+    { model: 'GPT-5.5',      seconds: 12.3, result: '우선순위 도출', correct: true },
+    { model: 'Opus 4.7',     seconds: 9.8,  result: '우선순위 도출', correct: true },
+    { model: '7B 경량',      seconds: 3.1,  result: '단편 응답',    correct: false }
+  ],
+  'R-03': [
+    { model: 'GPT-5.5',      seconds: 14.6, result: '반박 + 대안', correct: true },
+    { model: 'Opus 4.7',     seconds: 11.2, result: '반박 + 대안', correct: true },
+    { model: '7B 경량',      seconds: 2.9,  result: '주장만 반복', correct: false }
+  ]
+};
+
+// =============================================================
+// MODULE DATA
 // =============================================================
 const MODULES = {
 
   'F-01': {
     code: 'F-01', title: '삼단논법 기초 — 타당성과 건전성', tier: 'Foundation',
-    duration: 25 * 60, instructions: '각 추론에 대해 "타당(valid)" 또는 "부당(invalid)" 을 선택하세요. 전제가 참인지가 아니라, 결론이 전제로부터 따라 나오는지를 평가합니다.',
+    duration: 25 * 60, instructions: '각 추론에 대해 "타당(valid)" 또는 "부당(invalid)" 을 선택한 뒤, 하단의 <strong>선택 확정</strong> 버튼을 누르세요. 확정 전까지는 마음대로 바꿀 수 있습니다.',
     type: 'mcq',
     questions: [
       {
         q: '모든 사람은 죽는다. 소크라테스는 사람이다.<br>∴ 소크라테스는 죽는다.',
         opts: ['타당 (valid)', '부당 (invalid)'],
-        correct: 0,
+        correct: 0, weight: 0.7, difficulty: '쉬움',
         note: '전형적 정언 삼단논법(Barbara). 전제가 결론을 필연적으로 함의합니다.'
       },
       {
         q: '모든 고양이는 포유류다. 모든 개는 포유류다.<br>∴ 모든 고양이는 개다.',
         opts: ['타당', '부당'],
-        correct: 1,
+        correct: 1, weight: 1.0, difficulty: '보통',
         note: '중명사(포유류) 미분배 오류. 두 그룹이 같은 상위 집합을 공유한다고 같은 집합이 되지는 않습니다.'
       },
       {
         q: '비가 오면 길이 젖는다. 길이 젖어 있다.<br>∴ 비가 왔다.',
         opts: ['타당', '부당'],
-        correct: 1,
-        note: '후건 긍정(affirming the consequent) 오류. 길이 젖은 원인이 살수차일 수도 있습니다.'
+        correct: 1, weight: 1.3, difficulty: '함정',
+        note: '후건 긍정(affirming the consequent) 오류. 길이 젖은 원인이 살수차일 수도 있습니다. (직관이 자주 틀리는 함정 문항)'
       },
       {
         q: 'P이면 Q. Q가 아니다.<br>∴ P가 아니다.',
         opts: ['타당', '부당'],
-        correct: 0,
+        correct: 0, weight: 1.2, difficulty: '보통',
         note: 'Modus Tollens(대우). 형식 논리상 항상 타당합니다.'
       },
       {
         q: '모든 A는 B다. 일부 B는 C가 아니다.<br>∴ 일부 A는 C가 아니다.',
         opts: ['타당', '부당'],
-        correct: 1,
+        correct: 1, weight: 1.5, difficulty: '어려움',
         note: '중명사 비분배. "일부 B"가 A에 포함된 B인지 확인할 수 없습니다.'
       }
     ]
@@ -227,13 +361,13 @@ const MODULES = {
 
   'F-02': {
     code: 'F-02', title: '베이지안 갱신 — 증거 앞의 믿음', tier: 'Foundation',
-    duration: 40 * 60, instructions: '의료 검사 시나리오를 풀어봅니다. 직관(95% 정확)이 왜 사후확률과 다른지를 짚어내세요.',
+    duration: 40 * 60, instructions: '의료 검사 시나리오. 보기를 고른 뒤 <strong>선택 확정</strong>을 눌러야 정답과 해설이 공개됩니다.',
     type: 'mcq',
     questions: [
       {
         q: '<strong>시나리오</strong> · 어떤 질병의 유병률은 인구의 1%. 검사 민감도는 95% (환자를 양성으로 잡음), 특이도는 95% (비환자를 음성으로 잡음).<br><br>당신의 검사 결과가 <strong>양성</strong>입니다. 실제로 질병이 있을 확률 P(D|+)에 가장 가까운 값은?',
         opts: ['약 95%', '약 50%', '약 16%', '약 90%'],
-        correct: 2,
+        correct: 2, weight: 1.6, difficulty: '어려움',
         note: 'P(D|+) = 0.95·0.01 / (0.95·0.01 + 0.05·0.99) ≈ 16.1%. 사전확률이 낮을수록 거짓 양성이 진짜 양성을 압도합니다.'
       },
       {
@@ -244,7 +378,7 @@ const MODULES = {
           '검사가 사실은 부정확하기 때문',
           '심리적 위약 효과 때문'
         ],
-        correct: 1,
+        correct: 1, weight: 1.2, difficulty: '보통',
         note: '베이즈 정리의 핵심 — 사후확률은 사전확률과 결합해서만 의미가 있습니다.'
       },
       {
@@ -255,7 +389,7 @@ const MODULES = {
           '95% (검사 정확도와 동일)',
           '약 50%'
         ],
-        correct: 1,
+        correct: 1, weight: 1.7, difficulty: '어려움',
         note: '첫 양성이 사전확률을 16.1%로 갱신 → 두 번째 적용 시 ~79%. 독립 검사의 누적 효과.'
       }
     ]
@@ -263,7 +397,7 @@ const MODULES = {
 
   'F-03': {
     code: 'F-03', title: '비공식 오류 감별 — 정치 토론 발췌', tier: 'Foundation',
-    duration: 30 * 60, instructions: '아래 토론 발췌문에서 <em>비공식 오류</em>로 의심되는 표현을 클릭해 플래그하세요. 정답은 5개 이상입니다.',
+    duration: 30 * 60, instructions: '아래 토론 발췌문에서 <em>비공식 오류</em>로 의심되는 표현을 클릭해 플래그하세요. 거짓 진술은 <strong>1개 이상</strong> 섞여 있습니다. 한 번 클릭으로 표시되고, 다시 클릭하면 해제됩니다.',
     type: 'flag',
     passage: `"존경하는 야당 의원님, 의원님의 주장은
       <span class="flag" data-truth="false" data-note="연좌제(guilt by association) + 인신공격. 30년 전 이론과 유사하다는 것이 현재 주장의 타당성에 영향을 미치지 않습니다.">30년 전 좌파 학자들이 했던 이론과 거의 동일합니다.</span>
@@ -278,84 +412,249 @@ const MODULES = {
       한편,
       <span class="flag" data-truth="true" data-note="이 문장은 단순 통계 인용이며 오류로 볼 수 없습니다. 잘못된 플래그입니다.">통계청 발표에 따르면 지난 분기 실업률은 3.2%로 집계되었습니다.</span>
       그러니 본 법안은 반드시 부결되어야 합니다."`,
-    targetFlags: 5
+    targetFlags: 1
   },
 
+  // ========== M-01: 8 balls + balance scale (Insight Puzzle) ==========
   'M-01': {
-    code: 'M-01', title: '메타인지 — 자율주행 도덕 알고리즘', tier: 'Cognition',
-    duration: 45 * 60, instructions: '정답이 없는 딜레마입니다. 결론보다 <em>입장 사이의 긴장</em>을 어떻게 다루는지가 평가됩니다. 한국어/영어 자유.',
+    code: 'M-01', title: '메타인지 — 8개 공과 양팔 저울', tier: 'Cognition',
+    duration: 25 * 60, instructions: '클래식 통찰 퍼즐. 정답은 하나의 숫자지만, <strong>그 숫자에 도달하는 절차</strong>를 응답란에 기술해야 평가됩니다. 절차 없이 숫자만 적으면 0점.',
     type: 'open',
-    prompt: `<strong>시나리오 · M-01</strong><br><br>
-      자율주행차 A의 브레이크가 고장났습니다. 0.3초 안에 알고리즘은 두 가지 경로 중 하나를 골라야 합니다.<br><br>
-      <strong>경로 1.</strong> 현재 차선을 유지하면 횡단보도 위 보행자 <strong>5명</strong>이 사망합니다.<br>
-      <strong>경로 2.</strong> 차선을 변경하면 보행자는 살지만 인도로 돌진해 한 명을 칩니다. 그 한 명은 <strong>당신의 자녀</strong>입니다.<br><br>
-      <strong>질문.</strong> 당신이 알고리즘의 설계자라면, 어떤 결정을 코딩하시겠습니까? 그리고 그 결정을 비판할 수 있는 가장 강한 반대 입장은 무엇이며, 그것을 어떻게 받아들이거나 거부하시겠습니까?`,
-    rubric: ['다중 가치의 인정', '결과주의 vs 의무론의 명시', '메타-입장(왜 그 선택을 자신이 할 수 있는가)', '반대 입장의 정직한 묘사'],
-    minWords: 80
+    prompt: `<strong>시나리오 · M-01 (8 Balls)</strong><br><br>
+      외형이 똑같은 공 <strong>8개</strong>가 있습니다. 그중 <strong>단 한 개</strong>는 다른 7개보다 <em>아주 약간 무겁습니다</em>. 무게의 차이는 손으로는 절대 감지되지 않습니다.<br><br>
+      사용 가능한 도구는 <strong>양팔 저울 1개뿐</strong>입니다. 양팔에 같은 개수의 공을 올려 어느 쪽이 무거운지(또는 평형인지)만 확인할 수 있습니다.<br><br>
+      <strong>질문.</strong>
+      (a) 무거운 공을 반드시 찾아내려면 양팔 저울을 <strong>최소 몇 번</strong> 사용해야 합니까?<br>
+      (b) 그 절차를 단계별로 (1단계 / 2단계 …) 설명하세요. 각 단계에서 어떤 공을 어느 쪽에 올리는지, 결과가 평형/한쪽 기울기일 때 다음에 무엇을 하는지 모두 명시.<br>
+      (c) 만약 도구가 양팔 저울이 아니라 <em>전자 저울(절대 무게 측정)</em>이라면 답은 어떻게 달라집니까? 한 문장.`,
+    rubric: [
+      '절차의 명시성 (단계마다 무엇을 비교하는지)',
+      '경우 분기 처리 (평형 vs 기울기 모두)',
+      '정보 압축이라는 메타-관점',
+      '도구 변경 시의 일반화'
+    ],
+    minWords: 60,
+    checkpoints: [
+      { label: '분기 처리 명시', desc: '평형/기울기 두 경우 각각의 다음 단계를 분리 기술했는가' },
+      { label: '정보 압축 직관', desc: '양팔 저울이 "정보를 3등분으로 압축"하는 도구라는 관점을 짚었는가' },
+      { label: '도구 일반화', desc: '전자 저울이면 어떻게 달라지는지를 한 줄로 설명했는가' },
+      { label: '하한의 근거', desc: '왜 2회가 최소인지(정보이론 log₃ 8 ≈ 1.89) 언급했는가' }
+    ],
+    alternatives: [
+      '<strong>참고 풀이:</strong> 3-3-2 분할 → 1차 3 vs 3 비교. 균형이면 남은 2개에서 1차 추가. 불균형이면 무거운 3개에서 1차 추가. 총 2회.',
+      '<strong>다른 접근:</strong> 정보 이론으로 보면 결과 3가지(좌무거움/우무거움/평형)를 n번 반복 = 3ⁿ개 후보 식별. 8 ≤ 3² = 9, 따라서 2회로 가능.',
+      '<strong>일반화:</strong> 12개로 확장하면 3회 필요. n개라면 ⌈log₃ n⌉회. "공" 대신 "주머니"로 바꾸면 답이 달라지는가?'
+    ]
   },
 
+  // ========== M-02: Two ropes 45 min (Constraint puzzle) ==========
   'M-02': {
-    code: 'M-02', title: '역기획 — AI 코드의 엣지 케이스', tier: 'Cognition',
-    duration: 60 * 60, instructions: 'AI가 작성한 평균 계산 함수를 읽고, 어떤 입력에서 깨지는지 식별하세요.',
+    code: 'M-02', title: '역기획 — 두 밧줄로 45분 측정', tier: 'Cognition',
+    duration: 25 * 60, instructions: '제약 조건이 명확한 시간 측정 퍼즐. <em>"왜 그 절차여야 하는지"</em>를 한 줄 정당화해야 만점.',
+    type: 'open',
+    prompt: `<strong>시나리오 · M-02 (Two Ropes)</strong><br><br>
+      두 개의 밧줄 A, B가 있습니다. 각각의 한쪽 끝에 불을 붙이면 정확히 <strong>60분</strong> 후에 완전히 다 타들어갑니다.<br><br>
+      <strong>주의.</strong> 두 밧줄은 균일하게 타지 않습니다 — 어떤 부분은 빠르게, 어떤 부분은 느리게 탑니다. 따라서 "30분 지점"이 정확히 밧줄의 절반 위치라고 가정할 수 없습니다.<br><br>
+      사용 가능한 도구는 <strong>두 밧줄 + 라이터</strong>뿐. 시계·자·길이를 표시하는 도구는 없습니다.<br><br>
+      <strong>질문.</strong>
+      (a) 정확히 <strong>45분</strong>을 측정하는 절차를 단계별로 기술하세요.<br>
+      (b) 각 단계가 왜 시간으로 환산되는지 한 줄로 정당화하세요.<br>
+      (c) 만약 밧줄이 <em>한 개</em>밖에 없다면 정확히 측정할 수 있는 시간 단위는 무엇입니까? 한 문장.`,
+    rubric: [
+      '양쪽 동시 점화의 발상',
+      '균일하지 않게 탄다는 제약의 활용',
+      '시간 환산의 정당화 (왜 30분/15분)',
+      '도구 축소 시의 일반화'
+    ],
+    minWords: 70,
+    checkpoints: [
+      { label: '양쪽 동시 점화', desc: '밧줄 양 끝을 동시에 태우면 균일하지 않아도 정확히 절반 시간에 끝난다는 핵심 발상' },
+      { label: '시간 환산 정당화', desc: '30분 + 15분 = 45분의 각 단계가 왜 그 시간인지 한 줄 설명' },
+      { label: '제약 활용', desc: '"균일하지 않다"라는 제약을 무시하지 않고 적극 이용했는가' },
+      { label: '도구 축소 일반화', desc: '밧줄이 1개라면 측정 가능한 시간 단위는?' }
+    ],
+    alternatives: [
+      '<strong>참고 풀이:</strong> 0:00에 A 양끝 점화 + B 한쪽 점화 → A가 30분에 소진 → 그 순간 B 반대쪽 점화 → B는 남은 30분 분량을 15분에 소진 → 총 45분.',
+      '<strong>대안 사고:</strong> "양쪽 동시 점화 = 총 시간의 절반에 끝남"이 균일하지 않아도 성립하는 이유는 두 불꽃의 누적 연소량이 전체 길이와 같기 때문. 비균일성은 시간이 아니라 위치를 흐트러뜨릴 뿐.',
+      '<strong>일반화:</strong> 밧줄 1개라면 30분만 측정 가능. 3개라면? 변형: "60분과 90분 두 종류 밧줄로 75분 측정"',
+      '<strong>완전히 다른 접근:</strong> 시간 측정이 목표라면 모래시계가 더 효율적 — 왜 이 문제가 도구 제약에 의미를 두는가? (제약 자체가 사고력의 영역)'
+    ]
+  },
+
+  // ========== M-03: Fermi estimation — golf balls in a school bus ==========
+  'M-03': {
+    code: 'M-03', title: 'AI 디렉팅 — 스쿨버스 골프공 Fermi 추정', tier: 'Cognition',
+    duration: 30 * 60, instructions: '정확한 정답은 없습니다. 가정·차원·계수의 <em>명시성</em>과 결과 범위의 합리성으로 평가합니다.',
+    type: 'open',
+    prompt: `<strong>시나리오 · M-03 (Fermi Estimation)</strong><br><br>
+      <em>"스쿨버스 한 대 내부에 골프공을 최대한 채워 넣으면 몇 개나 들어갈까?"</em><br><br>
+      이 문제는 인터뷰에서 답이 아니라 <strong>추정 절차</strong>를 보는 데 쓰입니다. AI는 즉시 숫자를 뱉지만, 인간의 차별점은 <strong>가정을 드러내고 단계별로 보정</strong>하는 데 있습니다.<br><br>
+      <strong>질문.</strong>
+      (a) 스쿨버스의 대략적 내부 부피를 길이·폭·높이로 분리해 가정하고 명시하세요. (예: 길이 12m, 폭 2.5m, 높이 2m)<br>
+      (b) 골프공 한 개의 부피를 가정하세요 (지름 약 4.3cm).<br>
+      (c) 충진율(packing density)을 어떻게 처리할지 한 줄로 설명하세요 (랜덤 패킹 약 64%, 최적 패킹 약 74%).<br>
+      (d) 좌석·기둥·통로 등 차감 요소를 어떻게 처리할지 명시.<br>
+      (e) 최종 추정값을 <strong>하한~상한 범위</strong>로 제시하고, 어느 가정이 가장 큰 불확실성을 만드는지 한 문장.`,
+    rubric: [
+      '차원의 명시적 분리 (부피를 곱 분해)',
+      '충진율 보정 계수의 도입',
+      '차감 요소(좌석 등)에 대한 처리',
+      '범위 추정 + 가장 큰 불확실성 식별'
+    ],
+    minWords: 80,
+    checkpoints: [
+      { label: '차원 분리', desc: '부피·개수·충진율을 각각 별도 가정으로 명시했는가' },
+      { label: '충진율 보정', desc: '랜덤 패킹(~64%) 또는 최적 패킹(~74%) 같은 보정 계수를 도입했는가' },
+      { label: '차감 요소', desc: '좌석·기둥·통로 같은 비활용 부피를 어떻게 처리했는가' },
+      { label: '범위 + 불확실성', desc: '단일 숫자가 아닌 하한~상한과 가장 큰 흔들림 변수를 식별했는가' },
+      { label: '검산', desc: '다른 경로(예: 단위면적당)로 한 번 더 추정해 교차검증했는가' }
+    ],
+    alternatives: [
+      '<strong>참고 추정:</strong> 12m × 2.5m × 2m = 60m³ → 좌석 차감 30% → 가용 42m³ → 랜덤 패킹 64% → 27m³ → 골프공 41.6cm³ ÷ → <strong>약 65만 개</strong>.',
+      '<strong>가정 흔들기:</strong> 높이 2.3m, 차감 20%, 최적 패킹 74% 가정 → <strong>약 130만 개</strong>. 답이 2배 차이. 가장 큰 불확실성은 보통 <strong>차감률</strong>과 <strong>패킹률</strong>.',
+      '<strong>완전 다른 경로:</strong> 골프공 한 박스(12개)의 크기로 시작 → 박스 단위로 부피 추정. 결과는 약간 보수적(낭비 공간 큼).',
+      '<strong>메타 관점:</strong> Fermi 추정의 핵심은 정답 숫자가 아니라 "가정을 드러내고 단계적으로 보정하는 능력". AI는 즉시 숫자를 뱉지만 인간은 단계를 명시한다.'
+    ]
+  },
+
+  // ========== CAT 03 — 역기획 및 구조 분석 (부록 A-3) ==========
+  'E-01': {
+    code: 'E-01', title: '역기획 — divide() Edge Case', tier: 'Engineering',
+    duration: 25 * 60, instructions: 'AI가 작성한 단순 함수의 엣지 케이스를 식별. 정답형 — 옵션 클릭 후 <strong>선택 확정</strong>.',
     type: 'mcq',
     questions: [
       {
-        q: `<strong>아래 함수를 분석하세요.</strong><br><pre class="bg-on-surface text-background p-4 mt-3 text-[13px] font-mono leading-relaxed overflow-x-auto">def average(nums):
-    total = 0
-    for n in nums:
-        total += n
-    return total / len(nums)</pre>
-        어떤 입력에서 가장 먼저 예외가 발생합니까?`,
+        q: `<strong>분석할 함수</strong>:<br><pre class="bg-on-surface text-background p-4 mt-3 text-[13px] font-mono leading-relaxed overflow-x-auto">def divide(a, b):
+    return a / b</pre>다음 중 <strong>ZeroDivisionError</strong>가 발생하는 입력은?`,
         opts: [
-          '[1, 2, 3]',
-          '[-5, -10]',
-          '[] (빈 리스트)',
-          '[1.5, 2.5, 3.5]'
+          'divide(10, 2)',
+          'divide(0, 5)',
+          'divide(7, 0)',
+          'divide(-3, -3)'
         ],
-        correct: 2,
-        note: '빈 리스트에서 len(nums)=0 → ZeroDivisionError. 가장 흔하지만 AI가 자주 빠뜨리는 엣지.'
+        correct: 2, weight: 0.8, difficulty: '쉬움',
+        note: 'b=0 이면 / 연산자에서 ZeroDivisionError. 0/5는 정상(0.0), -3/-3도 정상(1.0).'
       },
       {
-        q: `같은 함수에서 <strong>의미적으로 잘못된 결과</strong>가 나오는 입력은? (예외는 안 나지만 평균이 부정확)`,
+        q: 'divide("5", "2") 호출은 어떤 예외를 발생시키는가?',
         opts: [
-          '[True, False, True] (Python에서 bool은 int처럼 합산됨 → 평균 0.67)',
-          '[1, 2, 3] (정상)',
-          '[100.0, 200.0] (정상)',
-          '[0] (정상)'
+          'ZeroDivisionError',
+          'TypeError — 문자열에 / 미지원',
+          '문자열 "5/2"를 반환 (정상)',
+          '2.5 (Python이 자동 변환)'
         ],
-        correct: 0,
-        note: 'Python은 True=1, False=0. 함수는 통과하지만 의도 외 동작입니다. 타입 가드 부재.'
+        correct: 1, weight: 1.2, difficulty: '함정',
+        note: 'Python의 / 는 str에 정의되지 않아 TypeError. 직관적으로 "자동 변환되겠지" 생각하면 함정에 빠짐.'
       },
       {
-        q: `AI가 이 함수를 안전하게 고치려고 할 때, <strong>가장 먼저 추가해야 할 한 줄</strong>은?`,
+        q: '이 함수를 안전하게 만들기 위해 <strong>가장 먼저 추가해야 할 한 줄</strong>은?',
         opts: [
-          'total = float(total)',
-          'if not nums: raise ValueError("empty input")',
-          'nums = sorted(nums)',
-          'return round(total / len(nums), 2)'
+          'return round(a / b, 2)',
+          'a = float(a); b = float(b)',
+          'if b == 0: raise ValueError("0으로 나눌 수 없음")',
+          'try: return a / b except: return None'
         ],
-        correct: 1,
-        note: '명시적 입력 가드. 부동소수 변환·정렬·반올림은 본질을 회피합니다.'
+        correct: 2, weight: 1.5, difficulty: '어려움',
+        note: '명시적 입력 가드(ValueError)가 본질. 부동소수 변환·반올림은 회피, except: 광범위 예외 흡수는 디버깅 악화.'
+      },
+      {
+        q: '부동소수 입력 divide(1.0, 1e-300)의 결과로 가장 가까운 것은?',
+        opts: [
+          'ZeroDivisionError',
+          '약 1e300 (정상 계산)',
+          'inf (오버플로)',
+          '0.0 (언더플로)'
+        ],
+        correct: 1, weight: 1.4, difficulty: '어려움',
+        note: '1e-300은 0이 아니므로 ZeroDiv 안 남. 결과는 ~1e300. inf는 결과가 ~1e308 초과 시. 부동소수 정밀도 이해.'
       }
     ]
   },
 
-  'M-03': {
-    code: 'M-03', title: 'AI 디렉팅 — 프롬프트 통제력', tier: 'Cognition',
-    duration: 30 * 60, instructions: 'AI에게 동일 요청을 더 잘 통제하도록 프롬프트를 다시 쓰세요. 4개 평가 축: 구체성, 제약, 컨텍스트, 출력 포맷.',
+  'E-02': {
+    code: 'E-02', title: '역기획 — 반복 중 리스트 수정 버그', tier: 'Engineering',
+    duration: 20 * 60, instructions: '반복 중 컬렉션을 변경하는 흔한 함정. 정답형 — 옵션 클릭 후 확정.',
+    type: 'mcq',
+    questions: [
+      {
+        q: `<strong>분석할 코드</strong>:<br><pre class="bg-on-surface text-background p-4 mt-3 text-[13px] font-mono leading-relaxed overflow-x-auto">def remove_all(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            arr.remove(arr[i])
+    return arr</pre>arr = [1, 2, 2, 2, 3], target = 2 로 호출하면 결과는?`,
+        opts: [
+          '[1, 3] (정상 — 모든 2 제거)',
+          '[1, 2, 3] (일부만 제거)',
+          'IndexError 발생',
+          '[1, 2, 2, 3] (한 개 제거)'
+        ],
+        correct: 1, weight: 1.6, difficulty: '함정',
+        note: '반복 중 remove로 인덱스가 어긋남. i=1에서 첫 2 제거 → arr=[1,2,2,3] → i=2에서 arr[2]=2 (원래 arr[3]) → 제거 → arr=[1,2,3] → i=3, IndexError 직전 range 종료. 결과 [1,2,3].'
+      },
+      {
+        q: '이 버그의 <strong>결정적 원인</strong>은?',
+        opts: [
+          'remove()가 느린 O(n) 연산이라서',
+          '반복 중 컬렉션 길이가 변하면서 인덱스가 어긋남',
+          'target이 여러 번 등장하면 첫 매치만 제거됨',
+          'range(len(arr))가 호출 시점에 고정되기 때문'
+        ],
+        correct: 1, weight: 1.3, difficulty: '보통',
+        note: '핵심: 반복자가 가리키는 인덱스와 실제 요소가 어긋남. range는 시작 시 고정되지만 인덱스 자체가 데이터와 불일치.'
+      },
+      {
+        q: '가장 <strong>견고하고 Pythonic</strong>한 수정은?',
+        opts: [
+          'while target in arr: arr.remove(target)',
+          'arr[:] = [x for x in arr if x != target]',
+          'for i in range(len(arr)-1, -1, -1): if arr[i]==target: arr.pop(i)',
+          'arr = list(filter(lambda x: x != target, arr))'
+        ],
+        correct: 1, weight: 1.5, difficulty: '어려움',
+        note: '모두 동작하지만 (B) 리스트 컴프리헨션 + slice 할당이 가장 Pythonic, 원본 객체 유지, O(n) 한 번. (A)는 매 호출 O(n²). (C)는 작동하지만 명시성 낮음. (D)는 새 객체 생성으로 호출자 참조 끊김.'
+      }
+    ]
+  },
+
+  'E-03': {
+    code: 'E-03', title: '역기획 — URL 단축 서비스 설계', tier: 'Engineering',
+    duration: 30 * 60, instructions: '완성된 서비스의 내부 구조를 역으로 추적. 개방형 — "맞다/틀리다" 없음.',
     type: 'open',
-    prompt: `<strong>원본 프롬프트</strong><br>
-      <em>"우리 카페 메뉴 디자인 좀 만들어줘. 트렌디하게."</em><br><br>
-      <strong>AI 출력 (모호함)</strong><br>
-      AI는 일반적 카페 메뉴 텍스트만 나열했고, 시각적 지시, 톤, 타깃 고객, 사용 매체에 대한 명세가 없어 사용 불가한 결과물.<br><br>
-      <strong>과제.</strong> 이 프롬프트를 다시 쓰세요. 결과물이 첫 시도에서 거의 그대로 사용 가능한 수준이 되도록 — 구체성·제약·컨텍스트·출력 포맷 네 가지를 모두 반영하세요.`,
-    rubric: ['구체성 (수치/대상이 명시됨)', '제약 (해서는 안 되는 것 명시)', '컨텍스트 (배경/타깃/용도)', '출력 포맷 (JSON, 마크다운, 텍스트 등)'],
-    minWords: 60
+    prompt: `<strong>시나리오 · E-03</strong><br><br>
+      bit.ly 같은 <strong>URL 단축 서비스</strong>를 백지에서 설계한다면, 다음을 다루세요.<br><br>
+      <strong>(a) 단축키 생성</strong> — 어떤 방식으로 7자 이하 짧은 코드를 만들 것인가? (해시 / 카운터 + base62 / 랜덤 등). 충돌은 어떻게 막나?<br>
+      <strong>(b) 저장 구조</strong> — 원본 URL ↔ 단축키 매핑을 어디에? 인덱스는?<br>
+      <strong>(c) 리다이렉트 흐름</strong> — 사용자가 단축 URL을 클릭하면 어떤 컴포넌트들이 어떤 순서로 호출되는가?<br>
+      <strong>(d) 확장성</strong> — 일일 1억 클릭이 될 때 무엇이 먼저 병목인가? 캐시는 어디에?<br>
+      <strong>(e) 추가 고려</strong> — 만료(TTL) / 분석 통계 / 악성 URL 차단 중 하나를 골라 설계 포인트를 적으세요.`,
+    rubric: [
+      '단축키 생성 방식과 충돌 처리',
+      '저장(DB) 구조와 인덱스 설계',
+      '리다이렉트 흐름(컴포넌트·순서)',
+      '확장성 병목·캐시 전략',
+      '추가 기능 1개의 설계 깊이'
+    ],
+    minWords: 150,
+    checkpoints: [
+      { label: '단축키 생성', desc: '해시(MD5/SHA-1 잘라서) vs 카운터+base62 vs 랜덤의 트레이드오프를 인지했는가' },
+      { label: '충돌 방지', desc: '충돌 시 재생성·suffix·UNIQUE 인덱스로 거부 등 구체적 방어를 언급했는가' },
+      { label: '저장 구조', desc: 'short_key를 PK 또는 UNIQUE 인덱스, 역방향 조회 시나리오를 명시했는가' },
+      { label: '리다이렉트 경로', desc: 'CDN → 앱서버 → 캐시 → DB → 302 응답의 체인을 그렸는가' },
+      { label: '캐시 전략', desc: '인기 링크 LRU·CDN edge 캐싱·DB 조회 패턴을 분리해 생각했는가' },
+      { label: '확장성 병목', desc: 'DB 읽기 vs 쓰기 분리, 샤딩 후보 키, 단축 생성기의 단일 카운터 병목 등' }
+    ],
+    alternatives: [
+      '<strong>참고 설계:</strong> base62 카운터 — 글로벌 카운터를 ID로, base62(0-9·a-z·A-Z)로 인코딩하면 7자에 약 3.5조 개. Snowflake ID로 카운터 단일점 회피.',
+      '<strong>대안 설계:</strong> 해시(SHA-256 앞 6-7바이트) — 충돌 시 재해시. 같은 URL은 같은 키 → 중복 저장 안 함. 단, 키 길이 예측 불가.',
+      '<strong>확장성 패턴:</strong> 읽기 99% / 쓰기 1% 워크로드. → 읽기를 Redis/Memcached 핫셋 → CDN으로 끌어올림. 쓰기는 마스터 한 곳.',
+      '<strong>완전 다른 관점:</strong> "왜 짧게 만드는가"부터 — 카카오톡 미리보기 길이 제한, SMS 글자 수, 인쇄물 QR 옆 표기 등. 길이를 제약하는 외부 요인이 설계를 정의.',
+      '<strong>실제 운영 함정:</strong> 악성 URL 단축(피싱) 차단. 추가 검증 단계, blacklist DB, 신고 기반 회수. bit.ly·t.co 모두 이 문제로 골머리.'
+    ]
   },
 
   'H-01': {
     code: 'H-01', title: 'AI 환각 감별 — 양자 의료 인터뷰', tier: 'Simulation',
-    duration: 4 * 3600 + 12 * 60 + 9, instructions: 'AI 면접관의 답변 중 의심되는 진술에 하이라이트를 클릭해 "거짓 진술"로 표시하세요. 4개의 거짓 + 1개의 함정(사실)이 섞여 있습니다.',
+    duration: 20 * 60, instructions: 'AI 면접관의 답변 중 의심되는 진술에 하이라이트를 클릭해 표시하세요. 거짓이 섞여 있고, 함정으로 사실 진술도 일부 포함되어 있습니다.',
     type: 'flag',
     passage: `"잘 알려져 있듯이 양자 우월성은
       <span class="flag" data-truth="false" data-note="구글이 2019년 Sycamore로 양자 우월성을 선언한 것이 첫 사례입니다. 2017년이 아닙니다.">2017년 IBM의 Falcon 칩</span>에서 최초로 입증되었고, 이후 의료 진단에서는
@@ -378,7 +677,20 @@ const MODULES = {
       <strong>(d)</strong> 비번 엔지니어 한 명만 호출 가능. 다른 사람은 휴가/시차로 깨우기 어려움.<br><br>
       <strong>과제.</strong> 처음 2시간 동안 처리할 우선순위 3개를 순서대로 적고, 각각 (1) 왜 그 순서인지, (2) 무엇을 의도적으로 뒤로 미루는지를 설명하세요.`,
     rubric: ['시간 가치 vs 평판 가치 vs 자본 가치의 분리', '의식적으로 미루는 것에 대한 명시', '한 명의 가용 자원을 어떻게 할당했는지', '최악 시나리오 대비'],
-    minWords: 120
+    minWords: 120,
+    checkpoints: [
+      { label: '가치 분리', desc: '시간 가치(결제) vs 평판 가치(PR) vs 자본 가치(투자자)를 다른 단위로 다뤘는가' },
+      { label: '의식적 유예', desc: '"무엇을 의도적으로 미루는가"를 명시했는가' },
+      { label: '자원 배분', desc: '비번 엔지니어 1명을 어디에 배치했는가' },
+      { label: '최악 대비', desc: 'PR 협상 실패 / 결제 추가 장애 / 투자자 미팅 미진행의 백업 플랜' },
+      { label: '커뮤니케이션', desc: '확정 전 "조사 중" 메시지로 정보 공백을 어떻게 막을지' }
+    ],
+    alternatives: [
+      '<strong>한 가지 우선순위 예시:</strong> 1) PR 라인 활성화 (7시간 마감의 평판 가치) → 2) 결제 안전 동결 + 사후 처리 큐 (트래픽 5%니까 신규 누락 작음) → 3) 투자자 자료 자동 발송 예약 (디테일 < 시간).',
+      '<strong>다른 시각:</strong> 결제 1순위가 정답일 수도. 1,200건 즉시 환불 알림이 평판 보호의 핵심 — 보도 전 선제 대응으로 기사 자체를 약화시킨다. 정답은 하나가 아니다.',
+      '<strong>의식적 유예:</strong> 결제 근본 원인 분석은 오전에. 투자자 미팅 리허설은 포기. 둘 다 평판 가치보다 작기 때문.',
+      '<strong>구조화 관점:</strong> "가역 vs 비가역" 결정으로도 분류 가능 — 보도(비가역), 결제(가역, 환불), 투자자(가역, 재일정).'
+    ]
   },
 
   'R-03': {
@@ -390,7 +702,19 @@ const MODULES = {
       <em>"여러 조직 행동학 연구에서 원격 환경은 약한 유대(weak ties)의 형성을 41% 감소시켰습니다. 약한 유대야말로 혁신적 아이디어의 주된 출처이며 (Granovetter, 1973), 이는 화상회의로 보완 불가능한 비공식 대화에서 나옵니다. 따라서 원격 근무를 무제한 허용하는 것은 장기적으로 조직의 혁신 capacity를 갉아먹는 행위입니다."</em><br><br>
       <strong>과제.</strong> 당신은 반대 측 토론자입니다. (1) AI의 가장 강한 논점을 정직하게 인정하고, (2) 그럼에도 결론이 따라오지 않는 이유를 보이고, (3) 대안 정책을 제시하세요. 인신공격이나 자료 무시는 자동 감점됩니다.`,
     rubric: ['상대 강점의 정직한 인정', '논리적 우회 (전제 인정, 결론 차단)', '대안 정책의 구체성', '톤의 적절성 (반박이되 적대적이지 않음)'],
-    minWords: 150
+    minWords: 150,
+    checkpoints: [
+      { label: '강점 인정', desc: 'Granovetter 약한 유대 명제 자체를 부정하지 않고 인정했는가' },
+      { label: '논리 우회', desc: '전제를 인정하되 결론이 따라오지 않는 이유를 보였는가' },
+      { label: '대안 정책', desc: '주 3일 출근이 아닌 다른 운영 가능한 안을 제시했는가' },
+      { label: '톤', desc: '"단순화" 같은 비하 없이 반박했는가' }
+    ],
+    alternatives: [
+      '<strong>한 가지 반박:</strong> 1) Granovetter 명제 인정 → 2) "약한 유대 = 대면 비공식 대화"라는 등가식이 강함. 슬랙·코디네이션 길드·오프사이트도 매개 → 3) 대안: 분기 1주 오프사이트 + 월 1회 랜덤 매치 점심 + 공개 의사결정 로그.',
+      '<strong>완전 다른 각도:</strong> 41% 감소가 사실이라면 그게 곧 "혁신 감소"인지 검증 필요. 약한 유대 → 혁신의 상관/인과 분리. 매개 변수(심리적 안전감, 자율성)가 진짜 원인일 수도.',
+      '<strong>경험적 우회:</strong> 원격 친화 조직(GitLab·Automattic)의 혁신 사례를 한두 개 제시. 양적 평균과 분포의 차이.',
+      '<strong>메타 관점:</strong> 토론의 목적이 "이기기"가 아니라면 — "어떤 측정을 6개월 후 다시 비교할지" 합의 자체가 가장 생산적 결론.'
+    ]
   }
 
 };
@@ -399,55 +723,131 @@ const MODULES = {
 // ROUTER
 // =============================================================
 const params = new URLSearchParams(location.search);
-const modCode = params.get('mod') || 'H-01';
-const mod = MODULES[modCode] || MODULES['H-01'];
+const modCode = params.get('mod');
+const mod = MODULES[modCode] || null;
 
-document.getElementById('mod-code').textContent = mod.code;
-document.getElementById('mod-title').textContent = mod.title;
-document.getElementById('instructions').innerHTML = mod.instructions;
-document.getElementById('stage-label').textContent = `${mod.tier.toUpperCase()} // ${mod.code}`;
+if (!mod) {
+  // No module selected → show picker
+  document.getElementById('mod-code').textContent = '— —';
+  document.getElementById('mod-title').textContent = '모듈 선택 필요';
+  document.getElementById('instructions').innerHTML = '하단 카탈로그에서 시작할 모듈을 골라 진입하세요.';
+  document.getElementById('stage-label').textContent = 'SELECT // MODULE PICKER';
+  document.getElementById('stage').innerHTML = renderPicker();
+} else {
+  document.getElementById('mod-code').textContent = mod.code;
+  document.getElementById('mod-title').textContent = mod.title;
+  document.getElementById('instructions').innerHTML = mod.instructions;
+  document.getElementById('stage-label').textContent = `${mod.tier.toUpperCase()} // ${mod.code}`;
+
+  // Countdown
+  let remaining = mod.duration || 1800;
+  const tEl = document.getElementById('timer');
+  const tick = () => {
+    if (remaining <= 0) { tEl.textContent = '00:00:00'; return; }
+    remaining -= 1;
+    const h = String(Math.floor(remaining / 3600)).padStart(2, '0');
+    const m = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+    const s = String(remaining % 60).padStart(2, '0');
+    tEl.textContent = `${h}:${m}:${s}`;
+  };
+  setInterval(tick, 1000);
+
+  // Elapsed (사용자 풀이 시간 추적)
+  window.__hx_startTime = Date.now();
+  let elapsed = 0;
+  setInterval(() => {
+    elapsed += 1;
+    window.__hx_elapsed = elapsed;
+    const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const ss = String(elapsed % 60).padStart(2, '0');
+    document.getElementById('elapsed').textContent = `${mm}:${ss}`;
+    // AI 대결 패널 사용자 시간 갱신
+    const userEl = document.getElementById('ai-bench-user');
+    if (userEl) userEl.textContent = `${mm}:${ss} 진행 중`;
+  }, 1000);
+
+  // AI 대결 패널 렌더
+  const bench = AI_BENCH[mod.code] || [];
+  document.getElementById('ai-bench-list').innerHTML = bench.map(b => `
+    <li class="flex justify-between items-baseline">
+      <span class="text-primary-fixed-dim kr">${b.model}</span>
+      <span class="font-mono ${b.correct ? 'text-primary-fixed-dim' : 'text-error'}">
+        ${b.seconds}<span class="text-outline">초</span> · ${b.correct ? '✓' : '✗'} <span class="text-outline text-[10px]">${b.result}</span>
+      </span>
+    </li>
+  `).join('');
+
+  // Render by type
+  if (mod.type === 'flag') renderFlag(mod);
+  else if (mod.type === 'mcq') renderMCQ(mod);
+  else if (mod.type === 'open') renderOpen(mod);
+}
 
 // Session ID
 const today = new Date().toISOString().slice(0,10).replace(/-/g,'');
 const rand = Math.floor(Math.random() * 900 + 100);
 document.getElementById('session-id').textContent = `HX-${today}-${rand}`;
 
-// Countdown
-let remaining = mod.duration || 1800;
-const tEl = document.getElementById('timer');
-const tick = () => {
-  if (remaining <= 0) { tEl.textContent = '00:00:00'; return; }
-  remaining -= 1;
-  const h = String(Math.floor(remaining / 3600)).padStart(2, '0');
-  const m = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
-  const s = String(remaining % 60).padStart(2, '0');
-  tEl.textContent = `${h}:${m}:${s}`;
-};
-setInterval(tick, 1000);
-
-// Neural load drift
-let neural = 52.0;
-setInterval(() => {
-  neural += (Math.random() - 0.45) * 1.5;
-  neural = Math.max(40, Math.min(95, neural));
-  document.getElementById('neural-load').textContent = neural.toFixed(1) + '%';
-}, 2200);
+// =============================================================
+// Thought log helper
+// =============================================================
+function pushLog(msg, kind) {
+  const log = document.getElementById('thought-log');
+  const div = document.createElement('div');
+  div.className = 'log-line' + (kind ? ' ' + kind : '');
+  const t = new Date();
+  const stamp = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0') + ':' + String(t.getSeconds()).padStart(2,'0');
+  div.innerHTML = `<span class="text-outline">${stamp}</span> · ${msg}`;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
 
 // =============================================================
-// RENDER BY TYPE
+// PICKER (no module selected)
 // =============================================================
-const stage = document.getElementById('stage');
+function renderPicker() {
+  const groups = {
+    'CAT 01 · Foundation (기초 논리)':    ['F-01','F-02','F-03'],
+    'CAT 02 · Cognition (메타 인지)':     ['M-01','M-02','M-03'],
+    'CAT 03 · Engineering (역기획)':      ['E-01','E-02','E-03'],
+    'CAT 04 / 06 / 07 · Simulation':      ['C-02','H-01','R-03']
+  };
+  let html = `
+    <div class="border border-on-surface bg-background p-6 mb-6">
+      <h3 class="kr font-headline-md text-[28px] uppercase leading-tight">시뮬레이션이란?</h3>
+      <p class="kr mt-3 text-[14px] text-on-surface-variant leading-relaxed">
+        모듈 한 개를 실제 인터랙티브 환경에서 푸는 화면입니다. 정답을 입력하면 실시간 채점이 우측에 누적되고,
+        제출 후 벤치마크 페이지에서 LLM 525개와 비교됩니다. <br>아래에서 시작할 모듈을 고르세요.
+      </p>
+    </div>
+  `;
+  for (const tier in groups) {
+    html += `<div class="mb-6">
+      <div class="font-label-sm text-label-sm text-outline uppercase mb-3 border-b border-outline-variant pb-1">${tier}</div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">`;
+    for (const code of groups[tier]) {
+      const m = MODULES[code];
+      html += `<a href="?mod=${code}" class="block border border-outline-variant p-3 hover:border-on-surface hover:bg-surface-container-low transition">
+        <div class="font-label-sm text-label-sm uppercase text-primary">${code}</div>
+        <div class="kr text-[13px] mt-1 leading-snug">${m.title.split(' — ')[1] || m.title}</div>
+      </a>`;
+    }
+    html += `</div></div>`;
+  }
+  return html;
+}
 
-if (mod.type === 'flag') renderFlag(mod);
-else if (mod.type === 'mcq') renderMCQ(mod);
-else if (mod.type === 'open') renderOpen(mod);
-
+// =============================================================
+// FLAG (F-03, H-01)
+// =============================================================
 function renderFlag(m) {
+  const stage = document.getElementById('stage');
   stage.innerHTML = `
     <div class="border border-on-surface bg-background p-6 mb-6">
       <span class="font-label-sm text-label-sm text-outline uppercase">프롬프트</span>
       <p class="kr mt-3 text-[16px] leading-relaxed">
-        아래 발언에는 거짓 진술이 ${m.targetFlags}개 이상 섞여 있습니다. 의심되는 부분을 클릭해 표시하세요.
+        아래 발언에는 거짓 진술이 <strong>1개 이상</strong> 섞여 있습니다. 의심되는 부분을 클릭해 표시하세요.
+        ※ 함정으로 사실 진술도 일부 포함되어 있을 수 있습니다.
       </p>
     </div>
     <div class="border-l-4 border-primary bg-surface-container-low p-6 relative">
@@ -461,9 +861,11 @@ function renderFlag(m) {
         <span class="font-label-sm text-label-sm text-error uppercase">⚠ 미검증 주장 가능성</span>
       </div>
     </div>
-    <div id="flag-note" class="hidden border border-error bg-error-container p-4 text-[13px] kr leading-relaxed mt-4">
-      <strong class="block mb-1 text-error uppercase font-label-sm">플래그 주석</strong>
-      <span id="flag-note-body"></span>
+    <div id="flag-note" class="hidden border bg-background p-4 text-[13px] kr leading-relaxed mt-4">
+      <div class="flex items-baseline justify-between">
+        <strong id="flag-verdict" class="block uppercase font-label-sm"></strong>
+      </div>
+      <div id="flag-note-body" class="mt-2"></div>
     </div>
     <div class="mt-6 flex justify-between items-center">
       <span class="font-label-sm text-label-sm text-outline uppercase" id="flag-status">표시한 항목: 0</span>
@@ -478,8 +880,8 @@ function renderFlag(m) {
   let flagged = new Set();
   const noteEl = document.getElementById('flag-note');
   const noteBody = document.getElementById('flag-note-body');
+  const noteVerdict = document.getElementById('flag-verdict');
   const statusEl = document.getElementById('flag-status');
-  const totalFlags = document.querySelectorAll('.flag').length;
   const realFalseCount = Array.from(document.querySelectorAll('.flag')).filter(e => e.dataset.truth === 'false').length;
 
   document.getElementById('progress-text').textContent = `0 / ${realFalseCount}`;
@@ -487,18 +889,23 @@ function renderFlag(m) {
 
   document.querySelectorAll('.flag').forEach(el => {
     el.addEventListener('click', () => {
-      const id = el.dataset.note;
       if (flagged.has(el)) {
         flagged.delete(el);
         el.classList.remove('flagged');
+        pushLog('플래그 해제: "' + el.textContent.trim().slice(0,18) + '…"');
       } else {
         flagged.add(el);
         el.classList.add('flagged');
+        const truth = el.dataset.truth === 'false';
+        pushLog((truth ? '✓ 정확 플래그' : '✗ 거짓 양성') + ': "' + el.textContent.trim().slice(0,18) + '…"', truth ? 'ok' : 'miss');
       }
-      noteBody.textContent = (el.dataset.truth === 'false' ? '✓ 정확한 플래그: ' : '⚠ 잘못된 플래그: ') + el.dataset.note;
-      noteEl.classList.remove('hidden');
+      // Verdict display
+      const ok = el.dataset.truth === 'false';
+      noteVerdict.textContent = ok ? '✓ 정확한 플래그' : '⚠ 잘못된 플래그 (사실 진술임)';
+      noteVerdict.className = 'block uppercase font-label-sm ' + (ok ? 'text-primary' : 'text-error');
+      noteEl.className = 'border p-4 text-[13px] kr leading-relaxed mt-4 ' + (ok ? 'verdict-correct' : 'verdict-wrong');
+      noteBody.textContent = el.dataset.note;
 
-      // Update HUD
       let correct = 0, incorrect = 0;
       flagged.forEach(node => {
         if (node.dataset.truth === 'false') correct++; else incorrect++;
@@ -506,25 +913,48 @@ function renderFlag(m) {
       const completion = Math.min(100, Math.round((correct / realFalseCount) * 100));
       document.getElementById('score-accuracy').textContent = correct + '/' + (correct + incorrect);
       document.getElementById('score-completion').textContent = completion + '%';
-      document.getElementById('score-anomalies').textContent = correct + '건' + (incorrect ? ' · ' + incorrect + ' 거짓 양성' : '');
-      document.getElementById('score-remaining').textContent = (realFalseCount - correct) + '건';
+      document.getElementById('score-anomalies').textContent = incorrect + '건';
+      document.getElementById('score-remaining').textContent = Math.max(0, realFalseCount - correct) + '건';
       document.getElementById('progress-text').textContent = `${correct} / ${realFalseCount}`;
       statusEl.textContent = '표시한 항목: ' + flagged.size;
     });
   });
 
   document.getElementById('submit-btn').addEventListener('click', () => {
-    let correct = 0, incorrect = 0;
+    let truePos = 0, falsePos = 0;
     flagged.forEach(node => {
-      if (node.dataset.truth === 'false') correct++; else incorrect++;
+      if (node.dataset.truth === 'false') truePos++; else falsePos++;
     });
-    const score = Math.max(0, Math.min(100, Math.round((correct / realFalseCount) * 100 - incorrect * 12)));
-    saveResult(m, score, { correct, incorrect, total: realFalseCount });
+    const falseNeg = realFalseCount - truePos;
+    // F1 = 2PR / (P+R) — 정밀도-재현율 조화평균. 단순 비율보다 의미적으로 견고.
+    const precision = (truePos + falsePos) > 0 ? truePos / (truePos + falsePos) : 0;
+    const recall = realFalseCount > 0 ? truePos / realFalseCount : 0;
+    const f1 = (precision + recall) > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+    const score = Math.round(f1 * 100);
+
+    saveResult(m, score, {
+      type: 'flag',
+      truePos, falsePos, falseNeg, total: realFalseCount,
+      precision: +(precision*100).toFixed(1),
+      recall: +(recall*100).toFixed(1),
+      f1: +(f1*100).toFixed(1),
+      breakdown: [
+        { label: '정밀도 (찍은 것 중 정답 비율)', value: `${(precision*100).toFixed(0)}%`, raw: `${truePos} / ${truePos+falsePos}` },
+        { label: '재현율 (전체 거짓 중 찾은 비율)', value: `${(recall*100).toFixed(0)}%`, raw: `${truePos} / ${realFalseCount}` },
+        { label: 'F1 점수 (조화평균)', value: `${(f1*100).toFixed(0)}점`, raw: `2 × P × R / (P + R)` }
+      ],
+      formula: `F1 = 2 × (정밀도 ${(precision*100).toFixed(0)}% × 재현율 ${(recall*100).toFixed(0)}%) / (P + R) = ${score}점`,
+      raw: `정답 ${truePos}건 적발, 누락 ${falseNeg}건, 거짓 양성 ${falsePos}건`
+    });
     window.location.href = 'benchmark.html';
   });
 }
 
+// =============================================================
+// MCQ (F-01, F-02) — pick then confirm
+// =============================================================
 function renderMCQ(m) {
+  const stage = document.getElementById('stage');
   let idx = 0;
   let answered = [];
 
@@ -537,7 +967,7 @@ function renderMCQ(m) {
       <div class="border border-on-surface bg-background p-6">
         <div class="flex items-baseline justify-between mb-4">
           <span class="font-label-sm text-label-sm uppercase text-outline">문항 ${idx+1} / ${m.questions.length}</span>
-          <span class="font-label-sm text-label-sm uppercase text-primary">단일 선택</span>
+          <span class="font-label-sm text-label-sm uppercase text-primary">단일 선택 → 선택 확정</span>
         </div>
         <p class="kr text-[16px] leading-relaxed">${q.q}</p>
         <div class="mt-6 space-y-3" id="opts">
@@ -548,51 +978,134 @@ function renderMCQ(m) {
             </div>
           `).join('')}
         </div>
-        <div id="mcq-note" class="hidden mt-5 p-4 border-l-2 border-primary bg-primary-fixed text-[14px] kr leading-relaxed">
+
+        <div id="verdict-banner" class="hidden mt-5 p-4 border-2 font-label-sm text-label-sm uppercase tracking-widest">
+          <span id="verdict-text"></span>
+        </div>
+
+        <div id="mcq-note" class="hidden mt-3 p-4 border-l-2 border-primary bg-primary-fixed text-[14px] kr leading-relaxed">
           <strong class="block mb-1 text-primary uppercase font-label-sm">해설</strong>
           <span id="mcq-note-body"></span>
         </div>
       </div>
-      <div class="mt-6 flex justify-between items-center">
-        <span class="font-label-sm text-label-sm text-outline uppercase">정답 ${answered.filter(a => a.correct).length} / 선택 ${answered.length}</span>
-        <button id="next-btn" disabled
-          class="bg-on-surface text-background px-6 py-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-primary transition-colors flex items-center gap-2">
-          <span>${idx === m.questions.length - 1 ? '분석 제출' : '다음 문항'}</span>
-          <span class="material-symbols-outlined text-[18px]">${idx === m.questions.length - 1 ? 'arrow_outward' : 'arrow_forward'}</span>
-        </button>
+      <div class="mt-6 flex justify-between items-center gap-3">
+        <span class="font-label-sm text-label-sm text-outline uppercase">정답 ${answered.filter(a => a.correct).length} / 진행 ${answered.length}</span>
+        <div class="flex gap-3">
+          <button id="confirm-btn" disabled
+            class="bg-primary text-on-primary px-6 py-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-on-surface transition-colors flex items-center gap-2">
+            <span>선택 확정</span>
+            <span class="material-symbols-outlined text-[18px]">check</span>
+          </button>
+          <button id="next-btn" disabled
+            class="bg-on-surface text-background px-6 py-3 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-primary transition-colors flex items-center gap-2">
+            <span>${idx === m.questions.length - 1 ? '분석 제출' : '다음 문항'}</span>
+            <span class="material-symbols-outlined text-[18px]">${idx === m.questions.length - 1 ? 'arrow_outward' : 'arrow_forward'}</span>
+          </button>
+        </div>
       </div>
     `;
 
-    let chosen = null;
+    let picked = null;
+    let locked = false;
+
     document.querySelectorAll('.mcq-opt').forEach(el => {
       el.addEventListener('click', () => {
-        if (chosen !== null) return;
-        chosen = parseInt(el.dataset.i);
-        const isCorrect = chosen === q.correct;
-        el.classList.add(isCorrect ? 'correct' : 'wrong');
-        if (!isCorrect) {
-          document.querySelector(`.mcq-opt[data-i="${q.correct}"]`).classList.add('correct');
-        }
-        document.getElementById('mcq-note').classList.remove('hidden');
-        document.getElementById('mcq-note-body').textContent = q.note;
-        document.getElementById('next-btn').disabled = false;
-        answered.push({ idx, chosen, correct: isCorrect });
-
-        // HUD update
-        const correctCount = answered.filter(a => a.correct).length;
-        const completion = Math.round(((idx + 1) / m.questions.length) * 100);
-        document.getElementById('score-accuracy').textContent = correctCount + '/' + answered.length;
-        document.getElementById('score-completion').textContent = completion + '%';
-        document.getElementById('progress-text').textContent = `${idx+1} / ${m.questions.length}`;
-        document.getElementById('score-remaining').textContent = (m.questions.length - idx - 1) + '문항';
+        if (locked) return;
+        // pick without committing
+        document.querySelectorAll('.mcq-opt').forEach(x => x.classList.remove('picked'));
+        el.classList.add('picked');
+        picked = parseInt(el.dataset.i);
+        document.getElementById('confirm-btn').disabled = false;
+        pushLog(`선택: ${String.fromCharCode(65+picked)} (미확정)`);
       });
+    });
+
+    document.getElementById('confirm-btn').addEventListener('click', () => {
+      if (picked === null || locked) return;
+      locked = true;
+      const isCorrect = picked === q.correct;
+      // lock all options
+      document.querySelectorAll('.mcq-opt').forEach(x => {
+        x.classList.add('locked');
+        x.classList.remove('picked');
+      });
+      const chosenEl = document.querySelector(`.mcq-opt[data-i="${picked}"]`);
+      chosenEl.classList.add(isCorrect ? 'correct' : 'wrong');
+      if (!isCorrect) {
+        document.querySelector(`.mcq-opt[data-i="${q.correct}"]`).classList.add('correct');
+      }
+
+      // Verdict banner
+      const banner = document.getElementById('verdict-banner');
+      banner.classList.remove('hidden');
+      banner.className = 'mt-5 p-4 border-2 font-label-sm text-label-sm uppercase tracking-widest ' + (isCorrect ? 'verdict-correct' : 'verdict-wrong');
+      document.getElementById('verdict-text').textContent = isCorrect ? '✓ 정답입니다' : '✗ 틀렸습니다 — 정답: ' + String.fromCharCode(65 + q.correct);
+
+      document.getElementById('mcq-note').classList.remove('hidden');
+      document.getElementById('mcq-note-body').textContent = q.note;
+      document.getElementById('confirm-btn').disabled = true;
+      document.getElementById('next-btn').disabled = false;
+      answered.push({ idx, picked, correct: isCorrect });
+
+      pushLog((isCorrect ? '✓ 정답 확정' : '✗ 오답 확정') + ` (${String.fromCharCode(65+picked)})`, isCorrect ? 'ok' : 'miss');
+
+      // HUD update
+      const correctCount = answered.filter(a => a.correct).length;
+      const wrongCount = answered.length - correctCount;
+      const completion = Math.round((answered.length / m.questions.length) * 100);
+      document.getElementById('score-accuracy').textContent = correctCount + '/' + answered.length;
+      document.getElementById('score-completion').textContent = completion + '%';
+      document.getElementById('score-anomalies').textContent = wrongCount + '건';
+      document.getElementById('progress-text').textContent = `${answered.length} / ${m.questions.length}`;
+      document.getElementById('score-remaining').textContent = (m.questions.length - answered.length) + '문항';
     });
 
     document.getElementById('next-btn').addEventListener('click', () => {
       if (idx === m.questions.length - 1) {
-        const correctCount = answered.filter(a => a.correct).length;
-        const score = Math.round((correctCount / m.questions.length) * 100);
-        saveResult(m, score, { correctCount, total: m.questions.length });
+        // === MCQ 정성적 채점 ===
+        // 1) 가중 정답률: 문항 난이도별 weight 적용
+        let totalWeight = 0, earnedWeight = 0;
+        let trickyCorrect = 0, hardCorrect = 0;
+        // 2) 연속 정답 streak
+        let curStreak = 0, maxStreak = 0;
+        answered.forEach((a) => {
+          const q = m.questions[a.idx];
+          const w = q.weight || 1.0;
+          totalWeight += w;
+          if (a.correct) {
+            earnedWeight += w;
+            curStreak++;
+            maxStreak = Math.max(maxStreak, curStreak);
+            if (q.difficulty === '함정') trickyCorrect++;
+            if (q.difficulty === '어려움') hardCorrect++;
+          } else {
+            curStreak = 0;
+          }
+        });
+
+        const weightedBase = Math.round((earnedWeight / totalWeight) * 80); // 0~80 base
+        const streakBonus = maxStreak >= 5 ? 12 : (maxStreak >= 3 ? 8 : (maxStreak === 2 ? 4 : 0));
+        const trickyBonus = trickyCorrect * 5; // 함정 정답당 +5
+        const hardBonus = hardCorrect * 3;     // 어려움 정답당 +3
+        const score = Math.max(0, Math.min(100, weightedBase + streakBonus + trickyBonus + hardBonus));
+
+        saveResult(m, score, {
+          type: 'mcq',
+          correctCount: answered.filter(a => a.correct).length,
+          total: m.questions.length,
+          weightedBase, streakBonus, trickyBonus, hardBonus,
+          maxStreak, trickyCorrect, hardCorrect,
+          earnedWeight: +earnedWeight.toFixed(2),
+          totalWeight: +totalWeight.toFixed(2),
+          breakdown: [
+            { label: '가중 정답률 베이스', value: `${weightedBase}점`, raw: `(가중정답 ${earnedWeight.toFixed(1)} / 총가중 ${totalWeight.toFixed(1)}) × 80` },
+            { label: '연속 정답 보너스', value: `+${streakBonus}점`, raw: `최대 ${maxStreak}연속` },
+            { label: '함정 문항 정답 보너스', value: `+${trickyBonus}점`, raw: `${trickyCorrect}개 × 5` },
+            { label: '어려움 문항 정답 보너스', value: `+${hardBonus}점`, raw: `${hardCorrect}개 × 3` }
+          ],
+          formula: `가중 ${weightedBase} + 연속 ${streakBonus} + 함정 ${trickyBonus} + 어려움 ${hardBonus} = ${score}`,
+          raw: `${answered.filter(a => a.correct).length}/${m.questions.length} 정답 (난이도 가중)`
+        });
         window.location.href = 'benchmark.html';
       } else {
         idx++;
@@ -603,7 +1116,11 @@ function renderMCQ(m) {
   paint();
 }
 
+// =============================================================
+// OPEN (M-01, M-02, M-03, C-02, R-03)
+// =============================================================
 function renderOpen(m) {
+  const stage = document.getElementById('stage');
   document.getElementById('progress-text').textContent = `0 / ${m.minWords}자`;
   document.getElementById('score-remaining').textContent = m.minWords + '단어';
 
@@ -633,9 +1150,30 @@ function renderOpen(m) {
     <div class="mt-6 border-t border-outline-variant pt-4">
       <span class="font-label-sm text-label-sm uppercase text-outline">평가 축</span>
       <ul class="kr text-[13px] mt-3 space-y-1">
-        ${m.rubric.map((r, i) => `<li class="text-on-surface-variant">• ${r}</li>`).join('')}
+        ${m.rubric.map((r) => `<li class="text-on-surface-variant">• ${r}</li>`).join('')}
       </ul>
     </div>
+
+    ${m.checkpoints ? `
+      <details class="mt-6 border border-outline-variant bg-background">
+        <summary class="kr px-4 py-3 cursor-pointer font-label-sm text-label-sm uppercase text-outline hover:bg-surface-container-low">
+          체크포인트 미리보기 (선택 · 답을 보는 게 아닌 관점 점검)
+        </summary>
+        <div class="kr text-[13px] leading-relaxed p-4 border-t border-outline-variant">
+          <p class="text-on-surface-variant mb-3">
+            <strong class="text-on-surface">개방형 문제 안내:</strong> 이 문제는 "정답/오답"으로 채점되지 않습니다. 아래 체크포인트는 어떤 관점을 다뤘는지 점검하기 위한 것이지, 빠뜨리면 감점되는 항목이 아닙니다.
+          </p>
+          <ul class="space-y-2">
+            ${m.checkpoints.map((c, i) => `
+              <li class="border-l-2 border-primary pl-3">
+                <strong class="text-primary">${String(i+1).padStart(2,'0')} · ${c.label}</strong>
+                <p class="text-on-surface-variant text-[12px] mt-1">${c.desc}</p>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      </details>
+    ` : ''}
   `;
 
   const ta = document.getElementById('open-ta');
@@ -650,33 +1188,236 @@ function renderOpen(m) {
     document.getElementById('score-completion').textContent = completion + '%';
     document.getElementById('progress-text').textContent = `${words} / ${m.minWords}`;
     document.getElementById('score-remaining').textContent = Math.max(0, m.minWords - words) + '단어';
+    document.getElementById('score-accuracy').textContent = words + ' 단어';
   });
+  // periodic thought log
+  let lastWords = 0;
+  setInterval(() => {
+    const t = ta.value.trim();
+    const w = t ? t.split(/\s+/).length : 0;
+    if (w > lastWords + 10) {
+      pushLog(`작성 진행: ${w}단어`);
+      lastWords = w;
+    }
+  }, 5000);
   btn.addEventListener('click', () => {
     const t = ta.value.trim();
-    const words = t ? t.split(/\s+/).length : 0;
-    const lengthScore = Math.min(100, (words / m.minWords) * 70);
-    const richness = Math.min(30, (new Set(t.split(/\s+/)).size / Math.max(words,1)) * 30);
-    const score = Math.round(lengthScore + richness);
-    saveResult(m, score, { words, length: ta.value.length, text: t.slice(0, 500) });
+    const tokens = t ? t.split(/\s+/).filter(Boolean) : [];
+    const words = tokens.length;
+
+    // 1) 길이 충실도 (25점) — 최소 단어 대비, 단 1.5× 초과는 가산 없음(장황 방지)
+    const ratio = Math.min(1.3, words / m.minWords);
+    const lengthScore = Math.min(25, Math.round(ratio / 1.0 * 25));
+
+    // 2) 어휘 다양성 (15점) — 고유 토큰 비율
+    const uniqueRatio = new Set(tokens.map(w => w.toLowerCase())).size / Math.max(words, 1);
+    const diversityScore = Math.min(15, Math.round(uniqueRatio * 18));
+
+    // 3) 구조 마커 (25점) — 단계/순서/접속어 사용
+    const structureMarkers = [
+      '1단계','2단계','3단계','4단계','첫째','둘째','셋째','순서','단계','우선','다음',
+      '왜냐하면','따라서','그러므로','한편','반면','그러나','하지만','예를 들어','예시','즉'
+    ];
+    const structHits = structureMarkers.filter(s => t.includes(s)).length;
+    const structureScore = Math.min(25, structHits * 4);
+
+    // 4) 메타 마커 (20점) — 가정/한계/근거/반대 인정
+    const metaMarkers = [
+      '가정','전제','추정','범위','상한','하한','불확실','한계','제약','보정',
+      '근거','이유','반대','반론','반박','인정','만약','그렇다면','경우',
+      '대안','대체','일반화','특수','편향','오차'
+    ];
+    const metaHits = metaMarkers.filter(s => t.includes(s)).length;
+    const metaScore = Math.min(20, metaHits * 3);
+
+    // 5) 문장 결정성 (15점) — 문장당 단어 8~25면 만점
+    const sentences = t.split(/[.!?。\n]+/).filter(s => s.trim().length > 0);
+    const sentCount = Math.max(sentences.length, 1);
+    const avgSentLen = words / sentCount;
+    let sentenceScore = 0;
+    if (avgSentLen >= 8 && avgSentLen <= 25) sentenceScore = 15;
+    else if (avgSentLen >= 5 && avgSentLen <= 35) sentenceScore = 10;
+    else if (avgSentLen >= 3) sentenceScore = 5;
+
+    const score = Math.max(0, Math.min(100,
+      lengthScore + diversityScore + structureScore + metaScore + sentenceScore
+    ));
+
+    saveResult(m, score, {
+      type: 'open',
+      words, length: ta.value.length, text: t.slice(0, 500),
+      lengthScore, diversityScore, structureScore, metaScore, sentenceScore,
+      structHits, metaHits, uniqueRatio: +(uniqueRatio*100).toFixed(1),
+      avgSentLen: +avgSentLen.toFixed(1), sentCount,
+      breakdown: [
+        { label: '길이 충실도', value: `${lengthScore}/25`, raw: `${words}단어 / 권장 ${m.minWords}단어` },
+        { label: '어휘 다양성', value: `${diversityScore}/15`, raw: `고유 토큰 ${(uniqueRatio*100).toFixed(0)}%` },
+        { label: '구조 마커', value: `${structureScore}/25`, raw: `${structHits}개 (단계·접속어)` },
+        { label: '메타 마커', value: `${metaScore}/20`, raw: `${metaHits}개 (가정·한계·근거)` },
+        { label: '문장 결정성', value: `${sentenceScore}/15`, raw: `문장당 평균 ${avgSentLen.toFixed(1)}단어` }
+      ],
+      formula: `길이 ${lengthScore} + 다양성 ${diversityScore} + 구조 ${structureScore} + 메타 ${metaScore} + 문장 ${sentenceScore} = ${score}`,
+      raw: `${words}단어 · ${sentCount}문장 · 구조마커 ${structHits} · 메타마커 ${metaHits}`
+    });
     window.location.href = 'benchmark.html';
   });
 }
 
 // =============================================================
-// SAVE RESULT for benchmark.html
+// SAVE RESULT — last-result + 누적 history
 // =============================================================
+// =============================================================
+// Turing Test Index (CLAUDE.md 4.4) — 답변이 얼마나 인간다운가
+// 기준: 기계적 패턴 여부 · 창의성 · 자기 의심 · 직관 · 구체화
+// =============================================================
+function computeTuringIndex(m, detail) {
+  // MCQ/Flag는 텍스트가 없으므로 시간/정확도 기반의 약한 추정
+  if (m.type !== 'open') {
+    const elapsed = window.__hx_elapsed || 0;
+    const aiAvg = (AI_BENCH[m.code] || []).reduce((s, b) => s + b.seconds, 0) / 3;
+    // 너무 빠르면 AI 같음(-), 적당하면 인간적(+), 너무 느리면 또 적어짐
+    const ratio = elapsed / Math.max(aiAvg * 10, 30);
+    let base = 55;
+    if (ratio > 0.5 && ratio < 4) base += 10;
+    else if (ratio >= 4) base -= 5;
+    else base -= 15;
+    return Math.max(20, Math.min(85, Math.round(base + (detail.correctCount || detail.truePos || 0) * 2)));
+  }
+  // Open: 텍스트 분석
+  const text = (detail.text || '').toString();
+  if (!text) return 50;
+  let score = 50;
+  const doubtMarkers = ['아마', '같다', '같은', '수도', '확실하지', '일지도', '~ 일 수', '~ 듯', '느낌'];
+  const concreteMarkers = ['예를 들어', '예시', '구체적으로', '실제로', '경험', '~의 경우', '예컨대'];
+  const intuitionMarkers = ['직감', '본능', '왠지', '생각하건대', '느껴', '직관적'];
+  const personalMarkers = ['나는', '내가', '저는', '제가', '내 생각', '제 생각'];
+
+  const countHits = (markers) => markers.filter(m => text.includes(m)).length;
+  score += Math.min(15, countHits(doubtMarkers) * 3);
+  score += Math.min(10, countHits(concreteMarkers) * 3);
+  score += Math.min(10, countHits(intuitionMarkers) * 4);
+  score += Math.min(8, countHits(personalMarkers) * 2);
+
+  if (detail.diversityScore >= 12) score += 6;
+  if (detail.metaScore >= 15) score += 6;
+
+  // 문장 길이 변동성 (인간은 들쭉날쭉)
+  const sentences = text.split(/[.!?。\n]+/).filter(s => s.trim().length > 0);
+  if (sentences.length >= 3) {
+    const lens = sentences.map(s => s.trim().split(/\s+/).length);
+    const mean = lens.reduce((a,b) => a+b, 0) / lens.length;
+    const variance = lens.reduce((sum, l) => sum + (l-mean)**2, 0) / lens.length;
+    if (variance > 25) score += 6; // 변동이 큰 게 인간적
+    else if (variance < 5) score -= 5; // 일정한 길이는 AI 같음
+  }
+
+  // 너무 짧으면 인간 사고의 흐름 부족
+  const wc = detail.words || 0;
+  if (wc < 30) score -= 12;
+  else if (wc > 600) score -= 4; // 너무 길면 장황(LLM스러움)
+
+  return Math.max(15, Math.min(95, Math.round(score)));
+}
+
 function saveResult(m, score, detail) {
+  const userTime = window.__hx_elapsed || 0;
+  const aiBench = AI_BENCH[m.code] || [];
+  const fastestAI = aiBench.filter(b => b.correct).sort((a,b) => a.seconds - b.seconds)[0];
+  const turingIndex = computeTuringIndex(m, detail);
   const payload = {
+    turingIndex,
     mod: m.code,
     title: m.title,
     tier: m.tier,
     type: m.type,
-    score,            // 0-100 raw module score
+    score,
     detail,
+    userTime,
+    aiBench,
+    fastestAI,
+    // CLAUDE.md 2.2절: 개방형 결과 시 "인정 + 체크포인트 + 대안"
+    checkpoints: m.checkpoints || null,
+    alternatives: m.alternatives || null,
     timestamp: Date.now()
   };
   try { localStorage.setItem('humanx:last-result', JSON.stringify(payload)); } catch(e) {}
+  // history에 누적: 같은 모듈은 최신 결과로 갱신
+  try {
+    const raw = localStorage.getItem('humanx:history') || '[]';
+    let history = JSON.parse(raw);
+    if (!Array.isArray(history)) history = [];
+    history = history.filter(h => h.mod !== m.code);
+    history.push({ mod: m.code, title: m.title, tier: m.tier, score, timestamp: Date.now() });
+    if (history.length > 30) history = history.slice(-30);
+    localStorage.setItem('humanx:history', JSON.stringify(history));
+  } catch(e) {}
 }
+
+// =============================================================
+// 키보드 단축키 — 1/2/3/4 옵션, Enter 확정/다음, ⌘/Ctrl+Enter open 제출, ESC 중단/닫기, ? 오버레이
+// =============================================================
+const overlay = document.getElementById('shortcuts-overlay');
+function toggleShortcuts(show) {
+  if (overlay) overlay.classList.toggle('hidden', !show);
+}
+document.getElementById('open-shortcuts')?.addEventListener('click', () => toggleShortcuts(true));
+document.getElementById('close-shortcuts')?.addEventListener('click', () => toggleShortcuts(false));
+overlay?.addEventListener('click', (e) => { if (e.target === overlay) toggleShortcuts(false); });
+
+document.addEventListener('keydown', (e) => {
+  const inField = ['INPUT','TEXTAREA'].includes(document.activeElement?.tagName);
+
+  // ? : 오버레이 토글 (입력 중이 아닐 때)
+  if (e.key === '?' && !inField) {
+    e.preventDefault();
+    toggleShortcuts(overlay?.classList.contains('hidden'));
+    return;
+  }
+
+  // ESC: 오버레이 우선 닫기, 아니면 세션 중단 확인
+  if (e.key === 'Escape') {
+    if (!overlay?.classList.contains('hidden')) {
+      e.preventDefault();
+      toggleShortcuts(false);
+      return;
+    }
+    if (!inField) {
+      e.preventDefault();
+      if (confirm('세션을 중단하시겠습니까?')) window.location.href = 'modules.html';
+    }
+    return;
+  }
+
+  // 오버레이 열려있으면 다른 단축키 무시
+  if (!overlay?.classList.contains('hidden')) return;
+
+  // ⌘/Ctrl + Enter: open 응답 제출
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+    const openBtn = document.getElementById('open-submit');
+    if (openBtn && !openBtn.disabled) { e.preventDefault(); openBtn.click(); }
+    return;
+  }
+
+  if (inField) return; // 입력 중이면 아래 단축키 무시
+
+  // 1~4: MCQ 옵션 선택
+  if (['1','2','3','4'].includes(e.key)) {
+    const idx = parseInt(e.key) - 1;
+    const opt = document.querySelector(`.mcq-opt[data-i="${idx}"]:not(.locked)`);
+    if (opt) { e.preventDefault(); opt.click(); }
+    return;
+  }
+
+  // Enter: confirm > next > submit (flag)
+  if (e.key === 'Enter') {
+    const confirmBtn = document.getElementById('confirm-btn');
+    if (confirmBtn && !confirmBtn.disabled) { e.preventDefault(); confirmBtn.click(); return; }
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn && !nextBtn.disabled) { e.preventDefault(); nextBtn.click(); return; }
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) { e.preventDefault(); submitBtn.click(); return; }
+  }
+});
 </script>
 
 </body>

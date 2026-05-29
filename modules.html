@@ -4,6 +4,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Training Modules — HUMAN X</title>
+<meta name="description" content="12개 훈련 모듈 — 기초 논리·메타인지·역기획·시뮬레이션. AI와 정면 대결.">
+<meta property="og:title" content="HUMAN/X 훈련 모듈 카탈로그">
+<meta property="og:description" content="12개 인터랙티브 모듈로 AI와 정면 대결하는 사고력 훈련.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://timidlione.github.io/humanx/modules.html">
+<meta property="og:locale" content="ko_KR">
+<meta name="theme-color" content="#fbf9f3">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
@@ -15,6 +22,15 @@
   .kr { font-family: 'Noto Sans KR', 'EB Garamond', serif; }
   .hairline { border-color: #757689; }
   .filter-chip[data-active="true"] { background: #1b1c19; color: #fbf9f3; }
+  .ticker-track {
+    display: flex; white-space: nowrap;
+    will-change: transform; backface-visibility: hidden;
+    animation: ticker 60s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+  }
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -46,19 +62,44 @@
 </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary selection:text-on-primary overflow-x-hidden">
 
-<!-- TopNavBar -->
-<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 sticky top-0 z-50">
+<!-- STICKY GROUP -->
+<div class="sticky top-0 z-50 bg-background">
+
+<div class="w-full bg-on-surface text-background border-b border-on-surface overflow-hidden py-2">
+  <div class="ticker-track font-label-sm text-label-sm uppercase tracking-widest kr">
+    <span class="px-8">▍ 암기는 끝났다. 판단이 시작된다.</span>
+    <span class="px-8">▍ 당신은 GPT-5와 무엇이 다른가?</span>
+    <span class="px-8">▍ AI가 못 하는 것을 훈련하라.</span>
+    <span class="px-8">▍ 정답이 없는 문제에 답하는 능력만이 남는다.</span>
+    <span class="px-8">▍ 5년 뒤에도 살아남을 인지를 설계한다.</span>
+    <span class="px-8">▍ 기계가 잘하는 것을 가르치지 않는다.</span>
+    <span class="px-8">▍ 사고력은 측정 가능하다.</span>
+    <span class="px-8">▍ 인간의 마지막 우위 — 맥락 · 직관 · 윤리.</span>
+    <span class="px-8" aria-hidden="true">▍ 암기는 끝났다. 판단이 시작된다.</span>
+    <span class="px-8" aria-hidden="true">▍ 당신은 GPT-5와 무엇이 다른가?</span>
+    <span class="px-8" aria-hidden="true">▍ AI가 못 하는 것을 훈련하라.</span>
+    <span class="px-8" aria-hidden="true">▍ 정답이 없는 문제에 답하는 능력만이 남는다.</span>
+    <span class="px-8" aria-hidden="true">▍ 5년 뒤에도 살아남을 인지를 설계한다.</span>
+    <span class="px-8" aria-hidden="true">▍ 기계가 잘하는 것을 가르치지 않는다.</span>
+    <span class="px-8" aria-hidden="true">▍ 사고력은 측정 가능하다.</span>
+    <span class="px-8" aria-hidden="true">▍ 인간의 마지막 우위 — 맥락 · 직관 · 윤리.</span>
+  </div>
+</div>
+
+<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8">
   <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter uppercase mb-4 md:mb-0">
     HUMAN<span class="text-primary">/</span>X
   </a>
   <nav class="flex items-center gap-8 font-label-sm text-label-sm">
     <a class="text-on-surface-variant uppercase hover:text-primary" href="index.html">Home</a>
     <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="modules.html">Modules</a>
-    <a class="text-on-surface-variant uppercase hover:text-primary" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="modules.html#simulations">Simulation</a>
     <a class="text-on-surface-variant uppercase hover:text-primary" href="benchmark.html">Benchmark</a>
-    <button class="ml-4 hover:text-primary"><span class="material-symbols-outlined text-[24px]">account_circle</span></button>
+    <button id="open-account" class="ml-4 hover:text-primary" title="계정 / 데이터"><span class="material-symbols-outlined text-[24px]">account_circle</span></button>
   </nav>
 </header>
+
+</div><!-- /STICKY GROUP -->
 
 <main class="flex-grow flex flex-col pb-[120px]">
 
@@ -69,43 +110,45 @@
   </div>
   <div class="md:col-span-9">
     <h1 class="kr font-display-xl text-display-lg-mobile md:text-display-lg uppercase leading-none">
-      훈련<br/>모듈
+      ANTI-AI MODULES
     </h1>
     <p class="kr mt-6 text-[15px] text-on-surface-variant max-w-2xl">
-      아홉 개의 트랙. 세 개는 기초 논리(F), 세 개는 사고력의 축(α/β/γ), 세 개는 압박 상황 시뮬레이션.
-      정답을 외우는 곳이 아닙니다.
+      <strong>CLAUDE.md 명세 v3 기준 7개 카테고리</strong> — Phase 1 개발 범위는 1~4번(기초 논리·메타인지·역기획·위기대응),
+      5~7번은 Phase 3 실시간 AI 인터랙션. 현재 9개 모듈을 인터랙티브로 체험할 수 있고, 그중 H-01·R-03은 Phase 3 카테고리의 사전 미리보기입니다.
     </p>
   </div>
 </section>
 
-<!-- Filter strip -->
+<!-- Filter strip (실제 동작) -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-6 border-b border-outline-variant flex flex-wrap items-center gap-3">
   <span class="font-label-sm text-label-sm uppercase text-outline mr-2">Filter:</span>
-  <button class="filter-chip border border-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-active="true">All</button>
-  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Foundation</button>
-  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Cognition</button>
-  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Simulation</button>
-  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Beginner</button>
-  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition">Advanced</button>
-  <div class="ml-auto font-label-sm text-label-sm text-outline uppercase kr">09개 모듈</div>
+  <button class="filter-chip border border-on-surface px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-filter="all" data-active="true">All</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-filter="foundation">Foundation</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-filter="cognition">Cognition</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-filter="simulation">Simulation</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-filter="beginner">Beginner ★1–2</button>
+  <button class="filter-chip border border-outline-variant px-3 py-1 font-label-sm text-label-sm uppercase tracking-widest hover:bg-on-surface hover:text-background transition" data-filter="advanced">Advanced ★3+</button>
+  <div class="ml-auto font-label-sm text-label-sm text-outline uppercase kr">
+    <span id="filter-count">9</span> / 9 표시
+  </div>
 </section>
 
 <!-- Section: Foundation Tier -->
 <section id="foundation" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12 bg-surface-container-low">
   <div class="flex items-baseline justify-between mb-10 border-b border-on-surface pb-4">
     <div>
-      <h2 class="font-display-lg text-[40px] uppercase">0 · Foundation</h2>
-      <p class="kr text-[13px] text-on-surface-variant mt-1">기초 논리/추론 — 모든 트랙의 토대</p>
+      <h2 class="font-display-lg text-[40px] uppercase">CAT 01 · 기초 논리/추론</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-1">정답형 채점 (키워드 매칭) · Phase 1</p>
     </div>
-    <span class="font-label-sm text-label-sm text-outline uppercase">Prerequisite</span>
+    <span class="font-label-sm text-label-sm text-primary uppercase">Phase 1</span>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
 
     <!-- F-01 Syllogism -->
-    <article class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition">
-      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[80px] leading-none">
-        ∀x · P
+    <article class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition" data-tier="foundation" data-difficulty="beginner">
+      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[56px] leading-none">
+        전제가 건전하면 <br> 결론은 필연이다
       </div>
       <div class="p-6 flex flex-col gap-4 flex-grow">
         <div class="flex items-baseline justify-between">
@@ -129,9 +172,9 @@
     </article>
 
     <!-- F-02 Bayesian -->
-    <article class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition">
+    <article class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition" data-tier="foundation" data-difficulty="beginner">
       <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[56px] leading-none">
-        P(H|E)
+        새로운 증거 앞에서 <br> 생각을 갱신하라
       </div>
       <div class="p-6 flex flex-col gap-4 flex-grow">
         <div class="flex items-baseline justify-between">
@@ -155,9 +198,9 @@
     </article>
 
     <!-- F-03 Fallacy -->
-    <article class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition">
-      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[80px] leading-none">
-        ¬ &nbsp; ⊥
+    <article class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition" data-tier="foundation" data-difficulty="beginner">
+      <div class="h-[160px] bg-on-surface text-background flex items-center justify-center font-display-lg text-[56px] leading-none">
+        그럴듯한 말 속에서 <br> 모순을 폭로하라
       </div>
       <div class="p-6 flex flex-col gap-4 flex-grow">
         <div class="flex items-baseline justify-between">
@@ -186,30 +229,60 @@
 <!-- Section: Cognition Axes -->
 <section id="cognition" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12">
   <div class="flex items-baseline justify-between mb-10 border-b border-on-surface pb-4">
-    <h2 class="font-display-lg text-[40px] uppercase kr">A · 사고력 축</h2>
-    <span class="font-label-sm text-label-sm text-outline uppercase">학습/성장 영역</span>
+    <div>
+      <h2 class="font-display-lg text-[40px] uppercase kr">CAT 02 · 메타 인지 및 사고력</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-1">개방형 채점 (인정 + 체크포인트 + 대안) · Phase 1</p>
+    </div>
+    <span class="font-label-sm text-label-sm text-primary uppercase">Phase 1</span>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
 
     <!-- Module M-01 META -->
-    <article id="meta" class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition">
-      <div class="h-[280px] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"
-           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDiQniNB2i_UbfbjuQUjlxwCqgN1kVjP5u85MmLZYdtMhZkDJqbPUwUnPM72ykp82u2PkVQcc6AFA8QgCg_iP4YE76pNm0RrHuXtiCBBX2-xsiUxBD9dMXylG8378a3ZU7my1Ma8AdNLySeXUL-7jPIpcfOUjV2tS2BLgfAJwMsHx-8kBQBFHPBAXTm_LSmeyoxiuvUn98pkAs90cnIX5reXKvR-J3oDvVqRBbMjRglmYdFcZ7b-6jjwJuFj7djEzmVAz9WzG5XPqA')"></div>
+    <article id="meta" class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition" data-tier="cognition" data-difficulty="advanced">
+      <div class="h-[280px] bg-on-surface flex items-center justify-center p-6 overflow-hidden">
+        <svg viewBox="0 0 200 140" class="w-full h-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+          <!-- 양팔 저울 베이스 -->
+          <line x1="100" y1="65" x2="100" y2="120" stroke="#fbf9f3" stroke-width="2"/>
+          <polygon points="80,120 120,120 110,135 90,135" fill="#fbf9f3"/>
+          <!-- 빔 (살짝 기울어짐) -->
+          <line x1="40" y1="58" x2="160" y2="72" stroke="#fbf9f3" stroke-width="2"/>
+          <!-- 왼쪽 팬 (위) -->
+          <line x1="40" y1="58" x2="25" y2="80" stroke="#fbf9f3"/>
+          <line x1="40" y1="58" x2="55" y2="80" stroke="#fbf9f3"/>
+          <line x1="20" y1="80" x2="60" y2="80" stroke="#fbf9f3" stroke-width="2"/>
+          <!-- 오른쪽 팬 (아래) -->
+          <line x1="160" y1="72" x2="145" y2="98" stroke="#fbf9f3"/>
+          <line x1="160" y1="72" x2="175" y2="98" stroke="#fbf9f3"/>
+          <line x1="140" y1="98" x2="180" y2="98" stroke="#fbf9f3" stroke-width="2"/>
+          <!-- 왼쪽 공 3개 -->
+          <circle cx="30" cy="73" r="4" fill="#fbf9f3"/>
+          <circle cx="40" cy="73" r="4" fill="#fbf9f3"/>
+          <circle cx="50" cy="73" r="4" fill="#fbf9f3"/>
+          <!-- 오른쪽 공 3개 (한 개가 다름 → 파랑) -->
+          <circle cx="150" cy="91" r="4" fill="#fbf9f3"/>
+          <circle cx="160" cy="91" r="4.5" fill="#001cbf"/>
+          <circle cx="170" cy="91" r="4" fill="#fbf9f3"/>
+          <!-- 여분 2개 -->
+          <circle cx="88" cy="30" r="4" fill="none" stroke="#fbf9f3" stroke-width="1"/>
+          <circle cx="112" cy="30" r="4" fill="none" stroke="#fbf9f3" stroke-width="1"/>
+          <text x="100" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#bcc2ff" letter-spacing="1">8 BALLS · 2 WEIGHINGS</text>
+        </svg>
+      </div>
       <div class="p-6 flex flex-col gap-4 flex-grow">
         <div class="flex items-baseline justify-between">
           <span class="font-label-sm text-label-sm text-outline uppercase">M-01 / α</span>
           <span class="font-label-sm text-label-sm text-primary uppercase">Cognition</span>
         </div>
-        <h3 class="font-headline-md text-[28px] uppercase leading-tight">Meta-Cognition<br/>& Dilemma Synthesis</h3>
+        <h3 class="font-headline-md text-[28px] uppercase leading-tight">8 Balls<br/>& Balance Scale</h3>
         <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
-          정답 없는 윤리·철학 딜레마, 그리고 생물학과 금융처럼 무관한 두 개념을 결합해
-          새로운 비즈니스 모델을 도출.
+          클래식 통찰 퍼즐. 8개 공 중 무거운 1개를 양팔 저울 최소 횟수로 찾는 절차를 설계하고,
+          도구가 바뀌면 어떻게 일반화되는지 메타 추론.
         </p>
         <ul class="kr text-[13px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
-          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">45 MIN</span></li>
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">25 MIN</span></li>
           <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★☆☆</span></li>
-          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">CONTEXT · METAPHOR</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · META</span></li>
         </ul>
         <a href="simulation.html?mod=M-01" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
           <span class="font-body-md">시작</span>
@@ -219,23 +292,43 @@
     </article>
 
     <!-- Module M-02 REVERSE -->
-    <article id="reverse" class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition md:mt-12">
-      <div class="h-[280px] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"
-           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHjRT2Za51J511FGjOXPb7tkt1ykEoU_e_g2-sgHqGo0sX_W-xblafZpC8k63oWkQGPp8eHujav0_jx0BYekgtfD5jw5zpsV-h9Xx7RhIRon8aIL4FM3dr7R3XolAEeQJk2rKfrb6ydwuqv-Sbru-4T8RCpyrww2wgkN4zmqsq-jHQyzoQfrQtq7PO3fl03g7J7rYDGQOY-2r2UG0VUUErozHbiuVUE4U8rJpWlUx_JYLwooql3k2_5V3-xXNm01KwrsOG8HSCAgU')"></div>
+    <article id="reverse" class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition" data-tier="cognition" data-difficulty="advanced">
+      <div class="h-[280px] bg-on-surface flex items-center justify-center p-6 overflow-hidden">
+        <svg viewBox="0 0 200 140" class="w-full h-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+          <text x="100" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#bcc2ff" letter-spacing="1">2 ROPES · 45 MIN</text>
+          <!-- Rope A — both ends lit (양끝 점화) -->
+          <text x="10" y="50" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">A</text>
+          <path d="M 25 55 Q 55 35 100 60 T 175 55" stroke="#fbf9f3" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- 불꽃 (양쪽) -->
+          <path d="M 22 55 L 18 49 L 22 51 L 26 47 L 25 53 L 28 55 Z" fill="#001cbf"/>
+          <path d="M 178 55 L 182 49 L 178 51 L 174 47 L 175 53 L 172 55 Z" fill="#001cbf"/>
+          <!-- Rope B — one end lit (한쪽만) -->
+          <text x="10" y="105" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">B</text>
+          <path d="M 25 105 Q 55 85 100 110 T 175 105" stroke="#fbf9f3" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 22 105 L 18 99 L 22 101 L 26 97 L 25 103 L 28 105 Z" fill="#001cbf"/>
+          <!-- 점선: B의 미래 점화 위치 -->
+          <circle cx="178" cy="105" r="4" fill="none" stroke="#bcc2ff" stroke-width="1" stroke-dasharray="2 1"/>
+          <!-- Timeline 화살표 -->
+          <line x1="30" y1="128" x2="170" y2="128" stroke="#bcc2ff" stroke-width="1"/>
+          <text x="30" y="138" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">0:00</text>
+          <text x="100" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">30:00</text>
+          <text x="170" y="138" text-anchor="end" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">45:00</text>
+        </svg>
+      </div>
       <div class="p-6 flex flex-col gap-4 flex-grow">
         <div class="flex items-baseline justify-between">
           <span class="font-label-sm text-label-sm text-outline uppercase">M-02 / β</span>
           <span class="font-label-sm text-label-sm text-primary uppercase">Cognition</span>
         </div>
-        <h3 class="font-headline-md text-[28px] uppercase leading-tight">Reverse-<br/>Engineering</h3>
+        <h3 class="font-headline-md text-[28px] uppercase leading-tight">Two Ropes<br/>& 45 Minutes</h3>
         <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
-          완성된 프로덕트의 아키텍처를 역추적하고, AI가 작성한 코드/논리의 엣지 케이스를
-          찾아내는 훈련.
+          균일하게 타지 않는 두 밧줄과 라이터만으로 정확히 45분을 측정하라.
+          제약 조건이 명확한 시간 추론 퍼즐.
         </p>
         <ul class="kr text-[13px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
-          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">60 MIN</span></li>
-          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★★☆</span></li>
-          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">FLEX · CONTEXT</span></li>
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">25 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · FLEX</span></li>
         </ul>
         <a href="simulation.html?mod=M-02" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
           <span class="font-body-md">시작</span>
@@ -245,23 +338,63 @@
     </article>
 
     <!-- Module M-03 DIRECTING -->
-    <article id="directing" class="group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition">
-      <div class="h-[280px] bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700"
-           style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdZ0q-rweY--2hdGX_8hoVMyhgyrrTsHTrogFuM8Z0swlDYnarmat_c-Sz2SR5_IMeLTWSmw0qeTOMKjEimQcyC6jdtYQaljR-MgibbLbD7emGVvQM76r2C_WQD-nFkzNDlh1Xp14fgqTTrxH0drvtO0gSEdr2NvvYwQpYJ5MiU_3VbuT6wndONLX-H29td0Fi3_xm4X9dz-H6_YmeIu0uIk-7VK6tYquRIXM3H_Gg6vFMa15HUp7PeRyU0jtK6aG5aVAcO1jpb2I')"></div>
+    <article id="directing" class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container-low transition" data-tier="cognition" data-difficulty="advanced">
+      <div class="h-[280px] bg-on-surface flex items-center justify-center p-6 overflow-hidden">
+        <svg viewBox="0 0 200 140" class="w-full h-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+          <text x="100" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#bcc2ff" letter-spacing="1">SCHOOL BUS · ≈ 65만 골프공</text>
+          <!-- 골프공 흩어짐 (위쪽) -->
+          <g fill="#001cbf">
+            <circle cx="20" cy="35" r="2"/><circle cx="35" cy="40" r="2"/>
+            <circle cx="50" cy="32" r="2"/><circle cx="70" cy="38" r="2"/>
+            <circle cx="90" cy="34" r="2"/><circle cx="110" cy="40" r="2"/>
+            <circle cx="130" cy="32" r="2"/><circle cx="150" cy="38" r="2"/>
+            <circle cx="170" cy="35" r="2"/><circle cx="185" cy="40" r="2"/>
+          </g>
+          <!-- 스쿨버스 차체 -->
+          <rect x="35" y="60" width="135" height="45" fill="none" stroke="#fbf9f3" stroke-width="2"/>
+          <!-- 앞코 -->
+          <path d="M 35 60 L 25 80 L 35 80 Z" fill="#fbf9f3"/>
+          <!-- 창문 5개 -->
+          <rect x="42" y="65" width="20" height="15" fill="none" stroke="#fbf9f3"/>
+          <rect x="65" y="65" width="20" height="15" fill="none" stroke="#fbf9f3"/>
+          <rect x="88" y="65" width="20" height="15" fill="none" stroke="#fbf9f3"/>
+          <rect x="111" y="65" width="20" height="15" fill="none" stroke="#fbf9f3"/>
+          <rect x="134" y="65" width="20" height="15" fill="none" stroke="#fbf9f3"/>
+          <rect x="157" y="65" width="9" height="15" fill="none" stroke="#fbf9f3"/>
+          <!-- 차 내부 골프공 (그리드) -->
+          <g fill="#bcc2ff" opacity="0.5">
+            <circle cx="45" cy="88" r="1.5"/><circle cx="55" cy="88" r="1.5"/><circle cx="65" cy="88" r="1.5"/>
+            <circle cx="75" cy="88" r="1.5"/><circle cx="85" cy="88" r="1.5"/><circle cx="95" cy="88" r="1.5"/>
+            <circle cx="105" cy="88" r="1.5"/><circle cx="115" cy="88" r="1.5"/><circle cx="125" cy="88" r="1.5"/>
+            <circle cx="135" cy="88" r="1.5"/><circle cx="145" cy="88" r="1.5"/><circle cx="155" cy="88" r="1.5"/>
+            <circle cx="50" cy="95" r="1.5"/><circle cx="60" cy="95" r="1.5"/><circle cx="70" cy="95" r="1.5"/>
+            <circle cx="80" cy="95" r="1.5"/><circle cx="90" cy="95" r="1.5"/><circle cx="100" cy="95" r="1.5"/>
+            <circle cx="110" cy="95" r="1.5"/><circle cx="120" cy="95" r="1.5"/><circle cx="130" cy="95" r="1.5"/>
+            <circle cx="140" cy="95" r="1.5"/><circle cx="150" cy="95" r="1.5"/>
+          </g>
+          <!-- 바퀴 -->
+          <circle cx="60" cy="105" r="8" fill="none" stroke="#fbf9f3" stroke-width="2"/>
+          <circle cx="60" cy="105" r="3" fill="#fbf9f3"/>
+          <circle cx="145" cy="105" r="8" fill="none" stroke="#fbf9f3" stroke-width="2"/>
+          <circle cx="145" cy="105" r="3" fill="#fbf9f3"/>
+          <!-- 추정식 -->
+          <text x="100" y="128" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">V_bus × 64% packing ÷ V_ball</text>
+        </svg>
+      </div>
       <div class="p-6 flex flex-col gap-4 flex-grow">
         <div class="flex items-baseline justify-between">
           <span class="font-label-sm text-label-sm text-outline uppercase">M-03 / γ</span>
           <span class="font-label-sm text-label-sm text-primary uppercase">Cognition</span>
         </div>
-        <h3 class="font-headline-md text-[28px] uppercase leading-tight">AI Directing &<br/>Prompt Control</h3>
+        <h3 class="font-headline-md text-[28px] uppercase leading-tight">School Bus<br/>& Golf Balls</h3>
         <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
-          이미지·텍스트 모델을 도구로 삼아 원하는 결과물을 정확히 도출 — 프롬프트 엔지니어링
-          그 너머의 기획력과 통제력.
+          Fermi 추정 — 스쿨버스 한 대에 골프공 몇 개? 가정 분리·차감 요소·범위 추정으로
+          단일 숫자 대신 추정 구조를 평가.
         </p>
         <ul class="kr text-[13px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
           <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">30 MIN</span></li>
-          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★☆☆☆</span></li>
-          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">FLEX · INTUIT</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">FLEX · CONTEXT</span></li>
         </ul>
         <a href="simulation.html?mod=M-03" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
           <span class="font-body-md">시작</span>
@@ -273,16 +406,168 @@
   </div>
 </section>
 
+<!-- Section: CAT 03 — 역기획 및 구조 분석 (Phase 1) -->
+<section id="engineering" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12 bg-surface-container-low">
+  <div class="flex items-baseline justify-between mb-10 border-b border-on-surface pb-4">
+    <div>
+      <h2 class="font-display-lg text-[40px] uppercase">CAT 03 · 역기획 & 구조 분석</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-1">정답/개방 혼합 · Phase 1 · 부록 A-3 기반 (10중 3개 선행)</p>
+    </div>
+    <span class="font-label-sm text-label-sm text-primary uppercase">Phase 1</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+
+    <!-- E-01 Edge Case -->
+    <article class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition" data-tier="engineering" data-difficulty="beginner">
+      <div class="h-[180px] bg-on-surface flex items-center justify-center p-4 overflow-hidden">
+        <svg viewBox="0 0 200 120" class="w-full h-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+          <text x="100" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#bcc2ff" letter-spacing="1">EDGE CASE · DIV BY ZERO</text>
+          <!-- 코드 박스 -->
+          <rect x="20" y="30" width="160" height="60" fill="none" stroke="#fbf9f3" stroke-width="1"/>
+          <text x="30" y="48" font-family="JetBrains Mono" font-size="10" fill="#fbf9f3">def divide(a, b):</text>
+          <text x="40" y="62" font-family="JetBrains Mono" font-size="10" fill="#fbf9f3">return a / b</text>
+          <!-- 경고 표시 -->
+          <text x="100" y="84" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#001cbf">⚠ b = ?</text>
+          <text x="100" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">0  ·  ""  ·  None  ·  inf</text>
+        </svg>
+      </div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">E-01 / Edge</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">[정답형]</span>
+        </div>
+        <h3 class="font-headline-md text-[22px] uppercase leading-tight">divide()<br>Edge Case</h3>
+        <p class="kr text-[13px] text-on-surface-variant leading-relaxed">
+          AI가 작성한 단순 함수의 깨지는 입력 식별. ZeroDivision·타입·부동소수 특수값까지.
+        </p>
+        <ul class="kr text-[12px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">25 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★☆☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · CRITICAL</span></li>
+        </ul>
+        <a href="simulation.html?mod=E-01" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">시작</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- E-02 List Mutation -->
+    <article class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition" data-tier="engineering" data-difficulty="advanced">
+      <div class="h-[180px] bg-on-surface flex items-center justify-center p-4 overflow-hidden">
+        <svg viewBox="0 0 200 120" class="w-full h-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+          <text x="100" y="20" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#bcc2ff" letter-spacing="1">ITERATE + MUTATE</text>
+          <!-- 리스트 시각화 -->
+          <g font-family="JetBrains Mono" font-size="11">
+            <rect x="20" y="35" width="20" height="20" fill="none" stroke="#fbf9f3"/><text x="30" y="50" text-anchor="middle" fill="#fbf9f3">1</text>
+            <rect x="45" y="35" width="20" height="20" fill="#001cbf"/><text x="55" y="50" text-anchor="middle" fill="#fbf9f3">2</text>
+            <rect x="70" y="35" width="20" height="20" fill="#001cbf"/><text x="80" y="50" text-anchor="middle" fill="#fbf9f3">2</text>
+            <rect x="95" y="35" width="20" height="20" fill="#001cbf"/><text x="105" y="50" text-anchor="middle" fill="#fbf9f3">2</text>
+            <rect x="120" y="35" width="20" height="20" fill="none" stroke="#fbf9f3"/><text x="130" y="50" text-anchor="middle" fill="#fbf9f3">3</text>
+          </g>
+          <!-- 화살표 + 인덱스 어긋남 -->
+          <path d="M 55 60 L 55 75" stroke="#bcc2ff" stroke-width="1"/>
+          <text x="55" y="88" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">i=1</text>
+          <path d="M 100 95 Q 100 105 110 105" stroke="#001cbf" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+          <text x="100" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#bcc2ff">건너뜀!</text>
+        </svg>
+      </div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">E-02 / Mutation</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">[정답형]</span>
+        </div>
+        <h3 class="font-headline-md text-[22px] uppercase leading-tight">반복 중<br>리스트 수정</h3>
+        <p class="kr text-[13px] text-on-surface-variant leading-relaxed">
+          for 안에서 arr.remove() — 인덱스가 어긋나며 일부만 제거되는 함정.
+          Pythonic 해법까지 추적.
+        </p>
+        <ul class="kr text-[12px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">20 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★☆☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">LOGIC · TRACE</span></li>
+        </ul>
+        <a href="simulation.html?mod=E-02" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">시작</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- E-03 URL Shortener -->
+    <article class="module-card group flex flex-col border border-on-surface bg-background hover:bg-surface-container transition" data-tier="engineering" data-difficulty="advanced">
+      <div class="h-[180px] bg-on-surface flex items-center justify-center p-4 overflow-hidden">
+        <svg viewBox="0 0 200 120" class="w-full h-full max-w-[280px]" xmlns="http://www.w3.org/2000/svg">
+          <text x="100" y="18" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#bcc2ff" letter-spacing="1">URL SHORTENER · REVERSE</text>
+          <!-- 긴 URL → 단축 URL -->
+          <text x="20" y="40" font-family="JetBrains Mono" font-size="8" fill="#fbf9f3">long.example.com/p/abc...</text>
+          <path d="M 100 48 L 100 60" stroke="#001cbf" stroke-width="1.5" marker-end="url(#arr)"/>
+          <text x="100" y="78" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#001cbf">hx.io/aB3</text>
+          <!-- 구성요소 -->
+          <g font-family="JetBrains Mono" font-size="7" fill="#bcc2ff">
+            <rect x="15" y="90" width="40" height="20" fill="none" stroke="#fbf9f3"/>
+            <text x="35" y="103" text-anchor="middle">HASH</text>
+            <rect x="65" y="90" width="40" height="20" fill="none" stroke="#fbf9f3"/>
+            <text x="85" y="103" text-anchor="middle">DB</text>
+            <rect x="115" y="90" width="40" height="20" fill="none" stroke="#fbf9f3"/>
+            <text x="135" y="103" text-anchor="middle">CACHE</text>
+            <rect x="165" y="90" width="20" height="20" fill="none" stroke="#fbf9f3"/>
+            <text x="175" y="103" text-anchor="middle">CDN</text>
+          </g>
+        </svg>
+      </div>
+      <div class="p-6 flex flex-col gap-4 flex-grow">
+        <div class="flex items-baseline justify-between">
+          <span class="font-label-sm text-label-sm text-outline uppercase">E-03 / Architect</span>
+          <span class="font-label-sm text-label-sm text-primary uppercase">[개방형]</span>
+        </div>
+        <h3 class="font-headline-md text-[22px] uppercase leading-tight">URL 단축<br>역설계</h3>
+        <p class="kr text-[13px] text-on-surface-variant leading-relaxed">
+          bit.ly를 백지에서 설계 — 키 생성 · 저장 · 리다이렉트 · 확장성 5요소를
+          누락 없이 그려내라.
+        </p>
+        <ul class="kr text-[12px] text-on-surface space-y-2 mt-2 border-t border-outline-variant pt-4">
+          <li class="flex justify-between"><span>예상 소요</span><span class="font-label-sm">30 MIN</span></li>
+          <li class="flex justify-between"><span>난이도</span><span class="font-label-sm">★★★★☆</span></li>
+          <li class="flex justify-between"><span>평가 축</span><span class="font-label-sm">CONTEXT · SYSTEM</span></li>
+        </ul>
+        <a href="simulation.html?mod=E-03" class="mt-auto bg-on-surface text-background py-3 px-4 flex justify-between items-center hover:bg-primary transition-colors">
+          <span class="font-body-md">시작</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Cat 03 추가 7개 / Cat 05 안내 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-12">
+    <div class="border border-outline-variant bg-background p-5 flex flex-col gap-2">
+      <span class="font-label-sm text-label-sm uppercase text-outline">CAT 03 · 부록 A-3 잔여 7문제</span>
+      <p class="kr text-[12px] text-on-surface-variant">SQL 인젝션 · 복잡도 분석 · 캐싱 무효화 · 엘리베이터 스케줄링 · 멱등성 결제 · 실시간 채팅 · 추천 시스템 — Phase 2 문제 은행에서 추가.</p>
+    </div>
+    <div class="border border-outline-variant bg-background p-5 flex flex-col gap-2">
+      <span class="font-label-sm text-label-sm uppercase text-outline">CAT 05 · AI 디렉팅 (Phase 3)</span>
+      <p class="kr text-[12px] text-on-surface-variant">실시간 LLM 호출이 필수라 Phase 3 LLM API 연동 후 도입. 프롬프트 → 결과물 → 재프롬프트 사이클.</p>
+    </div>
+  </div>
+</section>
+
 <!-- Section: Field Simulations -->
 <section id="simulations" class="w-full px-margin-mobile md:px-margin-desktop pt-24 pb-12 bg-on-surface text-background">
   <div class="flex items-baseline justify-between mb-10 border-b border-outline pb-4">
-    <h2 class="font-display-lg text-[40px] uppercase kr">B · 실전 시뮬레이션</h2>
-    <span class="font-label-sm text-label-sm uppercase text-secondary-fixed-dim">실전 모의 훈련</span>
+    <div>
+      <h2 class="font-display-lg text-[40px] uppercase kr">CAT 04 / 06 / 07 · 압박 시뮬레이션</h2>
+      <p class="kr text-[13px] text-secondary-fixed-dim mt-1">C-02는 Phase 1 (위기 대응) · H-01·R-03은 <strong class="text-primary-fixed-dim">Phase 3 미리보기</strong></p>
+    </div>
+    <span class="font-label-sm text-label-sm uppercase text-primary-fixed-dim">Mixed Phase</span>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-outline">
 
-    <article class="bg-on-surface p-8 flex flex-col gap-4 min-h-[440px]">
+    <article class="module-card bg-on-surface p-8 flex flex-col gap-4 min-h-[440px] relative" data-tier="simulation" data-difficulty="advanced">
+      <span class="absolute -top-3 left-4 bg-primary-fixed-dim text-on-surface px-2 py-0.5 font-label-sm text-label-sm uppercase">CAT 06 · Phase 3 Preview</span>
       <div class="flex justify-between items-baseline">
         <span class="font-label-sm text-label-sm text-outline uppercase">SIM // H-01</span>
         <span class="w-2 h-2 bg-primary"></span>
@@ -303,7 +588,8 @@
       </a>
     </article>
 
-    <article class="bg-on-surface p-8 flex flex-col gap-4 min-h-[440px]">
+    <article class="module-card bg-on-surface p-8 flex flex-col gap-4 min-h-[440px] relative" data-tier="simulation" data-difficulty="advanced">
+      <span class="absolute -top-3 left-4 bg-primary text-on-primary px-2 py-0.5 font-label-sm text-label-sm uppercase">CAT 04 · Phase 1</span>
       <div class="flex justify-between items-baseline">
         <span class="font-label-sm text-label-sm text-outline uppercase">SIM // C-02</span>
         <span class="w-2 h-2 bg-secondary-fixed-dim"></span>
@@ -324,7 +610,8 @@
       </a>
     </article>
 
-    <article class="bg-on-surface p-8 flex flex-col gap-4 min-h-[440px]">
+    <article class="module-card bg-on-surface p-8 flex flex-col gap-4 min-h-[440px] relative" data-tier="simulation" data-difficulty="beginner">
+      <span class="absolute -top-3 left-4 bg-primary-fixed-dim text-on-surface px-2 py-0.5 font-label-sm text-label-sm uppercase">CAT 07 · Phase 3 Preview</span>
       <div class="flex justify-between items-baseline">
         <span class="font-label-sm text-label-sm text-outline uppercase">SIM // R-03</span>
         <span class="w-2 h-2 bg-secondary-fixed-dim"></span>
@@ -367,25 +654,169 @@
 
 </main>
 
+<!-- ACCOUNT MODAL -->
+<div id="account-modal" class="hidden fixed inset-0 z-[60] bg-on-surface/80 flex items-center justify-center p-4">
+  <div class="bg-background border border-on-surface max-w-md w-full">
+    <div class="flex justify-between items-baseline border-b border-outline-variant px-6 py-4">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">계정 / 데이터</span>
+      <button class="close-account font-label-sm text-label-sm uppercase hover:text-primary">닫기 ✕</button>
+    </div>
+    <div class="px-6 py-5 space-y-5">
+      <div class="border border-outline-variant p-4">
+        <div class="flex justify-between items-baseline">
+          <span class="font-label-sm text-label-sm uppercase text-outline">현재 상태</span>
+          <span class="font-label-sm text-label-sm text-primary">게스트</span>
+        </div>
+        <p class="kr text-[13px] mt-2 text-on-surface-variant leading-relaxed">
+          결과는 이 브라우저(localStorage)에만 저장됩니다.
+        </p>
+      </div>
+      <div class="border-l-4 border-primary bg-primary-fixed p-4">
+        <span class="font-label-sm text-label-sm uppercase text-primary">Phase 2 예정</span>
+        <p class="kr text-[13px] mt-2 leading-relaxed">
+          Google / GitHub OAuth + Postgres 학습 이력은 Phase 2에서 도입됩니다.
+        </p>
+        <div class="flex gap-2 mt-3 opacity-50">
+          <button class="border border-outline-variant px-3 py-1.5 font-label-sm text-label-sm uppercase cursor-not-allowed">Google · 대기</button>
+          <button class="border border-outline-variant px-3 py-1.5 font-label-sm text-label-sm uppercase cursor-not-allowed">GitHub · 대기</button>
+        </div>
+      </div>
+      <div class="border border-outline-variant p-4">
+        <div class="flex justify-between items-baseline mb-2">
+          <span class="font-label-sm text-label-sm uppercase text-outline">누적 진척도</span>
+          <span class="font-label-sm text-label-sm" id="acct-progress">— / 12</span>
+        </div>
+        <div class="h-1.5 bg-surface-container overflow-hidden">
+          <div id="acct-bar" class="h-full bg-primary" style="width: 0%"></div>
+        </div>
+        <p class="kr text-[12px] mt-2 text-on-surface-variant" id="acct-summary">한 번도 풀지 않았습니다.</p>
+      </div>
+      <div class="border border-outline-variant p-4">
+        <span class="font-label-sm text-label-sm uppercase text-outline">데이터 초기화</span>
+        <p class="kr text-[12px] mt-2 text-on-surface-variant">모든 결과 + history 삭제. 되돌릴 수 없습니다.</p>
+        <button id="reset-data" class="mt-3 border border-error text-error px-4 py-2 font-label-sm text-label-sm uppercase hover:bg-error hover:text-on-error transition">전체 초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('account-modal');
+  if (!modal) return;
+  const open = () => {
+    modal.classList.remove('hidden');
+    try {
+      const history = JSON.parse(localStorage.getItem('humanx:history') || '[]');
+      const done = history.length;
+      document.getElementById('acct-progress').textContent = `${done} / 12`;
+      document.getElementById('acct-bar').style.width = (done / 12 * 100) + '%';
+      if (done > 0) {
+        const avg = Math.round(history.reduce((s,h) => s + h.score, 0) / done);
+        const recent = history.slice(-3).map(h => h.mod).join(' · ');
+        document.getElementById('acct-summary').textContent = `평균 ${avg}점 · 최근: ${recent}`;
+      }
+    } catch(e) {}
+  };
+  const close = () => modal.classList.add('hidden');
+  document.getElementById('open-account')?.addEventListener('click', open);
+  modal.querySelectorAll('.close-account').forEach(b => b.addEventListener('click', close));
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+  document.getElementById('reset-data')?.addEventListener('click', () => {
+    if (!confirm('모든 결과를 삭제할까요? 되돌릴 수 없습니다.')) return;
+    localStorage.removeItem('humanx:last-result');
+    localStorage.removeItem('humanx:history');
+    alert('초기화 완료. 페이지를 새로고침합니다.');
+    location.reload();
+  });
+})();
+</script>
+
 <footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter">
   <div class="flex flex-col gap-4">
     <div class="font-display-lg text-display-lg-mobile">HUMAN<span class="text-primary">/</span>X</div>
-    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.2</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.5</div>
   </div>
   <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0">
     <a class="text-on-surface-variant hover:text-primary underline" href="index.html">Home</a>
-    <a class="text-on-surface-variant hover:text-primary underline" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="modules.html">Modules</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="modules.html#simulations">Simulation</a>
     <a class="text-on-surface-variant hover:text-primary underline" href="benchmark.html">Benchmark</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="https://github.com/timidlione/humanx" target="_blank">GitHub</a>
   </div>
 </footer>
 
 <script>
-  document.querySelectorAll('.filter-chip').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.filter-chip').forEach(x => x.dataset.active = "false");
-      b.dataset.active = "true";
-    });
+// =============================================================
+// FILTER CHIPS (실제 동작)
+// =============================================================
+const chips = document.querySelectorAll('.filter-chip');
+const cards = document.querySelectorAll('.module-card');
+const tierSections = {
+  foundation: document.getElementById('foundation'),
+  cognition: document.getElementById('cognition'),
+  simulation: document.getElementById('simulations')
+};
+const filterCount = document.getElementById('filter-count');
+
+function applyFilter(filter) {
+  let visible = 0;
+  const tiersWithVisible = new Set();
+  cards.forEach(card => {
+    const tier = card.dataset.tier;
+    const diff = card.dataset.difficulty;
+    const show =
+      filter === 'all' ||
+      filter === tier ||
+      filter === diff;
+    card.style.display = show ? '' : 'none';
+    if (show) { visible++; tiersWithVisible.add(tier); }
   });
+  // 빈 섹션은 헤더도 숨김
+  Object.entries(tierSections).forEach(([t, sec]) => {
+    if (sec) sec.style.display = tiersWithVisible.has(t) || filter === 'all' ? '' : 'none';
+  });
+  filterCount.textContent = visible;
+}
+
+chips.forEach(b => {
+  b.addEventListener('click', () => {
+    chips.forEach(x => {
+      x.dataset.active = "false";
+      x.classList.remove('border-on-surface');
+      x.classList.add('border-outline-variant');
+    });
+    b.dataset.active = "true";
+    b.classList.add('border-on-surface');
+    b.classList.remove('border-outline-variant');
+    applyFilter(b.dataset.filter);
+  });
+});
+
+// =============================================================
+// 진척도 배지 (이미 완료한 모듈은 ✓ 표시)
+// =============================================================
+try {
+  const history = JSON.parse(localStorage.getItem('humanx:history') || '[]');
+  const completed = new Set(history.map(h => h.mod));
+  cards.forEach(card => {
+    const link = card.querySelector('a[href*="simulation.html?mod="]');
+    if (!link) return;
+    const url = new URL(link.href);
+    const mod = url.searchParams.get('mod');
+    if (completed.has(mod)) {
+      const badge = document.createElement('span');
+      badge.className = 'absolute top-3 right-3 font-label-sm text-label-sm bg-primary text-on-primary px-2 py-1 uppercase z-10';
+      badge.textContent = '✓ 완료';
+      card.style.position = 'relative';
+      card.appendChild(badge);
+    }
+  });
+  if (completed.size > 0) {
+    filterCount.parentElement.innerHTML += ` <span class="text-primary ml-2">· ${completed.size}개 완료</span>`;
+  }
+} catch(e) {}
 </script>
 
 </body>

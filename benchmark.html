@@ -4,6 +4,14 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Cognitive Benchmark — HUMAN/X</title>
+<meta name="description" content="525개 LLM 사이 당신의 사고력 위치 — AA Intelligence Index 기반 직접 매칭.">
+<meta property="og:title" content="당신의 사고력은 어느 LLM 수준? · HUMAN/X 벤치마크">
+<meta property="og:description" content="525개 모델 중 당신은 어디에 — 인간-AI 역량 레이더 + 튜링 테스트 지수.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://timidlione.github.io/humanx/benchmark.html">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#fbf9f3"></meta>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
@@ -23,6 +31,15 @@
   tr.you td { font-weight: 700; }
   tr.you .vendor-tag { color: #bcc2ff; }
   .vendor-tag { font-family: 'JetBrains Mono'; font-size: 11px; }
+  .ticker-track {
+    display: flex; white-space: nowrap;
+    will-change: transform; backface-visibility: hidden;
+    animation: ticker 60s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+  }
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -55,17 +72,44 @@
 </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased overflow-x-hidden">
 
-<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 sticky top-0 z-50">
+<!-- STICKY GROUP -->
+<div class="sticky top-0 z-50 bg-background">
+
+<div class="w-full bg-on-surface text-background border-b border-on-surface overflow-hidden py-2">
+  <div class="ticker-track font-label-sm text-label-sm uppercase tracking-widest kr">
+    <span class="px-8">▍ 암기는 끝났다. 판단이 시작된다.</span>
+    <span class="px-8">▍ 당신은 GPT-5와 무엇이 다른가?</span>
+    <span class="px-8">▍ AI가 못 하는 것을 훈련하라.</span>
+    <span class="px-8">▍ 정답이 없는 문제에 답하는 능력만이 남는다.</span>
+    <span class="px-8">▍ 5년 뒤에도 살아남을 인지를 설계한다.</span>
+    <span class="px-8">▍ 기계가 잘하는 것을 가르치지 않는다.</span>
+    <span class="px-8">▍ 사고력은 측정 가능하다.</span>
+    <span class="px-8">▍ 인간의 마지막 우위 — 맥락 · 직관 · 윤리.</span>
+    <span class="px-8" aria-hidden="true">▍ 암기는 끝났다. 판단이 시작된다.</span>
+    <span class="px-8" aria-hidden="true">▍ 당신은 GPT-5와 무엇이 다른가?</span>
+    <span class="px-8" aria-hidden="true">▍ AI가 못 하는 것을 훈련하라.</span>
+    <span class="px-8" aria-hidden="true">▍ 정답이 없는 문제에 답하는 능력만이 남는다.</span>
+    <span class="px-8" aria-hidden="true">▍ 5년 뒤에도 살아남을 인지를 설계한다.</span>
+    <span class="px-8" aria-hidden="true">▍ 기계가 잘하는 것을 가르치지 않는다.</span>
+    <span class="px-8" aria-hidden="true">▍ 사고력은 측정 가능하다.</span>
+    <span class="px-8" aria-hidden="true">▍ 인간의 마지막 우위 — 맥락 · 직관 · 윤리.</span>
+  </div>
+</div>
+
+<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8">
   <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter uppercase mb-4 md:mb-0">
     HUMAN<span class="text-primary">/</span>X
   </a>
   <nav class="flex items-center gap-8 font-label-sm text-label-sm">
     <a class="text-on-surface-variant uppercase hover:text-primary" href="index.html">Home</a>
     <a class="text-on-surface-variant uppercase hover:text-primary" href="modules.html">Modules</a>
-    <a class="text-on-surface-variant uppercase hover:text-primary" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary" href="modules.html#simulations">Simulation</a>
     <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="benchmark.html">Benchmark</a>
+    <button id="open-account" class="ml-4 hover:text-primary" title="계정 / 데이터"><span class="material-symbols-outlined text-[24px]">account_circle</span></button>
   </nav>
 </header>
+
+</div><!-- /STICKY GROUP -->
 
 <main class="flex-grow flex flex-col pb-[120px]">
 
@@ -96,9 +140,24 @@
     <p class="font-label-sm text-label-sm uppercase text-outline mt-2 kr" id="score-caption">
       / 60 · 평가 대기 중
     </p>
+
+    <!-- AI 모델 매칭 카드 — CLAUDE.md 2.3절 -->
+    <div id="model-match-card" class="mt-8 border-l-4 border-primary bg-primary-fixed p-5 hidden">
+      <div class="flex items-baseline gap-3">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">당신 ≈</span>
+        <span class="font-label-sm text-label-sm text-outline" id="model-match-aa">AA — / 60</span>
+      </div>
+      <div class="font-display-lg text-display-lg-mobile uppercase mt-2 leading-none" id="model-match-name">— —</div>
+      <p class="kr text-[14px] mt-3 text-on-surface" id="model-match-msg">
+        모듈을 한 번이라도 완료하면 가장 가까운 LLM이 표시됩니다.
+      </p>
+    </div>
+
     <p class="kr mt-6 text-[16px] leading-relaxed max-w-xl text-on-surface" id="score-narrative">
       모듈을 한 번이라도 완료하면 여기에 결과가 표시됩니다.
     </p>
+    <!-- AI 대결 패널 (CLAUDE.md 4.2절) — 모듈 완료 후 자동 채워짐 -->
+    <div id="ai-battle-panel" class="mt-10 border border-on-surface bg-background p-5 hidden"></div>
   </div>
 
   <div class="md:col-span-5 border border-on-surface p-6 bg-background">
@@ -122,66 +181,202 @@
   </div>
 </section>
 
+<!-- 진척도 + 다음 모듈 추천 -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-16 border-t border-on-surface">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <div class="md:col-span-3">
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 03 / PROGRESS</span>
+      <h2 class="kr font-display-lg text-[40px] uppercase leading-none mt-3">진척도<br>& 다음 모듈</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-4 max-w-sm">
+        로컬에 저장된 본인 결과. Phase 2에서 계정 기반으로 클라우드 동기화 예정.
+      </p>
+    </div>
+    <div class="md:col-span-9 space-y-6">
+      <!-- 진척도 바 + 9개 모듈 칩 -->
+      <div class="border border-on-surface bg-background p-6">
+        <div class="flex items-baseline justify-between mb-3">
+          <div>
+            <span class="font-label-sm text-label-sm uppercase text-outline">완료한 모듈</span>
+            <p class="kr text-[12px] text-on-surface-variant mt-1">한 번이라도 제출하면 누적됩니다 (같은 모듈은 최신 점수로 갱신).</p>
+          </div>
+          <span class="font-display-lg text-[32px] tracking-tight"><span id="progress-done">0</span> / 12</span>
+        </div>
+        <div class="h-2 bg-surface-container overflow-hidden mt-2">
+          <div id="progress-bar" class="h-full bg-primary transition-all duration-700" style="width: 0%"></div>
+        </div>
+        <div id="progress-chips" class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-2 mt-5">
+          <!-- 자동 생성 -->
+        </div>
+      </div>
+
+      <!-- 다음 추천 -->
+      <div id="next-mod-card" class="border border-on-surface bg-background p-6">
+        <span class="font-label-sm text-label-sm uppercase text-outline">다음 모듈 추천</span>
+        <div id="next-mod" class="mt-3">로딩…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Score Breakdown — 점수가 어떻게 나왔는지 -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-16 border-t border-on-surface bg-surface-container-low">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <div class="md:col-span-3">
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 04 / TRANSPARENCY</span>
+      <h2 class="kr font-display-lg text-[40px] uppercase leading-none mt-3">이 점수,<br>어떻게 나왔나</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-4 max-w-sm">
+        Phase 1 MVP의 채점은 결정적 공식입니다. Phase 3에서는 LLM 기반 의미 평가로 대체됩니다.
+      </p>
+    </div>
+    <div class="md:col-span-9">
+      <div class="border border-on-surface bg-background p-6">
+        <!-- Step 1: 입력 채점 -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="font-label-sm text-label-sm text-outline">01</span>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">원시 입력</span>
+        </div>
+        <p class="kr text-[14px] mb-1" id="bd-raw">— 모듈 완료 후 표시됨 —</p>
+
+        <div class="border-t border-outline-variant my-5"></div>
+
+        <!-- Step 2: 항목별 세부 breakdown -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="font-label-sm text-label-sm text-outline">02</span>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">항목별 점수 산출</span>
+        </div>
+        <p class="kr text-[12px] text-on-surface-variant mb-3" id="bd-formula-meta">
+          모듈 유형에 따라 채점 축이 다릅니다.
+        </p>
+        <div class="border border-outline-variant" id="bd-breakdown-table">
+          <div class="grid grid-cols-12 px-3 py-2 bg-surface-container font-label-sm text-label-sm uppercase text-outline">
+            <div class="col-span-6">평가 항목</div>
+            <div class="col-span-3 text-right">산출</div>
+            <div class="col-span-3 text-right">점수</div>
+          </div>
+          <div id="bd-breakdown-body" class="font-mono text-[13px]">
+            <div class="px-3 py-3 text-outline kr font-body-md">모듈 완료 시 표시됩니다.</div>
+          </div>
+          <div class="border-t-2 border-on-surface px-3 py-2 grid grid-cols-12 font-bold">
+            <div class="col-span-9 kr">합계 (모듈 점수)</div>
+            <div class="col-span-3 text-right" id="bd-total-row">—</div>
+          </div>
+        </div>
+        <p class="kr text-[12px] text-on-surface-variant mt-3" id="bd-formula">—</p>
+
+        <div class="border-t border-outline-variant my-5"></div>
+
+        <!-- Step 3: AA 환산 (시그모이드) -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="font-label-sm text-label-sm text-outline">03</span>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">AA 지수 환산 (시그모이드)</span>
+        </div>
+        <div class="grid grid-cols-3 gap-3 items-center">
+          <div class="text-center border border-outline-variant py-4">
+            <p class="font-label-sm text-label-sm text-outline uppercase">모듈 점수</p>
+            <p class="font-display-lg text-[40px]" id="bd-raw-score">—</p>
+            <p class="font-label-sm text-label-sm text-outline">/ 100</p>
+          </div>
+          <div class="text-center">
+            <p class="text-[14px] text-outline kr">σ(x) 변환</p>
+            <p class="text-[11px] text-outline mt-1 font-mono">15 + 45/(1+e^(-(x-50)/13))</p>
+          </div>
+          <div class="text-center border border-primary py-4 bg-primary text-on-primary">
+            <p class="font-label-sm text-label-sm uppercase opacity-70">AA Index</p>
+            <p class="font-display-lg text-[40px]" id="bd-aa-score">—</p>
+            <p class="font-label-sm text-label-sm opacity-70">/ 60</p>
+          </div>
+        </div>
+        <p class="kr text-[12px] text-on-surface-variant mt-3">
+          왜 시그모이드인가? LLM 리더보드 분포는 양 극단이 희박하고 중위권이 두꺼움(중앙값 ~30, 상위 ~55).
+          선형 ×0.6 환산은 50점이 30점으로 잘못 매핑되어 중위권 변별력이 떨어집니다.
+          시그모이드는 중간 구간(40~60)을 넓게 펼쳐 의미 있는 비교를 가능하게 합니다.
+        </p>
+
+        <div class="border-t border-outline-variant my-5"></div>
+
+        <!-- Step 4 -->
+        <div class="flex items-baseline gap-3 mb-2">
+          <span class="font-label-sm text-label-sm text-outline">04</span>
+          <span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">레이더 5축 — 모듈별 사전 가중치</span>
+        </div>
+        <p class="kr text-[13px] text-on-surface-variant">
+          공감·유연·맥락·은유·윤리 각 축은 모듈 유형별 사전 가중치 매트릭스에서 가져옵니다.
+          Phase 1 MVP에서는 결정적 매핑(같은 모듈은 같은 5축 결과). Phase 3에서 LLM 의미 평가로 동적 산출 예정.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Radar Chart Section -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-24 bg-on-surface text-background grid grid-cols-1 md:grid-cols-12 gap-gutter">
   <div class="md:col-span-5">
-    <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 04 / RADAR</span>
+    <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 05 / RADAR</span>
     <h2 class="kr font-display-lg text-display-lg-mobile uppercase leading-none mt-4">
       인간-AI<br/>역량 레이더
     </h2>
     <p class="kr mt-6 text-[15px] text-secondary-fixed-dim max-w-md">
-      연산·암기처럼 AI가 우세한 축이 아닌, 인간 고유의 다섯 축을 수치화했습니다. 회색은 평균 LLM 추정치(AA 525개 평균),
-      파란색은 당신.
+      연산·암기처럼 AI가 우세한 축이 아닌, 인간 고유의 여섯 축을 수치화했습니다.
+      회색은 평균 LLM 추정치, 파란색은 당신.
     </p>
 
+    <!-- 튜링 테스트 지수 (명세 4.4) -->
+    <div class="mt-8 border border-primary-fixed-dim p-5 bg-on-surface">
+      <div class="flex items-baseline justify-between mb-2">
+        <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary-fixed-dim">Turing Test Index</span>
+        <span class="font-label-sm text-label-sm text-secondary-fixed-dim">/ 100</span>
+      </div>
+      <div class="flex items-baseline gap-3">
+        <span class="font-display-xl text-[64px] leading-none text-on-primary" id="turing-score">— —</span>
+        <span class="font-label-sm text-label-sm text-secondary-fixed-dim kr" id="turing-label">평가 대기</span>
+      </div>
+      <div class="h-1.5 bg-outline overflow-hidden mt-3">
+        <div id="turing-bar" class="h-full bg-primary-fixed-dim transition-all duration-700" style="width: 0%"></div>
+      </div>
+      <p class="kr text-[12px] text-secondary-fixed-dim mt-3 leading-relaxed" id="turing-desc">
+        답변이 얼마나 "인간다운가" — 자기 의심·구체화·직관·문장 변동성 분석.
+      </p>
+    </div>
+
     <ul class="kr text-[13px] mt-8 space-y-3" id="radar-list">
-      <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">공감 능력</span>
-        <span class="font-label-sm">— —</span>
-      </li>
-      <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">유연성</span>
-        <span class="font-label-sm">— —</span>
-      </li>
-      <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">다중 맥락 이해도</span>
-        <span class="font-label-sm">— —</span>
-      </li>
-      <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">은유·직관력</span>
-        <span class="font-label-sm">— —</span>
-      </li>
-      <li class="flex justify-between border-b border-outline pb-2">
-        <span class="text-secondary-fixed-dim">윤리 감각</span>
-        <span class="font-label-sm">— —</span>
-      </li>
+      <li class="flex justify-between border-b border-outline pb-2"><span class="text-secondary-fixed-dim">공감 능력</span><span class="font-label-sm">— —</span></li>
+      <li class="flex justify-between border-b border-outline pb-2"><span class="text-secondary-fixed-dim">유연성</span><span class="font-label-sm">— —</span></li>
+      <li class="flex justify-between border-b border-outline pb-2"><span class="text-secondary-fixed-dim">다중 맥락 이해</span><span class="font-label-sm">— —</span></li>
+      <li class="flex justify-between border-b border-outline pb-2"><span class="text-secondary-fixed-dim">은유·직관력</span><span class="font-label-sm">— —</span></li>
+      <li class="flex justify-between border-b border-outline pb-2"><span class="text-secondary-fixed-dim">창의적 연결 능력</span><span class="font-label-sm">— —</span></li>
+      <li class="flex justify-between border-b border-outline pb-2"><span class="text-secondary-fixed-dim">논리 구조화 능력</span><span class="font-label-sm">— —</span></li>
     </ul>
   </div>
 
   <div class="md:col-span-7 flex items-center justify-center">
     <svg viewBox="0 0 400 400" class="w-full max-w-[500px]" id="radar-svg">
-      <polygon points="200,40 352,135 295,318 105,318 48,135" fill="none" stroke="#757689" stroke-width="0.5"/>
-      <polygon points="200,80 320,150 280,290 120,290 80,150" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
-      <polygon points="200,120 285,165 260,260 140,260 115,165" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
-      <polygon points="200,160 250,180 240,225 160,225 150,180" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <!-- 6각형 그리드 (외곽 → 안쪽) at r=160, 120, 80, 40 -->
+      <polygon points="200,40 338.6,120 338.6,280 200,360 61.4,280 61.4,120" fill="none" stroke="#757689" stroke-width="0.5"/>
+      <polygon points="200,80 303.9,140 303.9,260 200,320 96.1,260 96.1,140" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <polygon points="200,120 269.3,160 269.3,240 200,280 130.7,240 130.7,160" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <polygon points="200,160 234.6,180 234.6,220 200,240 165.4,220 165.4,180" fill="none" stroke="#444557" stroke-width="0.5" stroke-dasharray="2 2"/>
 
-      <polygon id="radar-llm" points="200,160 270,180 250,250 150,250 130,180"
+      <!-- LLM 평균 기본 폴리곤 (r ≈ 80, 모든 축 ~50) -->
+      <polygon id="radar-llm" points="200,120 269.3,160 269.3,240 200,280 130.7,240 130.7,160"
                fill="#c5c5da" fill-opacity="0.15" stroke="#c5c5da" stroke-width="1" stroke-dasharray="3 3"/>
 
-      <polygon id="radar-user" points="200,200 200,200 200,200 200,200 200,200"
+      <!-- 사용자 폴리곤 (초기엔 중앙) -->
+      <polygon id="radar-user" points="200,200 200,200 200,200 200,200 200,200 200,200"
                fill="#001cbf" fill-opacity="0.25" stroke="#bcc2ff" stroke-width="2"/>
 
+      <!-- 6축 라벨 -->
       <text x="200" y="28" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">공감</text>
-      <text x="370" y="135" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">유연</text>
-      <text x="310" y="340" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">맥락</text>
-      <text x="90" y="340" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">은유</text>
-      <text x="30" y="135" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">윤리</text>
+      <text x="350" y="115" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">유연</text>
+      <text x="350" y="293" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">맥락</text>
+      <text x="200" y="380" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">은유</text>
+      <text x="50" y="293" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">창의</text>
+      <text x="50" y="115" text-anchor="middle" font-family="Noto Sans KR" font-size="13" fill="#fbf9f3">논리</text>
 
-      <g transform="translate(20,380)">
+      <g transform="translate(20,395)">
         <rect width="10" height="10" fill="#bcc2ff" opacity="0.6"/>
-        <text x="16" y="9" font-family="Noto Sans KR" font-size="10" fill="#fbf9f3">당신 #042</text>
-        <rect x="120" width="10" height="10" fill="#c5c5da" opacity="0.4"/>
-        <text x="136" y="9" font-family="Noto Sans KR" font-size="10" fill="#fbf9f3">LLM 평균 (AA 525)</text>
+        <text x="16" y="9" font-family="Noto Sans KR" font-size="10" fill="#fbf9f3">당신</text>
+        <rect x="80" width="10" height="10" fill="#c5c5da" opacity="0.4"/>
+        <text x="96" y="9" font-family="Noto Sans KR" font-size="10" fill="#fbf9f3">LLM 평균</text>
       </g>
     </svg>
   </div>
@@ -191,7 +386,7 @@
 <section class="w-full px-margin-mobile md:px-margin-desktop py-32">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-12">
     <div class="md:col-span-3">
-      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 05 / LEADERBOARD</span>
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 06 / LEADERBOARD</span>
       <p class="kr text-[12px] text-on-surface-variant mt-3">출처: artificialanalysis.ai<br/>AA Intelligence Index v4.0</p>
     </div>
     <div class="md:col-span-9">
@@ -221,6 +416,41 @@
     </table>
   </div>
   <p class="kr text-[12px] text-outline mt-4 text-right" id="lb-note">총 60개 발췌 표시 — 525개 중 상위/중위/하위 분포가 보이도록 샘플링.</p>
+</section>
+
+<!-- 개방형 전용: 인정 + 체크포인트 + 대안 (CLAUDE.md 2.2절) -->
+<section id="open-feedback" class="w-full px-margin-mobile md:px-margin-desktop py-16 border-t border-on-surface bg-surface-container-low hidden">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+    <div class="md:col-span-3">
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 07 / OPEN</span>
+      <h2 class="kr font-display-lg text-[40px] uppercase leading-none mt-3">개방형<br>피드백</h2>
+      <p class="kr text-[13px] text-on-surface-variant mt-4 max-w-sm">
+        이 문제는 정답이 없습니다. 당신의 접근을 인정하고, 다른 관점을 제시합니다.
+      </p>
+    </div>
+    <div class="md:col-span-9 space-y-4">
+      <!-- ① 인정 -->
+      <div class="border-l-4 border-primary bg-background p-5">
+        <span class="font-label-sm text-label-sm uppercase text-primary">① 당신의 접근</span>
+        <p class="kr text-[14px] mt-2" id="open-acknowledge">
+          당신은 이 문제를 자신의 관점으로 풀어냈습니다 — 그것 자체가 의미 있습니다.
+        </p>
+      </div>
+
+      <!-- ② 체크포인트 -->
+      <div class="border border-on-surface bg-background p-5">
+        <span class="font-label-sm text-label-sm uppercase text-outline">② 다룬 관점 점검 (체크포인트)</span>
+        <p class="kr text-[12px] text-on-surface-variant mt-1">"맞춤" 판정용이 아닙니다. 어떤 관점을 다뤘는지 보여주기 위한 표시입니다.</p>
+        <ul class="mt-4 space-y-3" id="open-checkpoints"></ul>
+      </div>
+
+      <!-- ③ 대안 -->
+      <div class="border border-on-surface bg-background p-5">
+        <span class="font-label-sm text-label-sm uppercase text-outline">③ 이렇게 생각하는 방법도 있습니다</span>
+        <ul class="mt-4 space-y-3 kr text-[14px] leading-relaxed" id="open-alternatives"></ul>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Strengths / Gaps -->
@@ -258,10 +488,13 @@
     </p>
   </div>
   <div class="md:col-span-4 flex md:justify-end gap-3 flex-wrap">
-    <a href="modules.html" class="kr bg-on-primary text-primary px-6 py-3 hover:bg-on-surface hover:text-on-primary transition-colors">
+    <button id="share-btn" class="kr bg-on-primary text-primary px-6 py-3 hover:bg-on-surface hover:text-on-primary transition-colors flex items-center gap-2 hidden">
+      결과 공유 <span class="material-symbols-outlined text-[18px]">share</span>
+    </button>
+    <a href="modules.html" class="kr border border-on-primary text-on-primary px-6 py-3 hover:bg-on-surface hover:border-on-surface transition-colors">
       모듈로 돌아가기
     </a>
-    <a href="#" id="retry-btn" class="kr border border-on-primary px-6 py-3 hover:bg-on-surface hover:border-on-surface transition-colors flex items-center gap-2">
+    <a href="#" id="retry-btn" class="kr border border-on-primary text-on-primary px-6 py-3 hover:bg-on-surface hover:border-on-surface transition-colors flex items-center gap-2">
       재시도 <span class="material-symbols-outlined text-[18px]">refresh</span>
     </a>
   </div>
@@ -269,15 +502,92 @@
 
 </main>
 
+<!-- ACCOUNT MODAL -->
+<div id="account-modal" class="hidden fixed inset-0 z-[60] bg-on-surface/80 flex items-center justify-center p-4">
+  <div class="bg-background border border-on-surface max-w-md w-full">
+    <div class="flex justify-between items-baseline border-b border-outline-variant px-6 py-4">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">계정 / 데이터</span>
+      <button class="close-account font-label-sm text-label-sm uppercase hover:text-primary">닫기 ✕</button>
+    </div>
+    <div class="px-6 py-5 space-y-5">
+      <div class="border border-outline-variant p-4">
+        <div class="flex justify-between items-baseline">
+          <span class="font-label-sm text-label-sm uppercase text-outline">현재 상태</span>
+          <span class="font-label-sm text-label-sm text-primary">게스트</span>
+        </div>
+        <p class="kr text-[13px] mt-2 text-on-surface-variant leading-relaxed">결과는 이 브라우저(localStorage)에만 저장됩니다.</p>
+      </div>
+      <div class="border-l-4 border-primary bg-primary-fixed p-4">
+        <span class="font-label-sm text-label-sm uppercase text-primary">Phase 2 예정</span>
+        <p class="kr text-[13px] mt-2 leading-relaxed">Google / GitHub OAuth + Postgres 학습 이력은 Phase 2에서 도입됩니다.</p>
+        <div class="flex gap-2 mt-3 opacity-50">
+          <button class="border border-outline-variant px-3 py-1.5 font-label-sm text-label-sm uppercase cursor-not-allowed">Google · 대기</button>
+          <button class="border border-outline-variant px-3 py-1.5 font-label-sm text-label-sm uppercase cursor-not-allowed">GitHub · 대기</button>
+        </div>
+      </div>
+      <div class="border border-outline-variant p-4">
+        <div class="flex justify-between items-baseline mb-2">
+          <span class="font-label-sm text-label-sm uppercase text-outline">누적 진척도</span>
+          <span class="font-label-sm text-label-sm" id="acct-progress">— / 12</span>
+        </div>
+        <div class="h-1.5 bg-surface-container overflow-hidden">
+          <div id="acct-bar" class="h-full bg-primary" style="width: 0%"></div>
+        </div>
+        <p class="kr text-[12px] mt-2 text-on-surface-variant" id="acct-summary">한 번도 풀지 않았습니다.</p>
+      </div>
+      <div class="border border-outline-variant p-4">
+        <span class="font-label-sm text-label-sm uppercase text-outline">데이터 초기화</span>
+        <p class="kr text-[12px] mt-2 text-on-surface-variant">모든 결과 + history 삭제. 되돌릴 수 없습니다.</p>
+        <button id="reset-data" class="mt-3 border border-error text-error px-4 py-2 font-label-sm text-label-sm uppercase hover:bg-error hover:text-on-error transition">전체 초기화</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('account-modal');
+  if (!modal) return;
+  const open = () => {
+    modal.classList.remove('hidden');
+    try {
+      const history = JSON.parse(localStorage.getItem('humanx:history') || '[]');
+      const done = history.length;
+      document.getElementById('acct-progress').textContent = `${done} / 12`;
+      document.getElementById('acct-bar').style.width = (done / 12 * 100) + '%';
+      if (done > 0) {
+        const avg = Math.round(history.reduce((s,h) => s + h.score, 0) / done);
+        const recent = history.slice(-3).map(h => h.mod).join(' · ');
+        document.getElementById('acct-summary').textContent = `평균 ${avg}점 · 최근: ${recent}`;
+      }
+    } catch(e) {}
+  };
+  const close = () => modal.classList.add('hidden');
+  document.getElementById('open-account')?.addEventListener('click', open);
+  modal.querySelectorAll('.close-account').forEach(b => b.addEventListener('click', close));
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+  document.getElementById('reset-data')?.addEventListener('click', () => {
+    if (!confirm('모든 결과를 삭제할까요? 되돌릴 수 없습니다.')) return;
+    localStorage.removeItem('humanx:last-result');
+    localStorage.removeItem('humanx:history');
+    alert('초기화 완료. 페이지를 새로고침합니다.');
+    location.reload();
+  });
+})();
+</script>
+
 <footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter">
   <div class="flex flex-col gap-4">
     <div class="font-display-lg text-display-lg-mobile">HUMAN<span class="text-primary">/</span>X</div>
-    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.2</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.5</div>
   </div>
   <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0">
     <a class="text-on-surface-variant hover:text-primary underline" href="index.html">Home</a>
     <a class="text-on-surface-variant hover:text-primary underline" href="modules.html">Modules</a>
-    <a class="text-on-surface-variant hover:text-primary underline" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="modules.html#simulations">Simulation</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="benchmark.html">Benchmark</a>
+    <a class="text-on-surface-variant hover:text-primary underline" href="https://github.com/timidlione/humanx" target="_blank">GitHub</a>
   </div>
 </footer>
 
@@ -363,7 +673,7 @@ const FEEDBACK = {
       '<strong>중명사 비분배</strong> — 같은 상위 집합 공유가 동일 집합 함의로 이어지지 않음을 더 빠르게 짚으세요.',
       '<strong>후건 긍정 오류</strong> — 결과가 같다고 원인이 같은 것은 아님. <a class="underline hover:text-primary" href="modules.html#foundation">F-03 Fallacy</a> 권장.'
     ],
-    radar: [55, 78, 62, 50, 60]
+    radar: [55, 78, 62, 50, 55, 80]
   },
   'F-02': {
     strengths: [
@@ -374,7 +684,7 @@ const FEEDBACK = {
       '<strong>분모 항의 누락</strong> — 베이즈 정리의 marginal probability를 직관식 없이 계산하는 훈련 필요.',
       '<strong>다음 모듈</strong> — <a class="underline hover:text-primary" href="modules.html#cognition">M-02 역기획</a>에서 확률 추론을 코드 엣지 케이스에 적용해 보세요.'
     ],
-    radar: [50, 70, 75, 55, 60]
+    radar: [50, 70, 75, 55, 60, 78]
   },
   'F-03': {
     strengths: [
@@ -385,40 +695,73 @@ const FEEDBACK = {
       '<strong>권위 호소의 회색지대</strong> — 권위가 항상 오류는 아닙니다. 전문 영역 vs 정책 영역 구분 훈련 필요.',
       '<strong>거짓 양성</strong> — 통계 단순 인용을 오류로 잘못 표시. <a class="underline hover:text-primary" href="modules.html#simulations">H-01</a>으로 검증 감각을 키우세요.'
     ],
-    radar: [60, 65, 72, 55, 80]
+    radar: [60, 65, 72, 55, 65, 75]
   },
   'M-01': {
     strengths: [
-      '<strong>모호함의 견딤</strong> — 결론을 서두르지 않고 양가성을 인정한 단락이 강력했습니다.',
-      '<strong>메타-입장</strong> — 자신의 결정이 다른 입장에서 어떻게 보이는지를 명시적으로 짚었습니다.'
+      '<strong>분기 처리의 명시성</strong> — 평형/기울기 두 가지 결과 각각의 다음 행동을 분리해 기술.',
+      '<strong>정보 압축의 직관</strong> — 양팔 저울이 "절반/3등분"이라는 정보 압축 도구임을 짚은 메타-사고.'
     ],
     gaps: [
-      '<strong>의무론 ↔ 결과주의의 전환</strong> — 두 입장 사이의 압박을 한 문장 더 강하게 보여줄 수 있습니다.',
-      '<strong>가족 편향의 명시</strong> — 알고리즘 설계자가 가족을 보호하는 결정의 정당화 한계를 직접 다루지 않았습니다.'
+      '<strong>전자저울 일반화</strong> — 도구 변경 시 답이 달라지는 이유를 한 문장으로 더 단단하게.',
+      '<strong>경계 조건 누락</strong> — 정답 "2회"의 하한이 정보 이론(log₃ 8 ≈ 1.89)에서 오는 점 보강 권장.'
     ],
-    radar: [82, 68, 80, 75, 70]
+    radar: [55, 78, 82, 70, 75, 85]
   },
   'M-02': {
     strengths: [
-      '<strong>빈 입력 가드 우선</strong> — 부동소수·반올림보다 본질적 가드를 선택했습니다.',
-      '<strong>타입 함정 인식</strong> — Python의 bool↔int 강제 변환을 의미적 버그로 분류.'
+      '<strong>양쪽 동시 점화 발상</strong> — "균일하지 않은데 어떻게 절반?"이라는 제약을 정확히 우회.',
+      '<strong>시간 환산의 정당화</strong> — 30+15=45 단계마다 왜 그 시간인지 한 줄 보조설명.'
     ],
     gaps: [
-      '<strong>NaN/inf 처리 누락</strong> — 평균 계산에서 부동소수 특수값 처리가 빠졌습니다.',
-      '<strong>다음 모듈</strong> — <a class="underline hover:text-primary" href="modules.html#cognition">M-03 디렉팅</a>에서 코드 리뷰 프롬프트 작성으로 확장.'
+      '<strong>증명의 엄밀성</strong> — "양쪽 누적 연소량 = 전체 길이" 등식을 명시하지 않으면 직관 의존.',
+      '<strong>도구 축소 일반화</strong> — 밧줄 1개라면 30분만 가능하다는 결론을 살짝 미흡하게 다룸.'
     ],
-    radar: [55, 80, 78, 50, 60]
+    radar: [50, 82, 78, 60, 80, 82]
   },
   'M-03': {
     strengths: [
-      '<strong>출력 포맷 명시</strong> — JSON 스키마 혹은 마크다운 구조를 요청한 점이 결정적.',
-      '<strong>네거티브 제약</strong> — "이런 것은 하지 마세요"를 포함해 결과 범위를 좁혔습니다.'
+      '<strong>차원 분리</strong> — 부피·개수·충진율을 각각 별도 가정으로 명시한 구조가 모범.',
+      '<strong>범위 추정</strong> — 단일 숫자가 아닌 하한~상한을 제시한 점이 결정적.'
     ],
     gaps: [
-      '<strong>역할 부여 누락</strong> — "당신은 ~ 디자이너입니다" 같은 페르소나 지정이 없었습니다.',
-      '<strong>예시(few-shot)의 부재</strong> — 한두 줄의 desired output 예시로 결과물 일관성을 끌어올릴 수 있습니다.'
+      '<strong>가장 큰 불확실성 식별</strong> — 어느 가정이 결과를 가장 흔드는지(보통 차감률·패킹률) 명시 부족.',
+      '<strong>검산</strong> — Fermi 추정은 "다른 경로로 한 번 더 추정"하는 교차검증이 가산점.'
     ],
-    radar: [65, 85, 70, 80, 55]
+    radar: [60, 80, 75, 82, 88, 70]
+  },
+  'E-01': {
+    strengths: [
+      '<strong>ZeroDivisionError 우선 식별</strong> — 0 입력의 결정성을 정확히 짚었습니다.',
+      '<strong>명시적 가드의 가치</strong> — try/except 광범위 흡수 대신 ValueError를 선호하는 안목.'
+    ],
+    gaps: [
+      '<strong>부동소수 특수값</strong> — 1e-300/inf/NaN 같은 경계 인식 추가 필요.',
+      '<strong>타입 함정</strong> — Python의 / 동작이 타입별로 다른 점을 더 단단히 짚으세요.'
+    ],
+    radar: [40, 70, 75, 50, 60, 85]
+  },
+  'E-02': {
+    strengths: [
+      '<strong>인덱스 불일치 직관</strong> — "반복 중 변경"의 위험을 한 단어로 짚었습니다.',
+      '<strong>Pythonic 수정 선택</strong> — slice 할당으로 원본 참조를 보존한 정확한 판단.'
+    ],
+    gaps: [
+      '<strong>역순 순회 대안</strong> — for i in range(n-1,-1,-1) 같은 우회 방법의 트레이드오프 인지.',
+      '<strong>filter/lambda의 한계</strong> — 새 리스트 반환 vs in-place 수정의 차이 명시.'
+    ],
+    radar: [40, 75, 78, 50, 55, 85]
+  },
+  'E-03': {
+    strengths: [
+      '<strong>키 생성과 충돌의 분리</strong> — 생성 방식과 충돌 처리를 별개 결정으로 다뤘습니다.',
+      '<strong>읽기/쓰기 비대칭 인식</strong> — 99% 읽기 워크로드를 캐싱 설계에 반영.'
+    ],
+    gaps: [
+      '<strong>단일 카운터 병목</strong> — base62 카운터의 글로벌 단일점 위험을 살짝 더 다루세요.',
+      '<strong>운영 함정</strong> — 악성 URL·만료·통계 중 하나를 깊이 있게 설계해 보세요.'
+    ],
+    radar: [50, 78, 82, 60, 75, 88]
   },
   'H-01': {
     strengths: [
@@ -429,7 +772,7 @@ const FEEDBACK = {
       '<strong>100큐비트 주장 미적발</strong> — 거짓의 일부가 그럴싸한 수치에 가려졌습니다. 추천: <a class="underline hover:text-primary" href="modules.html#foundation">F-03 Fallacy</a>.',
       '<strong>완충 톤 부족</strong> — 면접관의 가설에 정면 반박 전 한 문장의 완충이 부족했습니다.'
     ],
-    radar: [78, 72, 85, 80, 70]
+    radar: [78, 72, 85, 80, 70, 75]
   },
   'C-02': {
     strengths: [
@@ -440,7 +783,7 @@ const FEEDBACK = {
       '<strong>의도적 유예 명시 부족</strong> — 투자자 자료를 "왜" 뒤로 미루는지 한 문장 설명이 필요했습니다.',
       '<strong>최악 시나리오</strong> — 7시간 안에 PR 협상 실패 시의 백업 플랜이 빠졌습니다.'
     ],
-    radar: [70, 88, 80, 60, 75]
+    radar: [70, 88, 80, 60, 72, 85]
   },
   'R-03': {
     strengths: [
@@ -451,18 +794,110 @@ const FEEDBACK = {
       '<strong>약한 유대 vs 강한 유대 구분</strong> — 원격이 후자를 강화한다는 반증 데이터 인용이 더 강했으면 좋았습니다.',
       '<strong>톤의 양보</strong> — 후반부에서 "당신의 주장은 단순화" 표현이 자동 감점 신호를 건드렸습니다.'
     ],
-    radar: [85, 75, 70, 78, 80]
+    radar: [85, 75, 70, 78, 70, 78]
   }
 };
 
 // =============================================================
-// READ MODULE RESULT FROM LOCALSTORAGE
+// READ MODULE RESULT + HISTORY FROM LOCALSTORAGE
 // =============================================================
 let result = null;
+let history = [];
 try {
   const raw = localStorage.getItem('humanx:last-result');
   if (raw) result = JSON.parse(raw);
+  const hraw = localStorage.getItem('humanx:history') || '[]';
+  history = JSON.parse(hraw);
+  if (!Array.isArray(history)) history = [];
 } catch(e) {}
+
+// =============================================================
+// 진척도 + 다음 모듈 추천
+// =============================================================
+const ALL_MODULES = ['F-01','F-02','F-03','M-01','M-02','M-03','E-01','E-02','E-03','C-02','H-01','R-03'];
+const MODULE_META = {
+  'F-01': { title: '삼단논법 기초', tier: 'CAT 01 Foundation' },
+  'F-02': { title: '베이지안 갱신', tier: 'CAT 01 Foundation' },
+  'F-03': { title: '비공식 오류 감별', tier: 'CAT 01 Foundation' },
+  'M-01': { title: '8개 공과 양팔 저울', tier: 'CAT 02 Cognition' },
+  'M-02': { title: '두 밧줄로 45분', tier: 'CAT 02 Cognition' },
+  'M-03': { title: '스쿨버스 골프공 Fermi', tier: 'CAT 02 Cognition' },
+  'E-01': { title: 'divide() Edge Case', tier: 'CAT 03 Engineering' },
+  'E-02': { title: '반복 중 리스트 수정 버그', tier: 'CAT 03 Engineering' },
+  'E-03': { title: 'URL 단축 서비스 설계', tier: 'CAT 03 Engineering' },
+  'C-02': { title: '새벽 3시 다중 장애', tier: 'CAT 04 Crisis' },
+  'H-01': { title: 'AI 환각 감별', tier: 'CAT 06 Phase 3 Preview' },
+  'R-03': { title: '원격 근무 토론', tier: 'CAT 07 Phase 3 Preview' }
+};
+const FLOW = {
+  'F-01':'F-02','F-02':'F-03','F-03':'M-01',
+  'M-01':'M-02','M-02':'M-03','M-03':'E-01',
+  'E-01':'E-02','E-02':'E-03','E-03':'C-02',
+  'C-02':'H-01','H-01':'R-03','R-03':null
+};
+
+const historyByMod = {};
+history.forEach(h => { historyByMod[h.mod] = h; });
+const completedSet = new Set(Object.keys(historyByMod));
+
+// 진척도 바 + 카운트
+document.getElementById('progress-done').textContent = completedSet.size;
+document.getElementById('progress-bar').style.width = `${(completedSet.size / 12) * 100}%`;
+
+// 9개 칩
+document.getElementById('progress-chips').innerHTML = ALL_MODULES.map(m => {
+  const done = completedSet.has(m);
+  const score = historyByMod[m]?.score;
+  const isCurrent = result && result.mod === m;
+  return `<a href="simulation.html?mod=${m}"
+    class="block text-center border ${done ? 'bg-primary text-on-primary border-primary' : 'border-outline-variant text-outline hover:border-on-surface'} ${isCurrent ? 'ring-2 ring-primary ring-offset-2' : ''} px-2 py-2 transition">
+    <div class="font-label-sm text-label-sm uppercase">${m}</div>
+    <div class="text-[11px] mt-1">${done ? score+'점' : '미완'}</div>
+  </a>`;
+}).join('');
+
+// 다음 추천
+let nextMod = null, nextReason = '';
+if (result) {
+  if (result.score < 50) {
+    nextMod = result.mod;
+    nextReason = '점수가 낮음 — 같은 모듈을 한 번 더 권장';
+  } else {
+    nextMod = FLOW[result.mod];
+    nextReason = '시퀀스의 다음 모듈';
+    // 이미 완료한 모듈이면 다음으로 스킵
+    while (nextMod && completedSet.has(nextMod) && FLOW[nextMod]) {
+      nextMod = FLOW[nextMod];
+      nextReason = '이미 완료한 모듈 건너뛰고 다음으로';
+    }
+  }
+} else {
+  // 결과 없음 — 미완료 첫 번째
+  nextMod = ALL_MODULES.find(m => !completedSet.has(m)) || 'F-01';
+  nextReason = completedSet.size === 0 ? '아직 결과 없음 — 토대부터' : '미완료 첫 모듈';
+}
+
+const nextEl = document.getElementById('next-mod');
+if (nextMod) {
+  const meta = MODULE_META[nextMod];
+  nextEl.innerHTML = `
+    <a href="simulation.html?mod=${nextMod}" class="block border border-primary bg-primary-fixed p-5 hover:bg-primary hover:text-on-primary transition-colors group">
+      <div class="flex items-baseline justify-between mb-3">
+        <span class="font-label-sm text-label-sm text-primary group-hover:text-on-primary uppercase">${nextMod} · ${meta.tier}</span>
+        <span class="font-label-sm text-label-sm text-outline group-hover:text-primary-fixed-dim kr">${nextReason}</span>
+      </div>
+      <div class="font-headline-md text-[28px] uppercase kr leading-tight">${meta.title}</div>
+      <div class="kr text-[13px] mt-3 flex items-center gap-2">진입 <span class="material-symbols-outlined text-[18px]">arrow_forward</span></div>
+    </a>
+  `;
+} else {
+  nextEl.innerHTML = `
+    <div class="border border-primary bg-primary-fixed p-8 text-center">
+      <div class="font-display-lg text-[48px]">12 / 12</div>
+      <p class="kr mt-3 text-[15px]">모든 모듈 완료. Phase 2에서 문제 은행이 열립니다 — 같은 모듈을 다시 풀고 싶다면 위 칩에서 골라주세요.</p>
+    </div>
+  `;
+}
 
 // =============================================================
 // RENDER LEADERBOARD (with user inserted if result exists)
@@ -471,9 +906,22 @@ const sorted = [...LEADERBOARD].sort((a, b) => b.score - a.score);
 let userRank = null;
 let userAA = null;
 
+// =============================================================
+// SIGMOID MAPPING: 모듈 점수 0~100 → AA Index 15~60
+// 단순 ×0.6 선형 매핑은 LLM 분포(중앙값 ~30, 상위 ~55)와 안 맞음.
+// 시그모이드는 중위권에서 변별력 ↑, 양 극단에서 변동성 ↓.
+//   raw=0   → AA ≈ 15.5 (floor)
+//   raw=25  → AA ≈ 19
+//   raw=50  → AA = 37.5 (중앙값)
+//   raw=75  → AA ≈ 56
+//   raw=100 → AA ≈ 59.5
+// =============================================================
+function toAA(raw) {
+  return Math.round(15 + 45 / (1 + Math.exp(-(raw - 50) / 13)));
+}
+
 if (result) {
-  // Map module 0-100 score → AA 0-60 scale (with mild compression)
-  userAA = Math.max(15, Math.min(60, Math.round(result.score * 0.6)));
+  userAA = toAA(result.score);
   userRank = sorted.filter(m => m.score > userAA).length + 1;
 }
 
@@ -544,6 +992,59 @@ if (result) {
      <strong class="text-primary">${belowName}</strong> 사이에 위치합니다.
      AA Intelligence Index 기준 ${userAA}점.`;
 
+  // ===== AI 모델 매칭 카드 (CLAUDE.md 2.3절) — 가장 가까운 모델 =====
+  const closestModel = sorted.reduce((best, m) =>
+    Math.abs(m.score - userAA) < Math.abs(best.score - userAA) ? m : best
+  );
+  const matchCard = document.getElementById('model-match-card');
+  if (matchCard) {
+    matchCard.classList.remove('hidden');
+    document.getElementById('model-match-name').textContent = closestModel.name;
+    document.getElementById('model-match-aa').textContent = `AA ${closestModel.score} / 60 · 당신 ${userAA} / 60 · 차이 ${Math.abs(closestModel.score - userAA)}`;
+    let tier = '';
+    if (userAA >= 55) tier = '<strong class="text-primary">최신 프런티어 모델</strong> 구간 — 상위 1%';
+    else if (userAA >= 45) tier = '<strong class="text-primary">중상위권 프런티어</strong> 구간';
+    else if (userAA >= 35) tier = '<strong class="text-primary">중위권 오픈/프런티어 혼합</strong> 구간';
+    else if (userAA >= 25) tier = '<strong class="text-primary">경량 모델 상위</strong> 구간';
+    else tier = '<strong class="text-primary">경량 모델</strong> 구간 — 훈련 시작 단계';
+    document.getElementById('model-match-msg').innerHTML =
+      `당신의 현재 종합 사고력은 ${tier}에 해당합니다. AA Intelligence Index 기준 ${closestModel.name}와 가장 비슷한 수준.`;
+  }
+
+  // ===== AI vs 당신 풀이 시간 비교 (CLAUDE.md 4.2절) =====
+  const userMin = Math.floor((result.userTime || 0) / 60);
+  const userSec = (result.userTime || 0) % 60;
+  const userTimeStr = `${userMin}분 ${userSec}초`;
+  const battleEl = document.getElementById('ai-battle-panel');
+  if (battleEl && result.aiBench) {
+    battleEl.classList.remove('hidden');
+    const rows = result.aiBench.map(b => {
+      const isUserSlower = (result.userTime || 0) > b.seconds;
+      return `
+        <li class="grid grid-cols-12 gap-2 py-2 border-b border-outline-variant items-center">
+          <span class="col-span-4 kr font-label-sm">${b.model}</span>
+          <span class="col-span-3 font-mono text-[14px] ${b.correct ? '' : 'text-error'}">${b.seconds}초</span>
+          <span class="col-span-3 font-label-sm text-label-sm ${b.correct ? 'text-primary' : 'text-error'}">${b.correct ? '✓ 정답' : '✗ 오답'}</span>
+          <span class="col-span-2 text-[11px] text-outline text-right">${b.result}</span>
+        </li>`;
+    }).join('');
+    battleEl.innerHTML = `
+      <span class="font-label-sm text-label-sm uppercase text-outline">⚔ AI 대결 — 같은 문제, 누가 빠르고 정확했는가</span>
+      <ul class="mt-3 font-mono">
+        ${rows}
+        <li class="grid grid-cols-12 gap-2 py-3 bg-primary-fixed mt-2 items-center px-2">
+          <span class="col-span-4 kr font-label-sm font-bold text-primary">◉ 당신</span>
+          <span class="col-span-3 font-mono text-[14px] text-primary font-bold">${userTimeStr}</span>
+          <span class="col-span-3 font-label-sm text-label-sm text-primary">${result.score}점</span>
+          <span class="col-span-2 text-[11px] text-on-surface-variant text-right kr">${result.score >= 60 ? '깊이 우위' : '추가 훈련'}</span>
+        </li>
+      </ul>
+      <p class="kr text-[12px] text-on-surface-variant mt-3">
+        AI는 빠릅니다. 그러나 ${result.fastestAI ? `최고 모델(${result.fastestAI.model})도 ${result.fastestAI.seconds}초 안에 완료한다는 것` : '속도'}이 곧 '인간 우위 없음'을 뜻하진 않습니다. ${result.type === 'open' ? '개방형 문제에선 가정 명시·구조화·메타 사고가 인간의 영역.' : '정답형이라도 함정·맥락·예외 탐지에서 인간의 직관이 작동합니다.'}
+      </p>
+    `;
+  }
+
   document.getElementById('rank-narrative').innerHTML =
     `당신의 ${result.mod}(${result.title}) 응답은 <strong>${userRank}위</strong> — 525개 모델 중 상위 ${Math.round((userRank / 525) * 100)}%.
      바로 위는 <strong>${aboveName}</strong>, 아래는 <strong>${belowName}</strong>.`;
@@ -562,8 +1063,23 @@ if (result) {
   const pts = radarPoints(radar);
   document.getElementById('radar-user').setAttribute('points', pts);
 
-  // Update radar list
-  const labels = ['공감 능력', '유연성', '다중 맥락 이해도', '은유·직관력', '윤리 감각'];
+  // Turing Test Index (CLAUDE.md 4.4)
+  if (typeof result.turingIndex === 'number') {
+    const ti = result.turingIndex;
+    document.getElementById('turing-score').textContent = ti;
+    document.getElementById('turing-bar').style.width = ti + '%';
+    let tlabel, tdesc;
+    if (ti >= 80) { tlabel = '매우 인간적'; tdesc = '자기 의심·직관·구체적 일화·문장 변동이 풍부 — 기계가 거의 흉내내지 못하는 사고 흐름.'; }
+    else if (ti >= 65) { tlabel = '인간적'; tdesc = '구조화된 사고 속에 직관과 메타 인식이 섞임. 인간다움의 표준 영역.'; }
+    else if (ti >= 50) { tlabel = '인간/AI 경계'; tdesc = '논리적이지만 다소 정제됨. 자기 의심·구체화 마커를 더 늘리면 인간다움 점수 상승.'; }
+    else if (ti >= 35) { tlabel = '기계적 경향'; tdesc = '깔끔하지만 정형화된 답변. 일화·반례·"~인 것 같다" 류의 표현이 부족.'; }
+    else { tlabel = '강한 기계 패턴'; tdesc = '정답에 집중하느라 인간 사고의 흔들림이 부족. 직관·자기 의심이 인간 우위의 영역.'; }
+    document.getElementById('turing-label').textContent = tlabel;
+    document.getElementById('turing-desc').textContent = tdesc;
+  }
+
+  // Update radar list (6축)
+  const labels = ['공감 능력', '유연성', '다중 맥락 이해', '은유·직관력', '창의적 연결', '논리 구조화'];
   document.getElementById('radar-list').innerHTML = labels.map((l, i) => `
     <li class="flex justify-between border-b border-outline pb-2">
       <span class="text-secondary-fixed-dim">${l}</span>
@@ -579,19 +1095,95 @@ if (result) {
     `<li class="flex gap-4"><span class="font-label-sm text-label-sm text-outline mt-1">${String(i+1).padStart(2,'0')}</span><span>${g}</span></li>`
   ).join('');
 
+  // ===== 개방형 전용 피드백 (CLAUDE.md 2.2절) — 인정 + 체크포인트 + 대안 =====
+  if (result.type === 'open' && result.checkpoints && result.alternatives) {
+    const sec = document.getElementById('open-feedback');
+    sec.classList.remove('hidden');
+
+    // ① 인정 — 점수 대신 다축 표시
+    const det = result.detail || {};
+    const ackParts = [];
+    if (det.lengthScore >= 18) ackParts.push('충분한 길이로 사고를 전개');
+    if (det.structureScore >= 15) ackParts.push('구조적 마커를 적극 활용');
+    if (det.metaScore >= 12) ackParts.push('가정·한계 같은 메타 사고를 명시');
+    if (det.diversityScore >= 10) ackParts.push('어휘를 풍부하게 운용');
+    if (det.sentenceScore >= 10) ackParts.push('명확한 문장 결정으로 전달');
+    const ack = ackParts.length
+      ? `당신은 ${ackParts.join(', ')}했습니다. 그렇게 생각할 수도 있고, 그것은 의미 있는 접근입니다.`
+      : `당신은 이 문제를 자신만의 관점으로 풀어냈습니다. 그것 자체가 의미 있습니다.`;
+    document.getElementById('open-acknowledge').textContent = ack;
+
+    // ② 체크포인트
+    document.getElementById('open-checkpoints').innerHTML = result.checkpoints.map((c, i) => `
+      <li class="border-l-2 border-outline-variant pl-3 py-1">
+        <strong class="text-on-surface">${String(i+1).padStart(2,'0')} · ${c.label}</strong>
+        <p class="kr text-[13px] text-on-surface-variant mt-1">${c.desc}</p>
+      </li>
+    `).join('');
+
+    // ③ 대안
+    document.getElementById('open-alternatives').innerHTML = result.alternatives.map((a, i) => `
+      <li class="border-l-2 border-primary pl-3 py-1">${a}</li>
+    `).join('');
+  }
+
+  // Score breakdown
+  const detail = result.detail || {};
+  document.getElementById('bd-raw').textContent = detail.raw || '입력 데이터 없음';
+  document.getElementById('bd-formula').textContent = detail.formula || '—';
+  document.getElementById('bd-raw-score').textContent = result.score;
+  document.getElementById('bd-aa-score').textContent = userAA;
+  document.getElementById('bd-total-row').textContent = `${result.score} / 100`;
+
+  const typeLabel = ({
+    'mcq': 'MCQ — 가중 정답률 + 연속 정답 + 함정/어려움 보너스',
+    'flag': 'Flag — F1 점수 (정밀도-재현율 조화평균)',
+    'open': 'Open — 길이(25) + 다양성(15) + 구조(25) + 메타(20) + 문장(15)'
+  })[result.type] || '';
+  document.getElementById('bd-formula-meta').textContent = `채점 방식: ${typeLabel}`;
+
+  // Render breakdown table
+  const tbody = document.getElementById('bd-breakdown-body');
+  if (Array.isArray(detail.breakdown) && detail.breakdown.length) {
+    tbody.innerHTML = detail.breakdown.map((b, i) => `
+      <div class="px-3 py-2 grid grid-cols-12 ${i % 2 ? 'bg-surface-container-low' : ''} border-b border-outline-variant">
+        <div class="col-span-6 kr font-body-md text-[13px]">${b.label}</div>
+        <div class="col-span-3 text-right text-outline">${b.raw || '—'}</div>
+        <div class="col-span-3 text-right font-bold">${b.value}</div>
+      </div>
+    `).join('');
+  }
+
   // Retry link
   document.getElementById('retry-btn').href = `simulation.html?mod=${result.mod}`;
+
+  // 결과 공유 (Web Share API + 클립보드 폴백)
+  document.getElementById('share-btn')?.classList.remove('hidden');
+  document.getElementById('share-btn')?.addEventListener('click', async () => {
+    const text = `[HUMAN/X] ${result.mod} ${result.title}\n  · AA Index: ${userAA}/60 (LLM 525개 중 ${userRank}위, ${closestModel.name} 수준)\n  · Turing Index: ${result.turingIndex}/100\n  · 풀이 시간: ${Math.floor((result.userTime||0)/60)}분 ${(result.userTime||0)%60}초`;
+    const url = 'https://timidlione.github.io/humanx/benchmark.html';
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'HUMAN/X 벤치마크 결과', text, url });
+      } else {
+        await navigator.clipboard.writeText(text + '\n' + url);
+        const btn = document.getElementById('share-btn');
+        const prev = btn.innerHTML;
+        btn.innerHTML = '<span class="kr">클립보드에 복사됨 ✓</span>';
+        setTimeout(() => { btn.innerHTML = prev; }, 2200);
+      }
+    } catch(e) { /* 사용자 취소 등 */ }
+  });
 
   // Session ID
   const today = new Date(result.timestamp).toISOString().slice(0,10).replace(/-/g,'');
   document.getElementById('session-id').textContent = `HX-${today}-042`;
 }
 
-// Radar coordinate generator (5 axes pentagon, 0-100 → polygon points)
+// Radar coordinate generator (6 axes hexagon, 0-100 → polygon points)
 function radarPoints(values) {
-  // Pentagon corners at radii from center (200, 200)
   const cx = 200, cy = 200, maxR = 160;
-  const angles = [-90, -18, 54, 126, 198]; // 5 axes in degrees
+  const angles = [-90, -30, 30, 90, 150, 210]; // 6 axes in degrees
   return values.map((v, i) => {
     const r = (v / 100) * maxR;
     const rad = (angles[i] * Math.PI) / 180;

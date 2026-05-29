@@ -4,6 +4,17 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>HUMAN X — Training Humanity in the AI Era</title>
+<meta name="description" content="AI가 정복하지 못한 잔여 — 맥락, 직관, 윤리를 훈련하는 인터랙티브 학습 플랫폼. 12개 모듈, 525개 LLM 직접 비교.">
+<meta property="og:title" content="HUMAN/X — AI 시대, 인간을 훈련한다">
+<meta property="og:description" content="암기는 끝났다. 판단이 시작된다. 당신은 GPT-5와 무엇이 다른가? 525개 LLM과 직접 비교되는 사고력 벤치마크.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://timidlione.github.io/humanx/">
+<meta property="og:site_name" content="HUMAN/X">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HUMAN/X — AI 시대, 인간을 훈련한다">
+<meta name="twitter:description" content="525개 LLM과 직접 비교되는 인간 사고력 벤치마크.">
+<meta name="theme-color" content="#fbf9f3">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;family=Noto+Sans+KR:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
@@ -14,10 +25,19 @@
   ::-webkit-scrollbar-thumb { background: #c8c6c5; border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #757689; }
   .kr { font-family: 'Noto Sans KR', 'EB Garamond', serif; }
-  .ticker { animation: ticker 30s linear infinite; }
-  @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  /* Seamless GPU ticker — translate3d로 GPU 레이어 분리, 정확히 -50% 이동 → 무한 매끄러움 */
+  .ticker-track {
+    display: flex; white-space: nowrap;
+    will-change: transform; backface-visibility: hidden;
+    animation: ticker 60s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-50%, 0, 0); }
+  }
   .blink { animation: blink 1.2s steps(2) infinite; }
   @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+  #brain-image { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -62,37 +82,142 @@
 </head>
 <body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col antialiased selection:bg-primary selection:text-on-primary overflow-x-hidden">
 
-<!-- Top status ticker -->
+<!-- STICKY GROUP: ticker + header가 한 세트로 같이 스크롤 시 고정 -->
+<div class="sticky top-0 z-50 bg-background">
+
+<!-- Top status ticker (전역 — index/modules/benchmark, simulation 제외) -->
 <div class="w-full bg-on-surface text-background border-b border-on-surface overflow-hidden py-2">
-  <div class="flex whitespace-nowrap font-label-sm text-label-sm uppercase tracking-widest ticker">
-    <span class="px-8">▍ Phase 01 — MVP Sequence Active</span>
-    <span class="px-8">▍ Subjects Online: 42,091</span>
-    <span class="px-8">▍ Turing Test Index Avg: 87.3</span>
-    <span class="px-8">▍ Cognitive Lift: 3.4σ</span>
-    <span class="px-8">▍ Last Sync 00:00:14 UTC</span>
-    <span class="px-8">▍ Phase 01 — MVP Sequence Active</span>
-    <span class="px-8">▍ Subjects Online: 42,091</span>
-    <span class="px-8">▍ Turing Test Index Avg: 87.3</span>
-    <span class="px-8">▍ Cognitive Lift: 3.4σ</span>
-    <span class="px-8">▍ Last Sync 00:00:14 UTC</span>
+  <div class="ticker-track font-label-sm text-label-sm uppercase tracking-widest kr">
+    <!-- 1차 -->
+    <span class="px-8">▍ 암기는 끝났다. 판단이 시작된다.</span>
+    <span class="px-8">▍ 당신은 GPT-5와 무엇이 다른가?</span>
+    <span class="px-8">▍ AI가 못 하는 것을 훈련하라.</span>
+    <span class="px-8">▍ 정답이 없는 문제에 답하는 능력만이 남는다.</span>
+    <span class="px-8">▍ 5년 뒤에도 살아남을 인지를 설계한다.</span>
+    <span class="px-8">▍ 기계가 잘하는 것을 가르치지 않는다.</span>
+    <span class="px-8">▍ 사고력은 측정 가능하다.</span>
+    <span class="px-8">▍ 인간의 마지막 우위 — 맥락 · 직관 · 윤리.</span>
+    <!-- 2차 (seamless loop을 위한 동일 복제) -->
+    <span class="px-8" aria-hidden="true">▍ 암기는 끝났다. 판단이 시작된다.</span>
+    <span class="px-8" aria-hidden="true">▍ 당신은 GPT-5와 무엇이 다른가?</span>
+    <span class="px-8" aria-hidden="true">▍ AI가 못 하는 것을 훈련하라.</span>
+    <span class="px-8" aria-hidden="true">▍ 정답이 없는 문제에 답하는 능력만이 남는다.</span>
+    <span class="px-8" aria-hidden="true">▍ 5년 뒤에도 살아남을 인지를 설계한다.</span>
+    <span class="px-8" aria-hidden="true">▍ 기계가 잘하는 것을 가르치지 않는다.</span>
+    <span class="px-8" aria-hidden="true">▍ 사고력은 측정 가능하다.</span>
+    <span class="px-8" aria-hidden="true">▍ 인간의 마지막 우위 — 맥락 · 직관 · 윤리.</span>
   </div>
 </div>
 
-<!-- TopNavBar -->
-<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 max-w-full sticky top-0 z-50">
+<!-- TopNavBar (sticky는 부모 그룹이 담당) -->
+<header class="bg-background border-b border-outline-variant flex flex-col md:flex-row justify-between items-baseline w-full px-margin-mobile md:px-margin-desktop py-8 max-w-full">
   <a href="index.html" class="font-display-xl text-display-lg-mobile md:text-display-lg tracking-tighter text-on-surface uppercase mb-4 md:mb-0">
     HUMAN<span class="text-primary">/</span>X
   </a>
   <nav class="flex items-center gap-8 font-label-sm text-label-sm">
     <a class="text-on-surface font-bold relative after:content-[''] after:absolute after:-left-2 after:top-1/2 after:-translate-y-1/2 after:w-1 after:h-1 after:bg-primary uppercase" href="index.html">Home</a>
     <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="modules.html">Modules</a>
-    <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="simulation.html">Simulation</a>
+    <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="modules.html#simulations">Simulation</a>
     <a class="text-on-surface-variant uppercase hover:text-primary transition-colors duration-300" href="benchmark.html">Benchmark</a>
-    <button class="ml-4 hover:text-primary transition-colors duration-300">
+    <button id="open-account" class="ml-4 hover:text-primary transition-colors duration-300" title="계정 / 데이터">
       <span class="material-symbols-outlined text-[24px]">account_circle</span>
     </button>
   </nav>
 </header>
+
+</div><!-- /STICKY GROUP -->
+
+<!-- ACCOUNT MODAL (게스트 안내 + 누적 진척도 + 데이터 초기화) -->
+<div id="account-modal" class="hidden fixed inset-0 z-[60] bg-on-surface/80 flex items-center justify-center p-4">
+  <div class="bg-background border border-on-surface max-w-md w-full">
+    <div class="flex justify-between items-baseline border-b border-outline-variant px-6 py-4">
+      <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary">계정 / 데이터</span>
+      <button class="close-account font-label-sm text-label-sm uppercase hover:text-primary">닫기 ✕</button>
+    </div>
+    <div class="px-6 py-5 space-y-5">
+      <!-- 게스트 -->
+      <div class="border border-outline-variant p-4">
+        <div class="flex justify-between items-baseline">
+          <span class="font-label-sm text-label-sm uppercase text-outline">현재 상태</span>
+          <span class="font-label-sm text-label-sm text-primary">게스트</span>
+        </div>
+        <p class="kr text-[13px] mt-2 text-on-surface-variant leading-relaxed">
+          결과는 이 브라우저(localStorage)에만 저장됩니다. 다른 기기에서 보거나 영구 보존하려면 로그인이 필요합니다.
+        </p>
+      </div>
+
+      <!-- OAuth Phase 2 안내 -->
+      <div class="border-l-4 border-primary bg-primary-fixed p-4">
+        <span class="font-label-sm text-label-sm uppercase text-primary">Phase 2 예정</span>
+        <p class="kr text-[13px] mt-2 leading-relaxed">
+          Google / GitHub OAuth 로그인 + Postgres 학습 이력 저장은 Phase 2 백엔드(FastAPI) 진입과 함께 도입됩니다.
+          현재 게스트 모드로 모든 모듈을 체험할 수 있습니다.
+        </p>
+        <div class="flex gap-2 mt-3 opacity-50">
+          <button class="border border-outline-variant px-3 py-1.5 font-label-sm text-label-sm uppercase cursor-not-allowed">Google · 대기</button>
+          <button class="border border-outline-variant px-3 py-1.5 font-label-sm text-label-sm uppercase cursor-not-allowed">GitHub · 대기</button>
+        </div>
+      </div>
+
+      <!-- 누적 진척도 -->
+      <div class="border border-outline-variant p-4">
+        <div class="flex justify-between items-baseline mb-2">
+          <span class="font-label-sm text-label-sm uppercase text-outline">누적 진척도</span>
+          <span class="font-label-sm text-label-sm" id="acct-progress">— / 12</span>
+        </div>
+        <div class="h-1.5 bg-surface-container overflow-hidden">
+          <div id="acct-bar" class="h-full bg-primary" style="width: 0%"></div>
+        </div>
+        <p class="kr text-[12px] mt-2 text-on-surface-variant" id="acct-summary">한 번도 풀지 않았습니다.</p>
+      </div>
+
+      <!-- 데이터 초기화 -->
+      <div class="border border-outline-variant p-4">
+        <span class="font-label-sm text-label-sm uppercase text-outline">데이터 초기화</span>
+        <p class="kr text-[12px] mt-2 text-on-surface-variant">
+          모든 결과 + 누적 history 삭제. 되돌릴 수 없습니다.
+        </p>
+        <button id="reset-data" class="mt-3 border border-error text-error px-4 py-2 font-label-sm text-label-sm uppercase hover:bg-error hover:text-on-error transition">
+          전체 초기화
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('account-modal');
+  if (!modal) return;
+  const open = () => {
+    modal.classList.remove('hidden');
+    // 진척도 갱신
+    try {
+      const history = JSON.parse(localStorage.getItem('humanx:history') || '[]');
+      const done = history.length;
+      document.getElementById('acct-progress').textContent = `${done} / 12`;
+      document.getElementById('acct-bar').style.width = (done / 12 * 100) + '%';
+      if (done > 0) {
+        const avg = Math.round(history.reduce((s,h) => s + h.score, 0) / done);
+        const recent = history.slice(-3).map(h => h.mod).join(' · ');
+        document.getElementById('acct-summary').textContent = `평균 ${avg}점 · 최근: ${recent}`;
+      }
+    } catch(e) {}
+  };
+  const close = () => modal.classList.add('hidden');
+  document.getElementById('open-account')?.addEventListener('click', open);
+  modal.querySelectorAll('.close-account').forEach(b => b.addEventListener('click', close));
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) close(); });
+  document.getElementById('reset-data')?.addEventListener('click', () => {
+    if (!confirm('모든 결과를 삭제할까요? 되돌릴 수 없습니다.')) return;
+    localStorage.removeItem('humanx:last-result');
+    localStorage.removeItem('humanx:history');
+    alert('초기화 완료. 페이지를 새로고침합니다.');
+    location.reload();
+  });
+})();
+</script>
 
 <main class="flex-grow flex flex-col pb-[120px]">
 
@@ -100,7 +225,8 @@
 <section class="relative w-full px-margin-mobile md:px-margin-desktop pt-16 md:pt-32 pb-24 grid grid-cols-1 md:grid-cols-12 gap-gutter min-h-[819px]">
   <div class="col-span-1 md:col-span-8 z-10 relative">
     <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 00 / GENESIS</span>
-    <h1 class="font-display-xl text-display-lg-mobile md:text-display-xl text-on-surface uppercase leading-none mix-blend-multiply mt-6">
+    <!-- style="line-height: 1.0;" 를 추가해 줍니다 -->
+    <h1 style="line-height: 1.0;" class="font-display-xl text-display-lg-mobile md:text-display-xl text-on-surface uppercase mix-blend-multiply mt-6">
       AI 시대,<br/>인간을<br/>훈련한다<span class="text-primary blink">.</span>
     </h1>
     <div class="mt-12 max-w-xl">
@@ -125,35 +251,43 @@
     </div>
   </div>
 
-  <!-- Overlapping Graphic -->
-  <div class="col-span-1 md:col-span-6 md:absolute md:right-0 md:top-24 md:w-[50vw] z-0 mt-overlap-offset md:mt-0 opacity-90 mix-blend-darken">
-    <div class="w-full h-[600px] bg-surface-container-high bg-cover bg-center grayscale contrast-125"
-         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAdewBuyJuMMKbhsb-M-pPmkdalUhmWxbh4nsQWt2fukq3PE9rUP4gNW5a24I06kCKCkpA-AzVh3ToVsFwGdLAxDq-mUIQSNtX9782ScclxYmbw5UU5RaD1G4dOyPJOWJfZSEecz0hYzv_OlGy_03p5u3Hs-oMYefr2DPe_wwlNrC7lR71-frRAMfzayu-eaz-Hy60ubMlypTepVbna8rkF60CZmNVAjUiNQQdUPfM7sI8iEV0QiFR6KoGevWAhbKPl61caLkGJYJM')"></div>
-    <div class="absolute bottom-4 left-4 bg-background border border-on-surface px-2 py-1 font-label-sm text-label-sm text-on-surface">
-      FIG 1.0 — NEURAL MAP / SUBJECT #042
-    </div>
+  <!-- Brain illustration -->
+  <div class="col-span-1 md:col-span-6 md:absolute md:right-0 md:top-24 md:w-[60vw] z-0 mt-overlap-offset md:mt-0 relative flex items-center justify-center" style="height: 520px;">
+    <img id="brain-image" src="brain.png" alt="Human brain — neural stipple visualization" />
   </div>
 </section>
 
-<!-- Metric Strip -->
+<!-- Metric Strip — 각 지표가 무엇을 의미하는지 한 줄 부제로 명시 -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-24 border-t border-b border-outline-variant grid grid-cols-2 md:grid-cols-4 gap-0">
-  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[180px]">
-    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">활성 피험자</span>
+  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[200px]">
+    <div>
+      <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">누적 테스트</span>
+      <p class="kr text-[12px] text-outline mt-1">지금까지 진행된 훈련 세션 수</p>
+    </div>
     <div class="font-headline-md text-headline-md text-on-surface flex items-baseline gap-2">
-      42,091 <span class="font-label-sm text-primary text-[14px]">+12%</span>
+      42,091<span class="text-[18px] text-outline kr">회</span> <span class="font-label-sm text-primary text-[14px]">+12% 주간</span>
     </div>
   </div>
-  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[180px]">
-    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">인지 향상</span>
-    <div class="font-headline-md text-headline-md text-on-surface">3.4<span class="text-[24px]">σ</span></div>
+  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[200px]">
+    <div>
+      <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">평균 점수 상승</span>
+      <p class="kr text-[12px] text-outline mt-1">5회 훈련 후 첫 시도 대비 향상폭</p>
+    </div>
+    <div class="font-headline-md text-headline-md text-on-surface">+18<span class="text-[24px] text-outline kr">점</span></div>
   </div>
-  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[180px] border-t md:border-t-0 border-outline-variant">
-    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">평균 AA 지수</span>
-    <div class="font-headline-md text-headline-md text-on-surface">42<span class="text-[24px]">/60</span></div>
+  <div class="p-8 md:border-r border-outline-variant flex flex-col justify-between min-h-[200px] border-t md:border-t-0 border-outline-variant">
+    <div>
+      <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">평균 AA 지수</span>
+      <p class="kr text-[12px] text-outline mt-1">유저 평균 vs LLM 60점 만점</p>
+    </div>
+    <div class="font-headline-md text-headline-md text-on-surface">42<span class="text-[24px] text-outline">/60</span></div>
   </div>
-  <div class="p-8 flex flex-col justify-between min-h-[180px] border-t md:border-t-0 border-outline-variant">
-    <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">시냅스 부하</span>
-    <div class="font-headline-md text-headline-md text-on-surface">99.8<span class="text-[24px]">%</span></div>
+  <div class="p-8 flex flex-col justify-between min-h-[200px] border-t md:border-t-0 border-outline-variant">
+    <div>
+      <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">서비스 가동률</span>
+      <p class="kr text-[12px] text-outline mt-1">최근 30일 평균 업타임</p>
+    </div>
+    <div class="font-headline-md text-headline-md text-on-surface">99.8<span class="text-[24px] text-outline">%</span></div>
   </div>
 </section>
 
@@ -161,11 +295,11 @@
 <section class="w-full px-margin-mobile md:px-margin-desktop py-32 bg-surface-container-low border-b border-on-surface">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-16">
     <div class="md:col-span-3">
-      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">FILE 00.5 / FOUNDATION</span>
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">FILE 01 / FOUNDATION</span>
     </div>
     <div class="md:col-span-9">
       <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase leading-none kr">
-        이륙 전,<br/>논리부터.
+        이륙 전, 논리부터.
       </h2>
       <p class="kr mt-6 text-on-surface-variant text-[15px] max-w-2xl">
         α/β/γ로 올라가기 전, 모든 훈련의 토대 — <strong class="text-on-surface">기초 논리·추론</strong>을 단단히 합니다.
@@ -238,11 +372,11 @@
 <section class="w-full px-margin-mobile md:px-margin-desktop py-32">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-20">
     <div class="md:col-span-3">
-      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 01 / DOCTRINE</span>
+      <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 02 / DOCTRINE</span>
     </div>
     <div class="md:col-span-9">
       <h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase leading-none kr">
-        남은 인지의<br/>세 축
+        남은 인지의 세 축
       </h2>
       <p class="kr mt-6 text-on-surface-variant text-[15px] max-w-2xl">
         토대를 지나면 — 메타인지(α), 역기획(β), 디렉팅(γ). 암기·연산이 아닌, 잔여 인지의 세 축.
@@ -257,14 +391,14 @@
         <span class="font-label-sm text-label-sm text-outline">축 01</span>
         <span class="font-display-lg text-[64px] text-on-surface leading-none">α</span>
       </div>
-      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Meta-<br/>Cognition</h3>
+      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Insight<br/>Puzzles</h3>
       <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
-        정답이 없는 철학적 딜레마, 윤리 문제, 그리고 무관해 보이는 두 개념을 결합해
-        새 비즈니스 모델을 도출하는 사고 훈련.
+        8개 공과 양팔 저울, 두 밧줄로 45분 측정 — 정답이 아니라
+        <strong class="text-on-surface">절차와 메타-사고</strong>를 평가하는 클래식 통찰 퍼즐.
       </p>
       <div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
-        <span class="font-label-sm text-label-sm text-outline uppercase">12 모듈</span>
-        <a href="modules.html#meta" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
+        <span class="font-label-sm text-label-sm text-outline uppercase">M-01 · 25 MIN</span>
+        <a href="simulation.html?mod=M-01" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
           진입 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
         </a>
       </div>
@@ -276,14 +410,14 @@
         <span class="font-label-sm text-label-sm text-outline">축 02</span>
         <span class="font-display-lg text-[64px] text-on-surface leading-none">β</span>
       </div>
-      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Reverse<br/>Engineering</h3>
+      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Constraint<br/>Reasoning</h3>
       <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
-        완성된 프로덕트나 복잡 시스템의 아키텍처를 역추적하고, AI가 작성한 코드의
-        논리적 허점(Edge Case)을 발굴.
+        목표 시점에서 거꾸로 절차를 설계 — "균일하지 않은" 도구의 제약을
+        역으로 이용하는 사고를 훈련.
       </p>
       <div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
-        <span class="font-label-sm text-label-sm text-outline uppercase">09 모듈</span>
-        <a href="modules.html#reverse" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
+        <span class="font-label-sm text-label-sm text-outline uppercase">M-02 · 25 MIN</span>
+        <a href="simulation.html?mod=M-02" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
           진입 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
         </a>
       </div>
@@ -295,14 +429,14 @@
         <span class="font-label-sm text-label-sm text-outline">축 03</span>
         <span class="font-display-lg text-[64px] text-primary leading-none">γ</span>
       </div>
-      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">AI<br/>Directing</h3>
+      <h3 class="font-headline-md text-[28px] text-on-surface uppercase leading-tight">Fermi<br/>Estimation</h3>
       <p class="kr text-[14px] text-on-surface-variant leading-relaxed">
-        이미지·텍스트 모델을 도구로 삼아, 원하는 결과물을 정확히 도출하는 기획력과
-        통제력 — 프롬프트 엔지니어링 그 너머.
+        스쿨버스에 골프공 몇 개? 가정·차감·범위 추정 — AI는 즉시 숫자를 뱉지만
+        인간은 <strong class="text-on-surface">가정을 드러낸다</strong>.
       </p>
       <div class="mt-auto pt-4 border-t border-outline-variant flex justify-between items-center">
-        <span class="font-label-sm text-label-sm text-outline uppercase">07 모듈</span>
-        <a href="modules.html#directing" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
+        <span class="font-label-sm text-label-sm text-outline uppercase">M-03 · 30 MIN</span>
+        <a href="simulation.html?mod=M-03" class="font-label-sm text-label-sm uppercase tracking-widest hover:text-primary flex items-center gap-1">
           진입 <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
         </a>
       </div>
@@ -314,7 +448,7 @@
 <section class="w-full bg-on-surface text-background px-margin-mobile md:px-margin-desktop py-24">
   <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
     <div class="md:col-span-3">
-      <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 02 / FIELD</span>
+      <span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">FILE 03 / FIELD</span>
     </div>
     <div class="md:col-span-9">
       <h2 class="kr font-display-lg text-display-lg-mobile md:text-display-lg uppercase leading-none mb-12">
@@ -357,7 +491,7 @@
 <!-- Benchmark teaser -->
 <section class="w-full px-margin-mobile md:px-margin-desktop py-32 grid grid-cols-1 md:grid-cols-12 gap-gutter items-end">
   <div class="md:col-span-7">
-    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 03 / VERDICT</span>
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FILE 04 / VERDICT</span>
     <h2 class="kr font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface uppercase leading-none mt-6">
       지금 당신은<br/>어느 모델인가?
     </h2>
@@ -377,21 +511,25 @@
         <span class="font-label-sm text-label-sm uppercase text-primary">AA 42</span>
       </div>
       <svg viewBox="0 0 200 200" class="w-full h-auto">
-        <polygon points="100,20 175,70 150,170 50,170 25,70" fill="none" stroke="#757689" stroke-width="0.5"/>
-        <polygon points="100,50 145,80 130,150 70,150 55,80" fill="none" stroke="#c5c5da" stroke-width="0.5"/>
-        <polygon points="100,80 120,90 115,130 85,130 80,90" fill="none" stroke="#c5c5da" stroke-width="0.5"/>
-        <polygon points="100,30 160,80 140,160 60,165 35,75"
+        <!-- 6각형 그리드 cx=100, cy=100, r=70 -->
+        <polygon points="100,30 160.6,65 160.6,135 100,170 39.4,135 39.4,65" fill="none" stroke="#757689" stroke-width="0.5"/>
+        <polygon points="100,55 143.3,80 143.3,120 100,145 56.7,120 56.7,80" fill="none" stroke="#c5c5da" stroke-width="0.5"/>
+        <polygon points="100,80 126.0,95 126.0,105 100,120 74.0,105 74.0,95" fill="none" stroke="#c5c5da" stroke-width="0.5"/>
+        <!-- 데모 사용자 폴리곤 -->
+        <polygon points="100,40 152,68 148,128 100,160 50,130 48,70"
                  fill="#001cbf" fill-opacity="0.15" stroke="#001cbf" stroke-width="1.5"/>
-        <circle cx="100" cy="30" r="3" fill="#001cbf"/>
-        <circle cx="160" cy="80" r="3" fill="#001cbf"/>
-        <circle cx="140" cy="160" r="3" fill="#001cbf"/>
-        <circle cx="60" cy="165" r="3" fill="#001cbf"/>
-        <circle cx="35" cy="75" r="3" fill="#001cbf"/>
-        <text x="100" y="14" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">EMPATHY</text>
-        <text x="183" y="73" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">FLEX</text>
-        <text x="155" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">CONTEXT</text>
-        <text x="45" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">METAPHOR</text>
-        <text x="17" y="73" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">INTUIT</text>
+        <circle cx="100" cy="40" r="2.5" fill="#001cbf"/>
+        <circle cx="152" cy="68" r="2.5" fill="#001cbf"/>
+        <circle cx="148" cy="128" r="2.5" fill="#001cbf"/>
+        <circle cx="100" cy="160" r="2.5" fill="#001cbf"/>
+        <circle cx="50" cy="130" r="2.5" fill="#001cbf"/>
+        <circle cx="48" cy="70" r="2.5" fill="#001cbf"/>
+        <text x="100" y="22" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">EMPATHY</text>
+        <text x="170" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">FLEX</text>
+        <text x="170" y="140" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">CONTEXT</text>
+        <text x="100" y="183" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">METAPHOR</text>
+        <text x="30" y="140" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">CREATE</text>
+        <text x="30" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#1b1c19">LOGIC</text>
       </svg>
       <div class="mt-2 font-label-sm text-label-sm text-outline uppercase border-t border-outline-variant pt-2 kr">
         FIG 3.0 — 인간-AI 역량 레이더
@@ -406,11 +544,11 @@
 <footer class="bg-surface-container-low border-t border-outline-variant flex flex-col md:flex-row justify-between items-end w-full px-margin-mobile md:px-margin-desktop py-24 gap-gutter mt-overlap-offset">
   <div class="flex flex-col gap-4">
     <div class="font-display-lg text-display-lg-mobile text-on-surface">HUMAN<span class="text-primary">/</span>X</div>
-    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.2</div>
+    <div class="font-label-sm text-label-sm text-on-surface-variant kr">© 2026 HUMAN X LAB · 인지(認知)를 디자인하다 · MVP 0.5</div>
   </div>
   <div class="flex flex-col md:flex-row gap-6 md:gap-12 mt-8 md:mt-0 font-body-md text-body-md">
     <a class="text-on-secondary-container hover:text-primary underline transition-all" href="modules.html">Modules</a>
-    <a class="text-on-secondary-container hover:text-primary underline transition-all" href="simulation.html">Simulation</a>
+    <a class="text-on-secondary-container hover:text-primary underline transition-all" href="modules.html#simulations">Simulation</a>
     <a class="text-on-secondary-container hover:text-primary underline transition-all" href="benchmark.html">Benchmark</a>
     <a class="text-on-secondary-container hover:text-primary underline transition-all" href="https://github.com/timidlione/humanx" target="_blank">GitHub</a>
   </div>
