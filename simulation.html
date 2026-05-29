@@ -459,7 +459,7 @@ const MODULES = {
       <strong>질문.</strong>
       (a) 정확히 <strong>45분</strong>을 측정하는 절차를 단계별로 기술하세요.<br>
       (b) 각 단계가 왜 시간으로 환산되는지 한 줄로 정당화하세요.<br>
-      (c) 만약 밧줄이 <em>한 개</em>밖에 없다면 정확히 측정할 수 있는 시간 단위는 무엇입니까? 한 문장.`,
+      (c) 만약 밧줄이 <em>한 개</em> 밖에 없다면 정확히 측정할 수 있는 시간 단위는 무엇입니까? 한 문장.`,
     rubric: [
       '양쪽 동시 점화의 발상',
       '균일하지 않게 탄다는 제약의 활용',
@@ -1183,7 +1183,7 @@ function renderOpen(m) {
     const t = ta.value.trim();
     const words = t ? t.split(/\s+/).length : 0;
     cc.textContent = `${ta.value.length} 글자 · ${words} 단어`;
-    btn.disabled = words < Math.floor(m.minWords * 0.5);
+    btn.disabled = ta.value.trim().length === 0;
     const completion = Math.min(100, Math.round((words / m.minWords) * 100));
     document.getElementById('score-completion').textContent = completion + '%';
     document.getElementById('progress-text').textContent = `${words} / ${m.minWords}`;
